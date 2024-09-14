@@ -1,37 +1,19 @@
-# learnsiteWZ
-
+# learnsite平台
+信息技术教学平台功能结构与特色： 1、平台结构： 学生平台：网站首页、我的课程、我的作品、常识测验、打字练习、资源下载。 教师平台：上课、备课、作品、签到、学生、测验、打字、资源、信息、状态。 系统后台：系统设置、班级设置、教师管理、新生导入、空间生成、学年升班、系统退出。
 #### 介绍
-learnsite温州版周老师最后一次的源代码全公共
-
-#### 软件架构
-软件架构说明
+推广温州水乡的开源信息技术教学平台[https://github.com/WaterCountry/Learnsite](https://github.com/WaterCountry/Learnsite)
+采用游戏化学习方式学习人工智能，丰富中小学信息科技课程资源，促进中小学生数字素养提升
 
 
-#### 安装教程
+LearnSite信息技术学习平台
 
-1.  xxxx
-2.  xxxx
-3.  xxxx
+作者：温州水乡
 
-#### 使用说明
+Code license: GNU General Public License v2
 
-1.  xxxx
-2.  xxxx
-3.  xxxx
+LearnSite学习平台群 5847120
 
-#### 参与贡献
-
-1.  Fork 本仓库
-2.  新建 Feat_xxx 分支
-3.  提交代码
-4.  新建 Pull Request
-
-
-#### 特技
-
-1.  使用 Readme\_XXX.md 来支持不同的语言，例如 Readme\_en.md, Readme\_zh.md
-2.  Gitee 官方博客 [blog.gitee.com](https://blog.gitee.com)
-3.  你可以 [https://gitee.com/explore](https://gitee.com/explore) 这个地址来了解 Gitee 上的优秀开源项目
-4.  [GVP](https://gitee.com/gvp) 全称是 Gitee 最有价值开源项目，是综合评定出的优秀开源项目
-5.  Gitee 官方提供的使用手册 [https://gitee.com/help](https://gitee.com/help)
-6.  Gitee 封面人物是一档用来展示 Gitee 会员风采的栏目 [https://gitee.com/gitee-stars/](https://gitee.com/gitee-stars/)
+# 成都版升级说明
+[输入链接说明](https://gitee.com/jnschool/game/blob/master/LearnSite_ChengDu/%E8%AF%B4%E6%98%8E%E5%BF%85%E8%AF%BB/%E6%88%90%E9%83%BD%E7%89%88%E5%8D%87%E7%BA%A7%E8%AF%B4%E6%98%8E.md)
+成都版升级说明
+此版本是从温州周老师源代码learnsiteDev源2023-6-7修改而来，源版也在同级“开源学习平台”栏目“LearnSiteDev”，“LearnSite”栏目是编译过的网站安装版本，请大家选择好版本，本说明只涉及源代码修改成的成都版本在栏目“ LearnSite_ChengDu”。
