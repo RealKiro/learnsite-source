@@ -18,4 +18,4 @@ LearnSite学习平台群 5847120
 [输入链接说明](https://gitee.com/jnschool/game/blob/master/LearnSite_ChengDu/%E8%AF%B4%E6%98%8E%E5%BF%85%E8%AF%BB/%E6%88%90%E9%83%BD%E7%89%88%E5%8D%87%E7%BA%A7%E8%AF%B4%E6%98%8E.md)
 成都版升级说明
 此版本是从温州周老师源代码learnsiteDev源2023-6-7修改而来，源版也在同级“开源学习平台”栏目“LearnSiteDev”，“LearnSite”栏目是编译过的网站安装版本，请大家选择好版本，本说明只涉及源代码修改成的成都版本在栏目“ LearnSite_ChengDu”。
->>>>>>> 3a14112b8dcc9c5893f954558869e7ab220cccb2
+
