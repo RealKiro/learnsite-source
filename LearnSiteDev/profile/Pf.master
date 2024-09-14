@@ -1,0 +1,93 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeFile="Pf.master.cs" Inherits="Student_Profile_Pf" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head id="Head1" runat="server">
+    <title>信息技术学习网站</title>   
+    <link href="../App_Themes/Student/StyleSheet.css" rel="stylesheet" type="text/css" />
+    </head>
+<body>
+    <form id="form1" runat="server">
+    <center>
+      <div  class="studmasterhead">
+            <div  class="banner" > 
+                </div>
+                <center>
+            <div  class="menu">
+            <asp:Menu ID="Menu1" runat="server" CssClass="nav"
+                MaximumDynamicDisplayLevels="1" Orientation="Horizontal" 
+                    Width="880px" SkipLinkText="" >
+                <StaticHoverStyle BackColor="#91B1FD" ForeColor="White" />
+                <Items>
+                    <asp:MenuItem Text="信息" Value="基本信息" 
+                        NavigateUrl="~/profile/mychange.aspx"></asp:MenuItem>
+                    <asp:MenuItem  NavigateUrl="~/profile/mygroup.aspx"
+                         Text="小组" Value="小组合作" >
+                    </asp:MenuItem>
+                    <asp:MenuItem  NavigateUrl="~/profile/mysign.aspx" 
+                        Text="签到" Value="签到记录"  ></asp:MenuItem>
+                    <asp:MenuItem Text="密码" Value="密码修改" 
+                         NavigateUrl="~/profile/mypwd.aspx"  ></asp:MenuItem>
+                    <asp:MenuItem Text="班级" Value="班级修改" 
+                        NavigateUrl="~/profile/myclass.aspx"  ></asp:MenuItem>
+                    <asp:MenuItem Text="相片" Value="相片修改"
+                      NavigateUrl="~/profile/myphoto.aspx"  ></asp:MenuItem>
+                    <asp:MenuItem Text="性别" Value="性别修改"
+                       NavigateUrl="~/profile/mysex.aspx"  ></asp:MenuItem>
+                    <asp:MenuItem Text="姓名" Value="姓名修改"
+                       NavigateUrl="~/profile/myname.aspx"  ></asp:MenuItem>
+                    <asp:MenuItem Text="返回" Value="返回首页"
+                       NavigateUrl="~/student/myinfo.aspx" ImageUrl="~/images/separate2.png"></asp:MenuItem>
+                </Items>
+            </asp:Menu>
+            </div>
+            </center>
+            
+      <div class="stu">
+            <div  class="path"> 
+            &nbsp;
+            </div>
+            <center>
+            <div style="font-family:  Arial;  width: 1060px; margin: auto">
+<div style="float:left; overflow: hidden; text-align: center; width: 870px" >
+        <div style="margin: auto; width: 880px; text-align: center;" >     
+            <asp:ContentPlaceHolder ID="Cstu" runat="server">
+            </asp:ContentPlaceHolder>
+</div>
+    <br />
+</div>
+<div style="float:right; overflow: hidden; text-align: center; width: 180px">
+<div>    
+    <asp:Image ID="Imageface" runat="server"  style=" max-width:160px; max-height:160px;border-width:0px;"   />    
+    <div id="DivRank" class="divinfo" >
+    <asp:Label ID="LabelRank" runat="server"></asp:Label>
+    </div>
+    </div> 
+    <div class="divinfo">
+    <div class="divinfo1">学号:</div>
+    <div class="divinfo2"><asp:Label ID="snum" runat="server" ></asp:Label></div>
+    </div>
+    <div class="divinfo">
+    <div class="divinfo1">班级:</div>
+    <div class="divinfo2"><asp:Label ID="sclass" runat="server" ></asp:Label></div>
+    </div>
+    <div class="divinfo">
+    <div class="divinfo1">姓名:</div>
+    <div class="divinfo2"><asp:Label ID="sname" runat="server" ></asp:Label></div>
+    </div>  
+    <div class="divinfo">
+    <div class="divinfo1">组长:</div>
+    <div class="divinfo2"><asp:Label ID="sleadername" runat="server" ></asp:Label></div>
+    </div>
+    <br />
+    </div>
+</div>
+        </center>
+        <br />        
+        </div>
+        </div>
+       </center>
+    </form>
+</body>
+</html>

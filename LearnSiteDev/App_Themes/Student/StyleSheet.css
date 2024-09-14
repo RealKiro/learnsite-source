@@ -1,0 +1,795 @@
+﻿html{
+height:100%;
+width:100%;
+}
+body
+{
+    padding: 0px;
+    margin: 0 auto;
+    font-size: 12pt;
+    font-family: 宋体, Arial, Helvetica, sans-serif;
+}
+.ground
+{
+    background-image: url('ground.jpg');
+	background-size:cover; 
+}
+
+::-webkit-scrollbar { /* display: none;  Chrome Safari */  }
+
+table {border-collapse:collapse;}
+.st
+{
+	overflow:hidden;
+	height: 100%;
+	margin:auto;
+	width:100%;/* linux下必须设置宽度，否则错位  */
+}
+.stu
+{
+	overflow:hidden;
+	height: 100%;
+	margin:auto;
+	width:100%;/* linux下必须设置宽度，否则错位  */
+}
+.textbox{
+	height:24px;
+	line-height:24px;
+    font-size: 12pt;
+	background-color:#FCECC2;
+    border-width: 1px;
+	border-color:#C8C8C8;	
+		
+}
+
+.buttonimg
+{
+    border-width: 0px;
+    background-position: center;
+    background-image: url('btn.png');
+    background-repeat: no-repeat;
+    width: 80px;
+    height: 24px;
+    line-height: 24px;
+    text-align: center;
+    font-size: 12pt
+}
+.buttonnone
+{
+    border-width: 1px;
+    border-color: #CCCCCC;
+    width: 80px;
+    height: 20px;
+    background-color: transparent;
+}
+*
+{
+    margin-right: 0px;
+    margin-left: 0px;
+}
+a
+{    
+    text-decoration: none;
+} /*链接无下划线none,有为underline*/
+a:link
+{
+    text-decoration: none;
+} /*未访问的链接 */
+a:visited
+{
+    color: #000000;
+    text-decoration: none;
+} /*已访问的链接*/
+a:hover
+{
+    text-decoration: none;
+} /*鼠标在链接上 */
+a:active
+{
+    color: #000000;
+    text-decoration: none;
+} /*点击激活链接*/
+
+.shorttitle
+{
+    text-overflow:ellipsis; 
+}
+
+.banner
+{
+    padding: 0px;
+    margin: 0px;
+    border-width: 0px;
+    height: 100px;
+    overflow: hidden;
+    background-image: url('road.jpg');
+    background-repeat: no-repeat;
+}
+.logo1
+{
+    float: left;
+    width: 160px;
+    height: 60px;
+}
+.logo2
+{
+    float: left;
+    width: 640px;
+    height: 60px;
+}
+.menu
+{
+    background-color: #C5D6FE;
+    font-family: Arial;
+	display:flex;
+	min-width:1200px;
+}
+.sp{ padding-right:80px;}
+
+.nav {  margin:auto;height:32px;text-align:center; font-size:15pt;font-weight: bold;}
+.nav li {float:left; display:inline; padding:0px; margin:0px 4px 0px 4px; text-align:center;}
+.nav li a {display:block; padding:4px 0px 0px 4px; color:#000;  text-decoration:none;}
+.nav li a:hover {color:#FFF; background-color:#79A0FD;}
+
+li.home {background:url(../../images/lesson.png) top left no-repeat;}
+li.mission {background:url(../../images/mission.png) top left no-repeat;}
+li.survey {background:url(../../images/survey.png) top left no-repeat;}
+li.topic {background:url(../../images/topic.png) top left no-repeat;}
+li.inquiry {background:url(../../images/inquiry.png) top left no-repeat;}
+li.return {background:url(../../images/return.png) top left no-repeat;}
+
+.foot
+{
+    font-size: 12pt
+    font-family: Arial;
+}
+.path
+{
+    margin:auto;
+    height: 12px;
+}
+.studmasterhead
+{
+    text-align: left;
+    margin: auto;
+    padding-top: 0px;
+}
+.placeauto
+{
+    margin: auto;
+}
+.bg
+{
+    background-image: url('bg.png');
+    background-repeat: no-repeat;
+    width: 100%;
+    height: 550px;
+}
+.indexdiv
+{
+    margin: auto;
+    width: 300px;
+    height: 240px;
+    background-image: url('login.png');
+    background-repeat: no-repeat;
+}
+.pfdiv
+{
+    border: 1px solid #E8E8E8;
+    margin: auto;
+    width: 300px;
+}
+.indexhead
+{
+    border-width: 0px;
+    height: 24px;
+    line-height: 24px;
+}
+
+
+.indexsql
+{
+    margin: auto;
+    width: 360px;
+    vertical-align: middle;
+}
+#student
+{
+    margin: auto;
+    font-family: Arial;
+    font-size: 11pt;    
+	text-align:center;
+}
+
+.left
+{
+    float: left;
+	width:79%;
+    text-align: center;
+    overflow: hidden;
+}
+.right
+{
+    float: right;
+	width:20%;
+    text-align: center;
+    overflow: hidden;
+}
+
+
+.ImagePass
+{
+	position:fixed;
+	left:70%;
+	top:240px;
+}
+
+.show
+{
+    border: 1px solid lightsteelblue;
+    width: 80px;
+    height: 60px;
+    vertical-align: middle;
+    background-color: #E9F1FE;
+    font-size: 12pt
+    font-family: Arial;
+}
+.centerdiv
+{
+    text-align: center;
+}
+.center
+{
+    background-color: #C0D6E4;
+    height: 18px;
+    padding-right: 2px;
+    line-height: 18px;
+}
+.pagediv
+{
+    font-size: 11pt
+    width: 100%;
+    color: black;
+    height: 20px;
+    text-align: right;
+}
+.onlinediv
+{
+    border: 1px solid #ABC1EB;
+    vertical-align: middle;
+    width: 80px;
+    height: 38px;
+    text-align: center;
+}
+.onlinebg
+{
+    background-color: #C0D6E4;
+}
+
+.divtop
+{
+    float: left;
+    width: 310px;
+}
+
+.divscoreheight
+{
+    float: left;
+    width: 400px;
+}
+
+.divscore
+{
+    margin:auto; 
+    width: 390px;
+}
+.divRank
+{
+    padding: 2px;
+    margin: auto;
+    width: 150px;
+}
+.divinfo
+{
+    margin:auto; 
+    height:30px;
+    width:160px;
+}
+.divinfo1
+{
+    border: 1px solid #ABC1EB;    
+    float: left;
+    width: 60px;
+    text-align: center;
+    background-color: #C0D6E4;
+    height: 20px;
+}
+
+.divinfo2
+{
+    border: 1px solid #ABC1EB;
+    float: left;
+    height: 20px;
+    width: 90px;
+}
+
+.divvote
+{
+    border: 1px solid #E1EDFF;
+    width: 70px;
+    height: 60px;
+    text-align: center;
+    vertical-align: middle;
+    background-color: #FFFAEE;
+}
+.divgood
+{
+    border: 1px solid #EAEFFB;
+    background-color: #F7FBFF;   
+    width: 80px;
+    text-align: center;
+    vertical-align: middle;
+}
+.divvotebg
+{
+    background-color: #E1EDFF;
+}
+.divcenter
+{ text-align:center;}
+.divborder
+{
+    border: 1px solid #EAEAEA;
+}
+.typecontent
+{
+    padding: 1px;
+    width: 680px;
+    height: 180px;
+    font-family: Arial;
+    font-size: 14pt;
+    background-color: #9799AC;
+    overflow: auto;
+    line-height: 30px;
+    text-align: left;
+}
+.text7
+{
+    padding: 1px;
+    border: 1px solid gainsboro;
+    width: 50px;
+    background-color: #D9E1F0;
+    font-size: 11pt
+    height: 16px;
+}
+.text1
+{
+    border: 1px solid gainsboro;
+    width: 60px;
+    background-color: #D9E1F0;
+    font-size: 24pt;
+    height: 32px;
+    text-align: center;
+    font-weight: bold;
+    font-family: 黑体;
+}
+.text3
+{
+    border: 1px solid gainsboro;
+    width: 60px;
+    background-color: #D9E1F0;
+    font-size: 14pt;
+    text-align: center;
+    font-family: Arial;
+}
+
+.textareacss
+{
+    margin: auto;
+    line-height: 30px;
+    border: 1px solid #E0E0E0;
+    width: 680px;
+    height: 180px;
+    background-color: #F8EEC7;
+    overflow: hidden;
+    font-size: 14pt;
+    font-family: Arial;
+}
+.downworkbd
+{
+    margin:auto;
+    border: 1px solid #E6E6E6;
+    width: 360px;
+}
+.downfilebd
+{
+    margin:auto;
+    border: 1px solid #E6E6E6;
+    width: 560px;
+}
+.downcontentbd
+{
+    border: 1px solid #E6E6E6;
+    width: 790px;
+}
+.downcontent
+{
+    margin: auto;
+    width: 780px;
+    text-align: left;
+    font: 12px/150% Arial;
+    padding: 10px 3px 3px 10px;
+}
+.textboxcenter
+{
+    text-align: center;
+}
+
+#showcontent
+{
+    margin:auto;
+    font-family: Arial;
+    font-size: 12pt;
+	padding:10px;
+	min-width:1056px;
+}
+.coursetitle
+{
+    height: 20px;
+    font-size: 16pt;
+    font-family: Arial;
+    font-weight: bold;
+}
+.descriptioncontent
+{
+    margin: 20px;
+    text-align: left;
+    line-height:1.5;
+	word-wrap:break-word;
+}
+.taskcontent
+{
+    margin: 10px;
+    text-align: left;
+    line-height:1.5;
+	word-wrap:break-word;
+}
+.sidebar
+{
+   width:200px;
+   top:180px;
+   right:10px;
+   position:fixed;
+   z-index:100;
+   background:url("sidebg.png") 0 0 repeat;
+}
+.coursecontent
+{
+    text-align: left;
+    line-height:1.5;
+    padding: 20px;
+}
+.ccontent
+{
+    margin: auto;
+    width: 780px;
+}
+.myinfo
+{
+    margin: auto;
+    width: 160px;
+}
+.missiontitle
+{
+    font-size: 16pt;
+    font-family: 宋体, Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    border-bottom-style: dashed;
+    border-bottom-width: 1px;
+    border-bottom-color: #D5D5D5;
+    padding-bottom: 20px;
+	text-align:center;
+}
+.courseother
+{
+    padding: 2px;
+}
+.divnull
+{
+    margin: auto;
+    width: 90%;
+}
+.divbgupload
+{
+    
+}
+.ruletabel
+{
+    font-size: 11pt
+    width: 500px;
+}
+.rulehead
+{
+    padding: 0px;
+    margin: 0px;
+    font-weight: bold;
+    color: black;
+    height: 16px;
+    background-color: #C0D6E4;
+    text-align: center;
+}
+.ruletd
+{
+    border-bottom-style: dashed;
+    border-bottom-width: 1px;
+    border-bottom-color: #C0C0C0;
+}
+
+.quizscoreheight
+{
+    float: left;
+    width: 50%;
+}
+.quizone
+{
+    display:flex;
+    padding: 10px;
+    margin: auto;    
+}
+.quizone:hover{
+	background-color:#F8DFC9;
+}
+
+.quizleftnum
+{
+    float: left;
+    width: 30px;
+    text-align: center;
+	line-height:24px;
+}
+
+.quizleftquestion
+{
+    float: left;
+    width: 80%;
+    text-align: left;
+	line-height:24px;	
+    padding-left: 10px;
+}
+.quizleftanswer
+{
+    float: left;
+    width: 4px;
+}
+.quizleftup
+{
+    float: right;
+    width: 20%;
+}
+.quizresult
+{
+    margin:auto;
+    width: 90%;
+}
+.quizmyhead
+{
+    margin:auto;
+    border: 0px;
+    height: 26px;
+}
+.quizmyscore
+{
+    margin:auto;
+    width: 98%;
+    border: 1px solid #E6E8E8;
+}
+.quizinfo
+{
+    margin:auto;
+    width: 128px;
+    border: 1px solid #ABC1EB;
+}
+.quizhead
+{
+    border: 1px solid #ABC1EB;
+    text-align: center;
+}
+.quiztime
+{
+    margin:auto;
+    border: none;
+    font-size: 11pt;	
+	background:transparent;
+    font-family: Arial;
+    text-align: center;
+}
+.divquizscore
+{
+    margin:auto; 
+    width: 90%;
+}
+.uploaddiv
+{
+    font-family: Arial;
+    font-size: 11pt
+    width: 160px;
+    margin: auto;
+    text-align: center;
+}
+.panelFtpcss
+{
+    text-align: left;
+    background-color: #FBE3C4;
+}
+.panelselfcss
+{
+    text-align:center;
+    background-color: #FBE3C4;
+}
+.btncopy
+{
+    background-color: #F2DFC1;
+    border: 1px solid #E9C794;
+    font-family: Arial;
+    font-size: 11pt
+}
+.txtszcenter
+{
+    line-height: 18px;
+}
+.sitevote
+{
+    border: 1px solid #E1EDFF;
+    width: 70px;
+    height: 50px;
+    text-align: center;
+    vertical-align: middle;
+    background-color: #FFFFFF;
+}
+.sitevotebg
+{
+    background-color: #E1EDFF;
+}
+.txts24center
+{
+    line-height: 24px;
+}
+.txts20center
+{
+    line-height: 20px;
+}
+.topicleft
+{
+    float: left;
+    width: 400px;
+    height: 12px;
+}
+.topicright
+{
+    float: right;
+    width: 300px;
+    text-align: right;
+}
+.topichead
+{
+    padding: 2px;
+    background-color: #E2EDFC;
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+    border-bottom-color: #E7E7E7;
+    height: 20px;
+    line-height: 18px;
+}
+.topictext
+{
+    border: 1px dashed #CCCCCC;
+    padding: 2px;
+    float: left;
+    margin: auto;
+    white-space: normal;
+    display: block;
+    line-height: 20px;
+    width: 820px;
+    background-color: #FFFFDD;
+}
+.topicagree
+{
+    float: right;
+    width: 30px;
+    vertical-align: middle;
+}
+.formtext
+{
+    border: 1px dashed #CCCCCC;
+    padding: 2px;
+    float: left;
+    margin: auto;
+    white-space: normal;
+    display: block;
+    line-height: 20px;
+    width: 820px;
+    background-color: #FFFFDD;
+}
+.leftmaster
+{
+    float: left;
+    width: 1200px;
+    text-align: center;
+    overflow: hidden;
+}
+.rightmaster
+{
+	position:fixed;
+    right:0px;
+    width: 240px;
+    text-align: center;
+    overflow: hidden;
+}
+.sharedisk
+{
+    border-width: 0px;
+    padding: 0px;
+    width: 80px;
+    height: 20px;
+    background-image: url('../../images/share.gif');
+    background-repeat: no-repeat;
+    font-size: 11pt
+    line-height: 20px;
+}
+.nomicdisk
+{
+    margin: 0px;
+    border-width: 0px;
+    padding: 0px;
+    width: 100px;
+    height: 22px;
+    background-image: url('../../images/nomicdisk.gif');
+    background-repeat: no-repeat;
+    font-size: 11pt
+    line-height: 22px;
+}      
+.textbox
+{
+    background-color: #FBF4D5;
+	border: 1px dashed #ccc;
+} 
+.textbox:hover
+{
+	border: 1px dashed #999;
+} 
+.textlabel
+{
+    background-color:#FBF4D5; height:20px;width:80px;
+	border: 1px dashed #ccc;
+}
+.textlabel:hover
+{
+	border: 1px dashed #999;
+}
+.onlinename
+{
+    font-size: 11pt
+    font-family: 宋体, Arial, Helvetica, sans-serif;
+    text-decoration: none;
+    height: 18px;
+}
+.onlineflag
+{
+    border-style: 0;
+}
+.onlinedate
+{
+    font-family: Arial;
+    font-size: 8pt;
+    width: 40px;
+}
+.timg { border: 1px solid #ddd;width:220px; height:180px;border-radius: 24px;  } a:hover img{filter:alpha(Opacity=60);-moz-opacity:0.6;opacity: 0.6}
+.divindex{margin: auto;overflow: hidden;}
+.thumbbox{width:24.9%;float:left;}
+.text-center{font-size: 10pt;color: #666;font-family: Arial;}
+.txtblank
+{ 
+  border: 1px dashed #ddd;
+  background-color:#FBF4D5;
+  margin:20px;
+  height:24px;
+}
