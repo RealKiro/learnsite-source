@@ -27,7 +27,7 @@
 		        });
 		    });
 		</script>
-    <textarea  name="textareaItem" style="width: 780px; height:300px;" ></textarea>        
+    <textarea  name="textareaItem" style="width: 800px; height:500px;" ></textarea>        
     </div>
      <div  class="placehold">
                <asp:Label ID="Labelmsg" runat="server" ></asp:Label>

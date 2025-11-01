@@ -27,6 +27,11 @@ KindEditor.plugin('flv', function (K) {
 				'<input type="button" class="ke-button-common ke-button" name="viewServer" value="' + lang.viewServer + '" />',
 				'</span>',
 				'</div>',
+            //width
+				'<div class="ke-dialog-row">',
+				'<label for="keWidth" style="width:60px;">' + lang.width + '</label>',
+				'<input type="text" id="keWidth" class="ke-input-text ke-input-number" name="width" value="800" maxlength="4" />',
+				'</div>',
             //密码观看
                 '<div class="ke-dialog-row">',
                 '<label style="width:60px;">密码</label>',
@@ -50,10 +55,16 @@ KindEditor.plugin('flv', function (K) {
                 yesBtn: {
                     name: self.lang('yes'),
                     click: function (e) {
-                        var url = K.trim(urlBox.val());
+                        var url = K.trim(urlBox.val())
+							width = widthBox.val();
                         if (url == 'http://' || K.invalidUrl(url)) {
                             alert(self.lang('invalidUrl'));
                             urlBox[0].focus();
+                            return;
+                        }
+                        if (!/^\d*$/.test(width)) {
+                            alert(self.lang('invalidWidth'));
+                            widthBox[0].focus();
                             return;
                         }
                         var tody = new Date();
@@ -83,7 +94,7 @@ KindEditor.plugin('flv', function (K) {
                         '</script>\r\n',
                         '<script type="text/javascript" src="' + srcjs + '"></script>\r\n',
                         '<div id="' + divplayer + '" >',
-						' <video  class="video-js vjs-big-play-centered" preload="auto" controls="" data-setup="{}" ><source type="video/mp4" src="' + url + '"></video>',
+						' <video width="' + width + '" class="video-js vjs-big-play-centered" preload="auto" controls="" data-setup="{}" ><source type="video/mp4" src="' + url + '"></video>',
 						'</div>',
                         '</div><br>\r\n'
 						].join('');
@@ -95,6 +106,8 @@ KindEditor.plugin('flv', function (K) {
 			div = dialog.div,
 			urlBox = K('[name="url"]', div),
 			viewServerBtn = K('[name="viewServer"]', div),
+			widthBox = K('[name="width"]', div),
+			heightBox = K('[name="height"]', div),
 			autostartBox = K('[name="autostart"]', div);
             passwordBox = K('[name="password"]', div);
             urlBox.val('http://');

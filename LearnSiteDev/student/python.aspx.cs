@@ -92,8 +92,12 @@ public partial class Student_python : System.Web.UI.Page
                 wmodel = wbll.GetModelByStu(Int32.Parse(Mid), Snum);
                 if (wmodel != null)
                 {
-                    codefile = wmodel.Wcode;//如果不为空，则获取原来的作品链接
-                    codedict = wmodel.Wdict;
+                    if (wmodel.Wip == cook.LoginIp)
+                    {
+                        //如果作品IP与登录IP一致，则显示代码
+                        codefile = wmodel.Wcode;//如果不为空，则获取原来的作品链接
+                        codedict = wmodel.Wdict;
+                    }
                 }
                 else
                 {

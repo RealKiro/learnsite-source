@@ -29,7 +29,7 @@
             </div>
         <br />
         <br />
-            <input id="InputWord" class="typewd" type="text" onpaste="return   false; " ondragenter="return   false;"tabindex="0" autocomplete="off" />
+            <input id="InputWord" class="typewd" type="text" onpaste="return   false; " ondragenter="return   false;" ondrop= "return   false;" tabindex="0" autocomplete="off" />
             <br />
         <br />
     </div>     

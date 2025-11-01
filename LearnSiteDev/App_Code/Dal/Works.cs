@@ -952,6 +952,28 @@ namespace LearnSite.DAL
             DbHelperSQL.ExecuteSql(strSql.ToString(), parameters);
         }
         /// <summary>
+        /// 根据学生生的年级未评价的活动积分为10的作品为已评价
+        /// </summary>
+        /// <param name="Wcid"></param>
+        /// <param name="Sgrade"></param>
+        /// <param name="Sclass"></param>
+        /// <param name="Wmid"></param>
+        public void WorkSetWcheckall(int Sgrade)
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("update Works set ");
+            strSql.Append("Wlemotion=0,");
+            strSql.Append("Wcheck=1");
+            strSql.Append(" where Wcheck=0 and Wscore=10 and Wnum in (select Snum from Students where Sgrade=@Sgrade )");
+
+            SqlParameter[] parameters = {
+					new SqlParameter("@Sgrade", SqlDbType.Int,4)};
+            parameters[0].Value = Sgrade;
+
+            DbHelperSQL.ExecuteSql(strSql.ToString(), parameters);
+        }
+
+        /// <summary>
         /// 根据学生生的年级、班级(不影响班级升学)
         /// 设置该班本学案未评价的活动积分为10的作品为已评价
         /// </summary>
@@ -1118,6 +1140,16 @@ namespace LearnSite.DAL
         public DataTable ShowMywork(string Snum)
         {
             string mysql = "SELECT Wid,Wcid,Wmid,Wmsort,Wscore,Wvote,Wcheck,Wsid,Wdscore,Cid,Ctitle,Cobj,Cterm,Mtitle  FROM Works,Courses,Mission Where Wnum='" + Snum + "' and Cdelete=0 and Wcid=Cid and Wmid=Mid  ORDER BY Cobj DESC,Cterm DESC, Wdate DESC";
+            return DbHelperSQL.Query(mysql).Tables[0];
+        }
+        /// <summary>
+        /// 显示我的所有作品
+        /// </summary>
+        /// <param name="Wnum"></param>
+        /// <returns></returns>
+        public DataTable ShowMyAllWork(string Wnum)
+        {
+            string mysql = "SELECT Wid,Wmid,Wscore,Whit,Wthumbnail,Mtitle,Wdate FROM Works,Mission Where Wnum='" + Wnum + "' and Wmid=Mid and Wthumbnail is not null  ORDER BY Wdate DESC";
             return DbHelperSQL.Query(mysql).Tables[0];
         }
         /// <summary>
@@ -1753,6 +1785,18 @@ namespace LearnSite.DAL
             return DbHelperSQL.FindString(mysql);
 
         }
+
+        /// <summary>
+        /// 判断该学号本任务作品是否检验通过
+        /// </summary>
+        /// <param name="Cid"></param>
+        /// <returns></returns>
+        public bool WorkPass(int Wsid, int Wmid)
+        {
+            string mysql = "Select Wid from Works Where Wsid=" + Wsid.ToString() + "  and Wmid=" + Wmid +"  and Wpass=1 ";
+            return DbHelperSQL.Exists(mysql);
+
+        }
         /// <summary>
         /// 根据学号和活动编号返回作品链接
         /// </summary>
@@ -1829,6 +1873,71 @@ namespace LearnSite.DAL
 
             DbHelperSQL.ExecuteSql(strSql.ToString(), parameters);
         }
+
+        /// <summary>
+        /// 作品提交， 更新一条数据Wthumbnail='" + imgurl 
+        /// </summary>
+        /// <param name="Wid"></param>
+        /// <param name="Wurl"></param>
+        /// <param name="Wfilename"></param>
+        /// <param name="Wlength"></param>
+        /// <param name="Wdate"></param>
+        /// <param name="Wcan"></param>
+        public void UpdatepythonUpIp(int Wid, string Wurl, string Wfilename, int Wlength, DateTime Wdate, bool Wcan, string Wthumbnail, string Wtitle, string Wcode, string Wdict, int Wscore, bool Wpass, string Wtype,string Wip)
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("update Works set ");
+            strSql.Append("Wurl=@Wurl,");
+            strSql.Append("Wfilename=@Wfilename,");
+            strSql.Append("Wlength=@Wlength,");
+            strSql.Append("Wdate=@Wdate,");
+            strSql.Append("Wcan=@Wcan,");
+            strSql.Append("Wlemotion=1,");
+            strSql.Append("Wflash=0,");
+            strSql.Append("Werror=0,");
+            strSql.Append("Wthumbnail=@Wthumbnail,");
+            strSql.Append("Wtitle=@Wtitle,");
+            strSql.Append("Wcode=@Wcode,");
+            strSql.Append("Wdict=@Wdict,");
+            strSql.Append("Wscore=@Wscore,");
+            strSql.Append("Wpass=@Wpass,");
+            strSql.Append("Wtype=@Wtype,");
+            strSql.Append("Wip=@Wip");
+            strSql.Append(" where Wid=@Wid and Wpass=0 ");
+
+            SqlParameter[] parameters = {
+					new SqlParameter("@Wid", SqlDbType.Int,4),
+                    new SqlParameter("@Wurl", SqlDbType.NVarChar,200),
+                    new SqlParameter("@Wfilename", SqlDbType.NVarChar,50),
+					new SqlParameter("@Wlength", SqlDbType.Int,4),
+					new SqlParameter("@Wdate", SqlDbType.DateTime),
+                    new SqlParameter("@Wcan", SqlDbType.Bit,1),
+                    new SqlParameter("@Wthumbnail", SqlDbType.NVarChar,200),
+                    new SqlParameter("@Wtitle", SqlDbType.NVarChar,200),
+                    new SqlParameter("@Wcode", SqlDbType.NText),
+                    new SqlParameter("@Wdict", SqlDbType.NText),
+					new SqlParameter("@Wscore", SqlDbType.Int,4),
+                    new SqlParameter("@Wpass", SqlDbType.Bit,1),
+                    new SqlParameter("@Wtype", SqlDbType.NVarChar,50),
+                    new SqlParameter("@Wip", SqlDbType.NVarChar,50)};
+            parameters[0].Value = Wid;
+            parameters[1].Value = Wurl;
+            parameters[2].Value = Wfilename;
+            parameters[3].Value = Wlength;
+            parameters[4].Value = Wdate;
+            parameters[5].Value = Wcan;
+            parameters[6].Value = Wthumbnail;
+            parameters[7].Value = Wtitle;
+            parameters[8].Value = Wcode;
+            parameters[9].Value = Wdict;
+            parameters[10].Value = Wscore;
+            parameters[11].Value = Wpass;
+            parameters[12].Value = Wtype;
+            parameters[13].Value = Wip;
+
+            DbHelperSQL.ExecuteSql(strSql.ToString(), parameters);
+        }
+
         /// <summary>
         /// 作品提交， 更新一条数据Wthumbnail='" + imgurl 
         /// </summary>
@@ -1857,7 +1966,7 @@ namespace LearnSite.DAL
             strSql.Append("Wscore=@Wscore,");
             strSql.Append("Wpass=@Wpass,");
             strSql.Append("Wtype=@Wtype");
-            strSql.Append(" where Wid=@Wid ");
+            strSql.Append(" where Wid=@Wid and Wpass=0 ");
 
             SqlParameter[] parameters = {
 					new SqlParameter("@Wid", SqlDbType.Int,4),
@@ -1886,6 +1995,58 @@ namespace LearnSite.DAL
             parameters[10].Value = Wscore;
             parameters[11].Value = Wpass;
             parameters[12].Value = Wtype;
+
+            DbHelperSQL.ExecuteSql(strSql.ToString(), parameters);
+        }
+
+        /// <summary>
+        /// 作品提交， 更新一条数据Wthumbnail='" + imgurl 
+        /// </summary>
+        /// <param name="Wid"></param>
+        /// <param name="Wurl"></param>
+        /// <param name="Wfilename"></param>
+        /// <param name="Wlength"></param>
+        /// <param name="Wdate"></param>
+        /// <param name="Wcan"></param>
+        public void UpdateTopic(int Wid, string Wurl, string Wfilename, int Wlength, DateTime Wdate, bool Wcan, string Wthumbnail, string Wtitle, string Wcode, string Wtype)
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("update Works set ");
+            strSql.Append("Wurl=@Wurl,");
+            strSql.Append("Wfilename=@Wfilename,");
+            strSql.Append("Wlength=@Wlength,");
+            strSql.Append("Wdate=@Wdate,");
+            strSql.Append("Wcan=@Wcan,");
+            strSql.Append("Wlemotion=1,");
+            strSql.Append("Wflash=0,");
+            strSql.Append("Werror=0,");
+            strSql.Append("Wthumbnail=@Wthumbnail,");
+            strSql.Append("Wtitle=@Wtitle,");
+            strSql.Append("Wcode=@Wcode,");
+            strSql.Append("Wtype=@Wtype ");
+            strSql.Append(" where Wid=@Wid ");
+
+            SqlParameter[] parameters = {
+					new SqlParameter("@Wid", SqlDbType.Int,4),
+                    new SqlParameter("@Wurl", SqlDbType.NVarChar,200),
+                    new SqlParameter("@Wfilename", SqlDbType.NVarChar,50),
+					new SqlParameter("@Wlength", SqlDbType.Int,4),
+					new SqlParameter("@Wdate", SqlDbType.DateTime),
+                    new SqlParameter("@Wcan", SqlDbType.Bit,1),
+                    new SqlParameter("@Wthumbnail", SqlDbType.NVarChar,200),
+                    new SqlParameter("@Wtitle", SqlDbType.NVarChar,200),
+                    new SqlParameter("@Wcode", SqlDbType.NText),
+                    new SqlParameter("@Wtype", SqlDbType.NVarChar,200)};
+            parameters[0].Value = Wid;
+            parameters[1].Value = Wurl;
+            parameters[2].Value = Wfilename;
+            parameters[3].Value = Wlength;
+            parameters[4].Value = Wdate;
+            parameters[5].Value = Wcan;
+            parameters[6].Value = Wthumbnail;
+            parameters[7].Value = Wtitle;
+            parameters[8].Value = Wcode;
+            parameters[9].Value = Wtype;
 
             DbHelperSQL.ExecuteSql(strSql.ToString(), parameters);
         }

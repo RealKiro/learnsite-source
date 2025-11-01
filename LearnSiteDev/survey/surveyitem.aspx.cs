@@ -40,7 +40,7 @@ public partial class Survey_surveyitem : System.Web.UI.Page
     }
     protected void Btnadd_Click(object sender, EventArgs e)
     {
-        string Mitem = LearnSite.Common.WordProcess.ClearPP(mcontent.InnerText);
+        string Mitem = mcontent.InnerText;// LearnSite.Common.WordProcess.ClearPP(mcontent.InnerText);
         if (Request.QueryString["qid"] != null && Request.QueryString["qvid"] != null && Mitem.Length > 0)
         {
             string Mqid = Request.QueryString["qid"].ToString();
@@ -49,9 +49,9 @@ public partial class Survey_surveyitem : System.Web.UI.Page
             LearnSite.Model.SurveyItem model = new LearnSite.Model.SurveyItem();
             model.Mcount = 0;
             model.Mblack = QBlack.Checked;
-            if(QBlack.Checked)
-                Mitem = LearnSite.Common.WordProcess.DropHTML(Mitem);//清除所有Html格式
-            model.Mitem = HttpUtility.HtmlEncode( Mitem);
+            if (QBlack.Checked)
+                Mitem = Mitem.Trim();// LearnSite.Common.WordProcess.DropHTML(Mitem);//清除所有Html格式
+            model.Mitem = HttpUtility.HtmlEncode(Mitem);
             model.Mqid = Int32.Parse(Mqid);
             model.Mscore = Int32.Parse(DDLscore.SelectedValue);
             model.Mvid = Int32.Parse(Mvid);

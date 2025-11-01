@@ -67,7 +67,7 @@ public partial class student_htmleditor : System.Web.UI.Page
                     codefile = wmodel.Wcode;//如果不为空，则获取原来的作品链接
                 }
 
-                Mypage = "../homework/" + cook.Syear.ToString() + "/" + cook.Sgrade.ToString() + "/" + cook.Sclass.ToString() + "/" + Cid + "/" + Mid + "/" + Snum + "_" + Cid + "_" + Mid + ".html";
+                Mypage = model.Mback;
             }
         }
     }

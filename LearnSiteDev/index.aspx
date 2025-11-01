@@ -22,7 +22,6 @@
         <br />
         <div  class="indexdiv">
             <div  class="indexhead"> 登录窗口</div>
-                <div class="indexlogin">
                 <br />                
             <br />
             学号：<asp:TextBox 
@@ -37,11 +36,8 @@
             <br /> 
                     <asp:Button ID="Btnlogin" runat="server"  OnClick="Btnlogin_Click" Text="登录" 
                         BorderStyle="None" CssClass="buttonimg" />
-            <br />                   
-            <br />
-            </div>
+            <br /> 
         </div>
-        <br />
         <asp:Label ID="Labelmsg" runat="server"  SkinID="LabelMsgRed" ></asp:Label>
         <br />
         <br />

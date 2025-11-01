@@ -32,9 +32,9 @@ namespace LearnSite.DAL
 		{
 			StringBuilder strSql=new StringBuilder();
 			strSql.Append("insert into TxtFormBack(");
-            strSql.Append("Rmid,Rsnum,Rsid,Rwords,Rtime,Rip,Rscore,Ryear,Rterm,Rgrade,Rclass,Ragree,Rlid)");
+            strSql.Append("Rmid,Rsnum,Rsid,Rwords,Rtime,Rip,Rscore,Ryear,Rterm,Rgrade,Rclass,Ragree,Rlid,Rcontent)");
 			strSql.Append(" values (");
-            strSql.Append("@Rmid,@Rsnum,@Rsid,@Rwords,@Rtime,@Rip,@Rscore,@Ryear,@Rterm,@Rgrade,@Rclass,@Ragree,@Rlid)");
+            strSql.Append("@Rmid,@Rsnum,@Rsid,@Rwords,@Rtime,@Rip,@Rscore,@Ryear,@Rterm,@Rgrade,@Rclass,@Ragree,@Rlid,@Rcontent)");
 			strSql.Append(";select @@IDENTITY");
 			SqlParameter[] parameters = {
 					new SqlParameter("@Rmid", SqlDbType.Int,4),
@@ -49,7 +49,8 @@ namespace LearnSite.DAL
 					new SqlParameter("@Rgrade", SqlDbType.Int,4),
 					new SqlParameter("@Rclass", SqlDbType.Int,4),
 					new SqlParameter("@Ragree", SqlDbType.Int,4),
-					new SqlParameter("@Rlid", SqlDbType.Int,4)};
+					new SqlParameter("@Rlid", SqlDbType.Int,4),
+					new SqlParameter("@Rcontent", SqlDbType.NText)};
 			parameters[0].Value = model.Rmid;
 			parameters[1].Value = model.Rsnum;
 			parameters[2].Value = model.Rsid;
@@ -63,6 +64,7 @@ namespace LearnSite.DAL
 			parameters[10].Value = model.Rclass;
             parameters[11].Value = model.Ragree;
             parameters[12].Value = model.Rlid;
+            parameters[13].Value = model.Rcontent;
 
 			object obj = DbHelperSQL.GetSingle(strSql.ToString(),parameters);
 			if (obj == null)
@@ -77,7 +79,7 @@ namespace LearnSite.DAL
 
         public void UpdateAllScore(string Ryear,string Rgrade,string Rclass,string Rmid, int Rscore)
         {
-            string mysql = "update TxtFormBack set Rscore=" + Rscore + " where Rmid=" + Rmid + " and Ryear=" + Ryear + " and Rgrade=" + Rgrade + " and Rclass=" + Rclass;
+            string mysql = "update TxtFormBack set Rscore=" + Rscore + " where Rscore=0 and Rmid=" + Rmid + " and Ryear=" + Ryear + " and Rgrade=" + Rgrade + " and Rclass=" + Rclass;
             DbHelperSQL.ExecuteSql(mysql);
         }
 
@@ -151,22 +153,25 @@ namespace LearnSite.DAL
 		}
 
         /// <summary>
-        /// 更新内容 Rwords, Rtime,Rid
+        /// 更新内容 Rwords, Rtime,Rid,Rcontent
         /// </summary>
         public bool UpdateContent(LearnSite.Model.TxtFormBack model)
         {
             StringBuilder strSql = new StringBuilder();
             strSql.Append("update TxtFormBack set ");
             strSql.Append("Rwords=@Rwords,");
+            strSql.Append("Rcontent=@Rcontent,");
             strSql.Append("Rtime=@Rtime ");
             strSql.Append(" where Rid=@Rid and Rscore=0");
             SqlParameter[] parameters = {
 					new SqlParameter("@Rwords", SqlDbType.NText),
 					new SqlParameter("@Rtime", SqlDbType.DateTime),
-					new SqlParameter("@Rid", SqlDbType.Int,4)};
+					new SqlParameter("@Rid", SqlDbType.Int,4),
+					new SqlParameter("@Rcontent", SqlDbType.NText)};
             parameters[0].Value = model.Rwords;
             parameters[1].Value = model.Rtime;
             parameters[2].Value = model.Rid;
+            parameters[3].Value = model.Rcontent;
 
             int rows = DbHelperSQL.ExecuteSql(strSql.ToString(), parameters);
             if (rows > 0)
@@ -230,7 +235,7 @@ namespace LearnSite.DAL
 		{
 			
 			StringBuilder strSql=new StringBuilder();
-			strSql.Append("select  top 1 Rid,Rmid,Rsnum,Rsid,Rwords,Rtime,Rip,Rscore,Ryear,Rterm,Rgrade,Rclass,Ragree from TxtFormBack ");
+            strSql.Append("select  top 1 Rid,Rmid,Rsnum,Rsid,Rwords,Rtime,Rip,Rscore,Ryear,Rterm,Rgrade,Rclass,Ragree,Rcontent from TxtFormBack ");
 			strSql.Append(" where Rid=@Rid");
 			SqlParameter[] parameters = {
 					new SqlParameter("@Rid", SqlDbType.Int,4)
@@ -309,6 +314,10 @@ namespace LearnSite.DAL
 				if(row["Ragree"]!=null && row["Ragree"].ToString()!="")
 				{
 					model.Ragree=int.Parse(row["Ragree"].ToString());
+				}
+                if (row["Rcontent"] != null)
+				{
+                    model.Rcontent = row["Rcontent"].ToString();
 				}
 			}
 			return model;
@@ -460,6 +469,38 @@ namespace LearnSite.DAL
 			return DbHelperSQL.Query(strSql.ToString());
 		}
 
+        /// <summary>
+        /// 获取当前班级学过的学案Cid
+        /// </summary>
+        /// <param name="Rgrade"></param>
+        /// <param name="Rclass"></param>
+        /// <param name="Rterm"></param>
+        /// <param name="Ryear"></param>
+        /// <returns></returns>
+        public string ShowDoneBackCids(int Rgrade, int Rclass, int Rterm, int Ryear)
+        {
+            string mysql = "SELECT DISTINCT Mcid FROM TxtForm,TxtFormBack where  Mid=Rmid and  Ryear=" + Ryear + " and Rterm=" + Rterm + " and Rgrade=" + Rgrade + " and Rclass=" + Rclass;
+            DataTable dt = DbHelperSQL.Query(mysql).Tables[0];
+            int n = dt.Rows.Count;
+            if (n > 0)
+            {
+                string strtemp = "";
+                string cidstr = "";
+                for (int i = 0; i < n; i++)
+                {
+                    cidstr = dt.Rows[i]["Mcid"].ToString();
+                    if (!string.IsNullOrEmpty(cidstr))
+                    {
+                        strtemp = strtemp + cidstr + ",";
+                    }
+                }
+                return strtemp;
+            }
+            else
+            {
+                return "";
+            }
+        }
 
         /// <summary>
         /// 获取某学生学过的学案Cid

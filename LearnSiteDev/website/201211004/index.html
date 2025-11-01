@@ -1,0 +1,399 @@
+﻿
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>冒泡排序可视化</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            width: 90%;
+            max-width: 800px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            padding: 20px;
+            margin-top: 20px;
+        }
+        h1 {
+            color: #3a4a6d;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .chart-container {
+            height: 400px;
+            margin: 20px 0;
+            position: relative;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            gap: 2px;
+        }
+        .bar {
+            background: #4e73df;
+            width: 40px;
+            transition: height 0.3s ease, background 0.3s ease;
+            border-radius: 5px 5px 0 0;
+            position: relative;
+            text-align: center;
+            color: white;
+            font-weight: bold;
+        }
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 20px 0;
+        }
+        button {
+            padding: 10px 20px;
+            background: #4e73df;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+        button:hover {
+            background: #2e59d9;
+            transform: translateY(-2px);
+        }
+        button:disabled {
+            background: #cccccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+        .comparing {
+            background: #f6c23e !important;
+        }
+        .sorted {
+            background: #1cc88a !important;
+        }
+        .swapping {
+            background: #e74a3b !important;
+        }
+        .speed-control {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .speed-control label {
+            font-weight: bold;
+            color: #3a4a6d;
+        }
+        .array-input {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            justify-content: center;
+        }
+        .array-input input {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            width: 70%;
+            max-width: 500px;
+        }
+        .info-panel {
+            background: #f8f9fc;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 20px;
+            border-left: 4px solid #4e73df;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>冒泡排序可视化</h1>
+        
+        <div class="array-input">
+            <input type="text" id="array-input" placeholder="输入数字，用逗号分隔（例如：5,3,8,1,2）" value="64,34,25,12,22,11,90">
+            <button id="generate-btn">生成</button>
+        </div>
+        
+        <div class="chart-container" id="chart"></div>
+        
+        <div class="controls">
+            <button id="start-btn">开始排序</button>
+            <button id="reset-btn">重置</button>
+            <button id="step-btn" disabled>单步执行</button>
+            
+            <div class="speed-control">
+                <label for="speed">速度:</label>
+                <input type="range" id="speed" min="50" max="1000" value="300">
+            </div>
+        </div>
+        
+        <div class="info-panel">
+            <h3>排序状态: <span id="status">准备就绪</span></h3>
+            <p>比较次数: <span id="comparisons">0</span></p>
+            <p>交换次数: <span id="swaps">0</span></p>
+            <p>当前操作: <span id="current-op">-</span></p>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const chartContainer = document.getElementById('chart');
+            const startBtn = document.getElementById('start-btn');
+            const resetBtn = document.getElementById('reset-btn');
+            const stepBtn = document.getElementById('step-btn');
+            const generateBtn = document.getElementById('generate-btn');
+            const arrayInput = document.getElementById('array-input');
+            const speedControl = document.getElementById('speed');
+            const statusDisplay = document.getElementById('status');
+            const comparisonsDisplay = document.getElementById('comparisons');
+            const swapsDisplay = document.getElementById('swaps');
+            const currentOpDisplay = document.getElementById('current-op');
+            
+            let array = [];
+            let bars = [];
+            let sorting = false;
+            let animationId;
+            let delay = 300;
+            let comparisons = 0;
+            let swaps = 0;
+            
+            // 初始化图表
+            function initChart() {
+                chartContainer.innerHTML = '';
+                bars = [];
+                
+                const maxValue = Math.max(...array);
+                const containerHeight = chartContainer.clientHeight;
+                
+                array.forEach((value, index) => {
+                    const bar = document.createElement('div');
+                    bar.className = 'bar';
+                    const height = (value / maxValue) * (containerHeight - 30);
+                    bar.style.height = `${height}px`;
+                    bar.textContent = value;
+                    bar.dataset.value = value;
+                    bar.dataset.index = index;
+                    chartContainer.appendChild(bar);
+                    bars.push(bar);
+                });
+            }
+            
+            // 生成随机数组
+            function generateRandomArray() {
+                const size = Math.floor(Math.random() * 10) + 5; // 5-14个元素
+                array = Array.from({length: size}, () => Math.floor(Math.random() * 100) + 1);
+                arrayInput.value = array.join(',');
+                resetStats();
+                initChart();
+            }
+            
+            // 从输入读取数组
+            function readArrayFromInput() {
+                try {
+                    const input = arrayInput.value.trim();
+                    array = input.split(',').map(Number).filter(n => !isNaN(n));
+                    if (array.length < 2) {
+                        alert('请输入至少2个数字');
+                        generateRandomArray();
+                        return;
+                    }
+                    resetStats();
+                    initChart();
+                } catch (e) {
+                    alert('输入格式错误，使用逗号分隔数字');
+                    generateRandomArray();
+                }
+            }
+            
+            // 重置统计
+            function resetStats() {
+                comparisons = 0;
+                swaps = 0;
+                comparisonsDisplay.textContent = '0';
+                swapsDisplay.textContent = '0';
+                currentOpDisplay.textContent = '-';
+                statusDisplay.textContent = '准备就绪';
+            }
+            
+            // 高亮比较的元素
+            function highlightComparing(i, j) {
+                bars.forEach(bar => {
+                    bar.classList.remove('comparing', 'sorted', 'swapping');
+                });
+                
+                bars[i].classList.add('comparing');
+                bars[j].classList.add('comparing');
+                
+                comparisons++;
+                comparisonsDisplay.textContent = comparisons;
+                currentOpDisplay.textContent = `比较 ${array[i]} 和 ${array[j]}`;
+            }
+            
+            // 高亮交换的元素
+            function highlightSwapping(i, j) {
+                bars[i].classList.remove('comparing');
+                bars[j].classList.remove('comparing');
+                bars[i].classList.add('swapping');
+                bars[j].classList.add('swapping');
+                
+                swaps++;
+                swapsDisplay.textContent = swaps;
+                currentOpDisplay.textContent = `交换 ${array[i]} 和 ${array[j]}`;
+            }
+            
+            // 标记已排序的元素
+            function markSorted(index) {
+                bars[index].classList.remove('comparing', 'swapping');
+                bars[index].classList.add('sorted');
+            }
+            
+            // 交换数组元素和DOM元素
+            function swapElements(i, j) {
+                // 交换数组中的元素
+                [array[i], array[j]] = [array[j], array[i]];
+                
+                // 更新DOM元素的值和高度
+                const maxValue = Math.max(...array);
+                const containerHeight = chartContainer.clientHeight;
+                
+                bars[i].textContent = array[i];
+                bars[i].dataset.value = array[i];
+                bars[i].style.height = `${(array[i] / maxValue) * (containerHeight - 30)}px`;
+                
+                bars[j].textContent = array[j];
+                bars[j].dataset.value = array[j];
+                bars[j].style.height = `${(array[j] / maxValue) * (containerHeight - 30)}px`;
+            }
+            
+            // 冒泡排序算法
+            async function bubbleSort() {
+                sorting = true;
+                statusDisplay.textContent = '排序中...';
+                startBtn.disabled = true;
+                stepBtn.disabled = true;
+                resetBtn.disabled = true;
+                
+                let len = array.length;
+                let swapped;
+                
+                do {
+                    swapped = false;
+                    for (let i = 0; i < len - 1; i++) {
+                        highlightComparing(i, i+1);
+                        
+                        await new Promise(resolve => {
+                            setTimeout(resolve, delay);
+                        });
+                        
+                        if (array[i] > array[i+1]) {
+                            highlightSwapping(i, i+1);
+                            swapElements(i, i+1);
+                            swapped = true;
+                            
+                            await new Promise(resolve => {
+                                setTimeout(resolve, delay);
+                            });
+                        }
+                        
+                        markSorted(i+1);
+                    }
+                    len--;
+                } while (swapped);
+                
+                // 标记所有元素为已排序
+                bars.forEach(bar => {
+                    bar.classList.add('sorted');
+                });
+                
+                statusDisplay.textContent = '排序完成!';
+                currentOpDisplay.textContent = '-';
+                startBtn.disabled = false;
+                resetBtn.disabled = false;
+                sorting = false;
+            }
+            
+            // 单步执行冒泡排序
+            function* bubbleSortStep() {
+                let len = array.length;
+                let swapped;
+                
+                do {
+                    swapped = false;
+                    for (let i = 0; i < len - 1; i++) {
+                        highlightComparing(i, i+1);
+                        yield;
+                        
+                        if (array[i] > array[i+1]) {
+                            highlightSwapping(i, i+1);
+                            swapElements(i, i+1);
+                            swapped = true;
+                            yield;
+                        }
+                        
+                        markSorted(i+1);
+                    }
+                    len--;
+                } while (swapped);
+                
+                bars.forEach(bar => {
+                    bar.classList.add('sorted');
+                });
+                
+                statusDisplay.textContent = '排序完成!';
+                currentOpDisplay.textContent = '-';
+                startBtn.disabled = false;
+                stepBtn.disabled = false;
+                resetBtn.disabled = false;
+            }
+            
+            let sortGenerator;
+            
+            // 事件监听器
+            startBtn.addEventListener('click', function() {
+                if (!sorting) {
+                    bubbleSort();
+                }
+            });
+            
+            resetBtn.addEventListener('click', function() {
+                readArrayFromInput();
+                startBtn.disabled = false;
+                stepBtn.disabled = false;
+            });
+            
+            stepBtn.addEventListener('click', function() {
+                if (!sortGenerator) {
+                    sorting = true;
+                    statusDisplay.textContent = '单步排序中...';
+                    startBtn.disabled = true;
+                    resetBtn.disabled = true;
+                    sortGenerator = bubbleSortStep();
+                }
+                
+                const { done } = sortGenerator.next();
+                if (done) {
+                    sortGenerator = null;
+                }
+            });
+            
+            generateBtn.addEventListener('click', readArrayFromInput);
+            
+            speedControl.addEventListener('input', function() {
+                delay = 1050 - this.value; // 反转值，使滑块右侧更快
+            });
+            
+            // 初始化
+            readArrayFromInput();
+        });
+    </script>
+</body>
+</html>

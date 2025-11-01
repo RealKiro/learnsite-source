@@ -32,13 +32,23 @@ public partial class index : System.Web.UI.Page
         DateTime dt4 = DateTime.Now;
         if (Request.QueryString["mysnum"] != null)
         {
+            string myname = "";
             string mysnum=Request.QueryString["mysnum"].ToString();
             TextBoxuser.Text = mysnum;
             TextBoxpwd.Focus();
-            LearnSite.BLL.Signin gbll = new LearnSite.BLL.Signin();
-            if(!gbll.IsSameIp(mysnum,pp))
+            if (Request.QueryString["myname"] != null)
             {
-                Labelmsg.Text = "您上次不是从这台电脑登录学习平台?<br/>随意换机会给他人带来不便，请理解!";
+                myname = Request.QueryString["myname"].ToString();
+            }
+            LearnSite.BLL.Signin gbll = new LearnSite.BLL.Signin();
+            if (!gbll.IsSameIp(mysnum, pp))
+            {
+                Labelmsg.Text = myname + "，你上次不是从这台电脑登录的?<br/>随意换机会给他人带来不便，请理解!";
+                Labelmsg.ForeColor = System.Drawing.Color.Red;
+            }
+            else {
+                Labelmsg.Text = "欢迎 "+ myname + " 同学";
+                Labelmsg.ForeColor = System.Drawing.Color.Black;
             }
         }
         Labelterm.Text = LearnSite.Common.XmlHelp.GetTerm();

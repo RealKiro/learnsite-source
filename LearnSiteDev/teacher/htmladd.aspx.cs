@@ -52,6 +52,7 @@ public partial class teacher_htmladd : System.Web.UI.Page
                 mission.Msort = maxSort;
                 mission.Mupload = true;
                 mission.Mcategory = 12;//网页页面
+                mission.Mback = DDLfilename.SelectedValue;
 
                 mission.Mpublish = CheckPublish.Checked;
                 mission.Mcontent = HttpUtility.HtmlEncode(fckstr);

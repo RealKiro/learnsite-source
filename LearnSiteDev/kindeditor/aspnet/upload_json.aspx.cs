@@ -101,7 +101,10 @@ public partial class kindeditor_aspnet_upload_json : System.Web.UI.Page
                 break;//不转换
         }
         */
-           
+        if (ty == "Topic") {
+            String newFileName = DateTime.Now.ToString("yyyyMMddHHmmss_ffff", DateTimeFormatInfo.InvariantInfo) + fileExt;
+            FilterFileName = newFileName;
+        }
         String filePath = dirPath + FilterFileName;
 
         imgFile.SaveAs(filePath);

@@ -64,6 +64,7 @@ public partial class Student_uploadwork : System.Web.UI.Page
                         string OnlyFileName = Wnum + "_" + Wcid + "_" + Wmid;// +"_" + RndTime;
                         string NewFileName = OnlyFileName + "." + Wfiletype;
                         string Wurl = MySavePath + "/" + NewFileName;
+                        
                         string resaveFilename = Server.MapPath(Wurl);
                         try
                         {
@@ -79,7 +80,7 @@ public partial class Student_uploadwork : System.Web.UI.Page
                             //LearnSite.BLL.Signin sn = new LearnSite.BLL.Signin();
                             //sn.UpdateQwork(Int32.Parse(Wsid), Int32.Parse(Wcid));//更新今天签到表中的作品数量
                             work_upload.SaveAs(resaveFilename);//保存提交作品 
-                            
+
                             Response.StatusCode = 200;
                             Response.Write(NewFileName);
                         }
@@ -108,6 +109,9 @@ public partial class Student_uploadwork : System.Web.UI.Page
                     string OnlyFileName = Wnum + "_" + Wcid + "_" + Wmid + "_" + RndTime;
                     string NewFileName = OnlyFileName + "." + Wfiletype;
                     string Wurl = MySavePath + "/" + NewFileName;
+
+                    string Wthumbnail = MySavePath + "/" + OnlyFileName + ".jpg";
+
                     string Wtime = LearnSite.Common.Computer.TimePassed(LoginTime).ToString();
 
                     LearnSite.Model.Works wmodel = new LearnSite.Model.Works();
@@ -132,6 +136,7 @@ public partial class Student_uploadwork : System.Web.UI.Page
                     wmodel.Wclass = Int32.Parse(Sclass);
                     wmodel.Wname = HttpUtility.UrlDecode(Sname);
                     wmodel.Wyear = Int32.Parse(Syear);
+                    wmodel.Wthumbnail = Wthumbnail;
                     switch (Wfiletype)
                     {
                         case "doc":
@@ -169,7 +174,7 @@ public partial class Student_uploadwork : System.Web.UI.Page
                         sn.UpdateQwork(Int32.Parse(Wsid), Int32.Parse(Wcid));//更新今天签到表中的作品数量
 
                         work_upload.SaveAs(saveFilename);//保存提交作品
-                        
+
                         Response.StatusCode = 200;
                         Response.Write(NewFileName);
                     }

@@ -21,6 +21,9 @@
 			<asp:Label ID="LabelLid" runat="server" Visible="False"></asp:Label>
             <asp:Label ID="LabelVid" runat="server" Visible="False"></asp:Label> 
             <asp:Label ID="LabelVtotal" runat="server" Visible="False"></asp:Label> 
+        <asp:ImageButton ID="ImgBtnClear" runat="server" 
+            ImageUrl="~/images/delete.gif" ToolTip="清除模拟学生记录" Visible="False" 
+            onclick="ImgBtnClear_Click" />
     </div>
     <br />
     <div id="vcontent" runat="server"  style="margin: auto; padding: 2px; text-align: left; width: 980px; "></div>

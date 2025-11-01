@@ -12,7 +12,7 @@ public partial class Student_pixel : System.Web.UI.Page
     protected string Fpage = "#";
     protected string Mcontents = "";
     protected string Titles = "";
-    protected string pixfile = "";
+    protected string PixFile = "";
     protected string Snum = "";
     protected string mback = "";
 
@@ -68,11 +68,7 @@ public partial class Student_pixel : System.Web.UI.Page
                 if (wmodel != null)
                 {
                     string pixurl = wmodel.Wurl;
-                    pix.InnerHtml = LearnSite.Common.WordProcess.pixelview(pixurl);
-                }
-                else
-                {
-                    pix.InnerHtml = "<table id='pixel_canvas'></table>";
+                    PixFile = wmodel.Wcode;
                 }
 
                 this.Page.Title = HttpUtility.UrlDecode(Sname) + " " + Snum + " " + model.Mtitle;

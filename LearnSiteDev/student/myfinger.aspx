@@ -12,7 +12,7 @@
         <div id="Meanword" class="meandiv" >
         </div>
         <br />
-        <input id="InputWord" type="text"  class="inputtxt"  onpaste= "return   false; "   ondragenter= "return   false;" tabindex="0"  autocomplete="off" />
+        <input id="InputWord" type="text"  class="inputtxt"  onpaste= "return   false; "   ondragenter= "return   false;"   ondrop= "return   false;" tabindex="0"  autocomplete="off" />
         <br /><br />
     </div> 
 	<div id="keyhand"></div>
@@ -94,19 +94,24 @@
     <asp:HyperLink ID="HLfinger" runat="server" 
         NavigateUrl="~/student/allfinger.aspx" Target="_self" SkinID="HyperLink" 
         Width="120px" CssClass="txtszcenter" Height="18px">英文输入英雄榜</asp:HyperLink>
-    <br />
+    <br />  
     <div >
+    <br />
+    <asp:HyperLink ID="Hlztype" runat="server" 
+        NavigateUrl="~/ztype/index.html" Target="_blank" SkinID="HyperLink" 
+        Width="120px" CssClass="txtszcenter" Height="18px" >太空打字游戏</asp:HyperLink>
+    <br />  
     <br />
     <asp:HyperLink ID="Hlbox" runat="server" 
         NavigateUrl="~/sokoban/index.aspx" Target="_blank" SkinID="HyperLink" 
         Width="120px" CssClass="txtszcenter" Height="18px" >推箱子游戏</asp:HyperLink>
     <br /> 
     <br />
-    <asp:HyperLink ID="HyperLink2" runat="server" 
-        NavigateUrl="~/ztype/index.html" Target="_blank" SkinID="HyperLink" 
-        Width="120px" CssClass="txtszcenter" Height="18px" >太空打字游戏</asp:HyperLink>
+    <asp:HyperLink ID="Hlwuziqi" runat="server" 
+        NavigateUrl="~/wuziqi/index.aspx" Target="_blank" SkinID="HyperLink" 
+        Width="120px" CssClass="txtszcenter" Height="18px" >AI 五子棋</asp:HyperLink>
     <br />  
-    </div>   
+    </div>  
     <div id="victory" style=" display:none">
     <img src="../js/images/v.gif"  alt=""/>
     </div>

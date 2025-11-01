@@ -193,26 +193,23 @@ namespace LearnSite.DAL
 
         /// <summary>
         /// 关联更新一条数据 
-        /// 条件Lcid,Lxid,Ltype 更新Ltitle,Lshow
+        /// 条件Lcid,Lxid,Ltype 更新Ltitle
         /// </summary>
         public bool UpdateLtitle(LearnSite.Model.ListMenu model)
         {
             StringBuilder strSql = new StringBuilder();
             strSql.Append("update ListMenu set ");
-            strSql.Append("Lshow=@Lshow,");
             strSql.Append("Ltitle=@Ltitle");
             strSql.Append(" where Lcid=@Lcid and Lxid=@Lxid and Ltype=@Ltype");
             SqlParameter[] parameters = {
 					new SqlParameter("@Lcid", SqlDbType.Int,4),
 					new SqlParameter("@Ltype", SqlDbType.Int,4),
 					new SqlParameter("@Lxid", SqlDbType.Int,4),
-					new SqlParameter("@Ltitle", SqlDbType.NVarChar,50),
-					new SqlParameter("@Lshow", SqlDbType.Bit,1)};
+					new SqlParameter("@Ltitle", SqlDbType.NVarChar,50)};
             parameters[0].Value = model.Lcid;
             parameters[1].Value = model.Ltype;
             parameters[2].Value = model.Lxid;
             parameters[3].Value = model.Ltitle;
-            parameters[4].Value = model.Lshow;
 
             int rows = DbHelperSQL.ExecuteSql(strSql.ToString(), parameters);
             if (rows > 0)

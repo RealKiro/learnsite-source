@@ -16,6 +16,7 @@
             var fmjs='../kindeditor/aspnet/file_manager_json.aspx?cid='+cid+'&ty='+ty;
 		    KindEditor.ready(function (K) {
 		        editor = K.create('textarea[name="ctl00$Content$mcontent"]', {
+					cssData:'.blackword{text-align: center;border:none;outline:none;border-bottom: 1px solid #999;width: 60px;display: inline-block;}',
 		            resizeType: 1,
 		            newlineTag: "br",                                        
 				uploadJson : upjs,
@@ -25,7 +26,7 @@
 		        });
 		    });
 		</script>
-    <textarea  id ="mcontent" runat ="server" style="width: 760px; height:200px;" ></textarea> 
+    <textarea  id ="mcontent" runat ="server" style="width: 960px; height:200px;" ></textarea> 
     </div>
      <div  class="placehold">
                <asp:Label ID="Labelmsg" runat="server" ></asp:Label>
@@ -34,6 +35,8 @@
                    SkinID="BtnNormal" />&nbsp;&nbsp;&nbsp;
               <asp:Button ID="BtnSurvey" runat="server"  Text="返回" 
                    OnClick="BtnSurvey_Click"  SkinID="BtnNormal" /><br />
+               <br />
+               友情提示：如果是填空题，请在题目内添加填空占位符，对应选项答案。<br />
          <br />
          </div>
            

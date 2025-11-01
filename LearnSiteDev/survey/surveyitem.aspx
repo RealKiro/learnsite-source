@@ -57,7 +57,6 @@
                     <HeaderStyle HorizontalAlign="Left" />
                 </asp:GridView>
                 <br />
-                <div style="margin: auto; width: 600px;">
                     <script charset="utf-8" src="../kindeditor/kindeditor-min.js"></script>
                     <script charset="utf-8" src="../kindeditor/lang/zh_CN.js"></script>
                     <script>
@@ -80,10 +79,12 @@
 		        });
 		    });
                     </script>
-                    选项描述：<asp:Label ID="LabelMid" runat="server" Font-Bold="True" Visible="False"></asp:Label>
+					<div style=" text-align:left;">
+                    <asp:Label ID="LabelMid" runat="server" Font-Bold="True" Visible="False"></asp:Label>
                     <asp:CheckBox ID="QBlack" runat="server" Text="是否填空" Enabled="False" />
                     <br />
-                    <textarea id="mcontent" runat="server" style="width: 600px; height: 150px"></textarea>
+					</div>
+                    <textarea id="mcontent" runat="server" style="width: 800px; height: 150px"></textarea>
                     <br />
                     分值<asp:DropDownList ID="DDLscore" runat="server" Font-Size="9pt">
                         <asp:ListItem>1</asp:ListItem>
@@ -104,13 +105,9 @@
                         SkinID="BtnSmall" Width="60px" />
                     <br />
                     <br />
-                </div>
             </div>
         </div>
-        <br />
-        友情提示：选项一般不超过４个； 如果是调查类型，你可以根据选项设置不同分值；<br />
-        <br />
-        如果是测验单选项，请将其中一个选项设置分值，其他选项分值设置为0即可。<br />
-        <br />
+        友情提示：选项一般不超过４个；&nbsp;
+        如果是测验，请将其中一个设置分值，其他默认设置为零。<br />
     </div>
 </asp:Content>

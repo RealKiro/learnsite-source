@@ -11,7 +11,9 @@
 			&nbsp;作品类型：<asp:Image ID="ImageType" runat="server" />
 			<asp:Label ID="LabelMfiletype" runat="server" ></asp:Label>
             &nbsp;<asp:CheckBox ID="CheckPublish" runat="server" Text="是否发布" 
-            Enabled="False" />        
+            Enabled="False" /> 
+             &nbsp;&nbsp; 
+            网页文件名<asp:Label ID="Labelfilename" runat="server" ></asp:Label>      
             &nbsp;&nbsp; <asp:HyperLink ID="HLMgid" runat="server">评价标准</asp:HyperLink>
             <asp:ImageButton ID="BtnEdit" runat="server" ToolTip="点击修改" 
             ImageUrl="~/images/edit.gif" onclick="BtnEdit_Click" 

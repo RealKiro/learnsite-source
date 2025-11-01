@@ -45,9 +45,9 @@ namespace LearnSite.DAL
         {
             StringBuilder strSql = new StringBuilder();
             strSql.Append("insert into Signin(");
-            strSql.Append("Qnum,Qattitude,Qdate,Qyear,Qmonth,Qday,Qweek,Qip,Qmachine,Qnote,Qwork,Qgrade,Qterm,Qsid,Qname,Qclass,Qsyear)");
+            strSql.Append("Qnum,Qattitude,Qdate,Qyear,Qmonth,Qday,Qweek,Qip,Qmachine,Qnote,Qwork,Qgrade,Qterm,Qsid,Qname,Qclass,Qsyear,Qcid)");
             strSql.Append(" values (");
-            strSql.Append("@Qnum,@Qattitude,@Qdate,@Qyear,@Qmonth,@Qday,@Qweek,@Qip,@Qmachine,@Qnote,@Qwork,@Qgrade,@Qterm,@Qsid,@Qname,@Qclass,@Qsyear)");
+            strSql.Append("@Qnum,@Qattitude,@Qdate,@Qyear,@Qmonth,@Qday,@Qweek,@Qip,@Qmachine,@Qnote,@Qwork,@Qgrade,@Qterm,@Qsid,@Qname,@Qclass,@Qsyear,@Qcid)");
             strSql.Append(";select @@IDENTITY");
             SqlParameter[] parameters = {
 					new SqlParameter("@Qnum", SqlDbType.NVarChar,50),
@@ -66,7 +66,8 @@ namespace LearnSite.DAL
                     new SqlParameter("@Qsid", SqlDbType.Int,4),
                     new SqlParameter("@Qname", SqlDbType.NVarChar,50),
                     new SqlParameter("@Qclass", SqlDbType.Int,4),
-                    new SqlParameter("@Qsyear", SqlDbType.Int,4)};
+                    new SqlParameter("@Qsyear", SqlDbType.Int,4),
+                    new SqlParameter("@Qcid", SqlDbType.Int,4)};
             parameters[0].Value = model.Qnum;
             parameters[1].Value = model.Qattitude;
             parameters[2].Value = model.Qdate;
@@ -84,6 +85,7 @@ namespace LearnSite.DAL
             parameters[14].Value = model.Qname;
             parameters[15].Value = model.Qclass;
             parameters[16].Value = model.Qsyear;
+            parameters[17].Value = model.Qcid;
 
             object obj = DbHelperSQL.GetSingle(strSql.ToString(), parameters);
             if (obj == null)
@@ -839,17 +841,20 @@ namespace LearnSite.DAL
         public bool IsSameIp(string Qnum,string LoginIp)
         {
             string today = DateTime.Now.ToShortDateString(); //dt.Year.ToString() + "-" + dt.Month.ToString() + "-" + dt.Day;
+            string lastmonth = DateTime.Now.AddMonths(-2).ToShortDateString();
 
             StringBuilder strSql = new StringBuilder();
             strSql.Append(" select top 1 Qip from Signin ");
-            strSql.Append(" where Qnum=@Qnum and Qdate<@Qdate order by Qdate desc ");
+            strSql.Append(" where Qnum=@Qnum and Qdate<@Qdate and Qdate>@Qmonth order by Qdate desc ");
 
             SqlParameter[] parameters = {
 					new SqlParameter("@Qnum", SqlDbType.VarChar),
-                    new SqlParameter("@Qdate", SqlDbType.DateTime)};
+                    new SqlParameter("@Qdate", SqlDbType.DateTime),
+                    new SqlParameter("@Qmonth", SqlDbType.DateTime)};
 
             parameters[0].Value = Qnum;
             parameters[1].Value = DateTime.Parse(today);
+            parameters[2].Value = DateTime.Parse(lastmonth);
 
             string fstr = DbHelperSQL.FindString(strSql.ToString(),parameters);//读取最近的登录Ip
             if (fstr == "")
@@ -919,6 +924,8 @@ namespace LearnSite.DAL
             BLL.Computers cbll = new BLL.Computers();
             string Qmachine = cbll.GetmachineByIp(Qip);
             string Qweek = Qdate.DayOfWeek.ToString();
+            BLL.Room rbll = new BLL.Room();
+            string cid= rbll.GetRcid(Qgrade, Qclass);
 
             Model.Signin qmodel = new LearnSite.Model.Signin();
             qmodel.Qnum = Qnum;
@@ -938,6 +945,13 @@ namespace LearnSite.DAL
             qmodel.Qname = Qname;
             qmodel.Qclass = Qclass;
             qmodel.Qsyear = Qsyear;
+            if (cid != "")
+            {
+                qmodel.Qcid = Int32.Parse(cid);
+            }
+            else
+                qmodel.Qcid = 0;
+            
 
             string mysql = "select count(1) from Signin where Qsid=" + Qsid + " and Qday=" + Qday + " and Qmonth=" + Qmonth + " and Qyear=" + Qyear;
             if (!DbHelperSQL.Exists(mysql))

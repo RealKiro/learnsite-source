@@ -84,9 +84,10 @@ public partial class Teacher_workshow : System.Web.UI.Page
             {
                 if (DDLmid.SelectedValue != "" && DDLmid.Items.Count > 0)
                 {
+                    ShowDoneWorks(); //独立出来方便刷新 
                     int Wmid = Int32.Parse(DDLmid.SelectedValue);
                     LearnSite.BLL.Works wbll = new LearnSite.BLL.Works();
-                    ShowDoneWorks(); //独立出来方便刷新                   
+                                      
                     Labelcounts.Text = DataListworks.Items.Count.ToString();
 
                     DataListNoworks.DataSource = wbll.ShowTodayNotWorks(Syear, Sgrade, Sclass, Wmid);//获取今天本班未提交作品的学生列表
@@ -113,9 +114,15 @@ public partial class Teacher_workshow : System.Web.UI.Page
                             BtnCheck.Visible = false;
                         }
                     }
-                }
+                }                 
                 else
                 {
+                    DataListworks.DataSource = null;
+                    DataListworks.DataBind();
+                    DataListNoworks.DataSource = null;
+                    DataListNoworks.DataBind();
+                    showGroup();//显示小组作品
+
                     ImageType.Visible = false;
                     HLautoplay.Visible = false;
                     HLgroupplay.Visible = false;
@@ -246,7 +253,8 @@ public partial class Teacher_workshow : System.Web.UI.Page
                             wbll.WorkSetScore(Wcid, Sgrade, Sclass, Wmid, 0);//将本班该活动未评作品全评为0
                             break;
                         case "Check":
-                            wbll.WorkSetWcheck(Wcid, Sgrade, Sclass);//将本班该活动已得分标志全评
+                            wbll.WorkSetWcheckall(Sgrade);//将本班该活动已得分标志全评
+                            //wbll.WorkSetWcheck(Wcid, Sgrade, Sclass);//将本班该活动已得分标志全评
                             break;
                         case "W":
                             wbll.WorkSetNoneWcheck(Wcid, Sgrade, Sclass, Wmid);//将本班该活动为未评作品

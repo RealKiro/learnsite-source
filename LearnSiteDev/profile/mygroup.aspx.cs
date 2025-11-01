@@ -16,7 +16,6 @@ public partial class Profile_mygroup : System.Web.UI.Page
         
                 showGroupmsg();
                 showGroup();
-                showworks();
             }
         }
         else
@@ -48,11 +47,12 @@ public partial class Profile_mygroup : System.Web.UI.Page
         LearnSite.BLL.Students sbll = new LearnSite.BLL.Students();
         GVgroup.DataSource = sbll.ClassGroup(sgrade, sclass);
         GVgroup.DataBind();
+        Labelfree.Text = sbll.FreeMember(sgrade, sclass);
     }
 
     protected void GVgroup_RowDataBound(object sender, GridViewRowEventArgs e)
     {
-        if (e.Row.RowType == DataControlRowType.DataRow)
+        if (e.Row.RowIndex > -1)
         {
             e.Row.Cells[0].Text = Convert.ToString(e.Row.RowIndex + 1);
             string sid = GVgroup.DataKeys[e.Row.RowIndex].Value.ToString();
@@ -62,7 +62,7 @@ public partial class Profile_mygroup : System.Web.UI.Page
             LearnSite.BLL.Students sbll = new LearnSite.BLL.Students();
             lb.Text = sbll.GroupMember(sgrade, sclass, int.Parse(sid));
 
-            string strjs = "if(confirm('您确定参加该小组吗?'))return true;else return false; ";
+            string strjs = "if(confirm('你确定参加该小组吗?'))return true;else return false; ";
             ((LinkButton)e.Row.FindControl("LinkButton1")).OnClientClick = strjs;
 
             //当鼠标放上去的时候 先保存当前行的背景颜色 并给附一颜色 
@@ -90,9 +90,17 @@ public partial class Profile_mygroup : System.Web.UI.Page
                 groupmax = 6;
             if (bll.GetGroupCount(sgrade, sclass, Int32.Parse(sid)) < groupmax + 1)
             {
-                bll.AddThisGroup(snum, Int32.Parse(sid));//每小组人数少于小组上限则可参加
-                System.Threading.Thread.Sleep(200);
-                showGroup();
+                int res= bll.AddThisGroup(snum, Int32.Parse(sid));//每小组人数少于小组上限则可参加
+                if (res > 0)
+                {
+                    System.Threading.Thread.Sleep(200);
+                    LearnSite.Common.WordProcess.Alert("参加成功！", this.Page);
+                    showGroup();
+                }
+                else
+                {
+                    LearnSite.Common.WordProcess.Alert("参加失败,你已经有组队！", this.Page);                
+                }
             }
             else
             {
@@ -101,28 +109,7 @@ public partial class Profile_mygroup : System.Web.UI.Page
             }
         }
     }
-    protected void GVwork_RowDataBound(object sender, GridViewRowEventArgs e)
-    {
-        if (e.Row.RowType == DataControlRowType.DataRow)
-        {
-            e.Row.Cells[0].Text = Convert.ToString(e.Row.RowIndex + 1);
 
-            //当鼠标放上去的时候 先保存当前行的背景颜色 并给附一颜色 
-            e.Row.Attributes.Add("onmouseover", "currentcolor=this.style.backgroundColor;this.style.backgroundColor='#E1E8E1',this.style.fontWeight='';");
-            //当鼠标离开的时候 将背景颜色还原的以前的颜色 
-            e.Row.Attributes.Add("onmouseout", "this.style.backgroundColor=currentcolor,this.style.fontWeight='';");
-            //单击行改变行背景颜色 
-            e.Row.Attributes.Add("onclick", "this.style.backgroundColor='#D8E0D8'; this.style.color='buttontext';this.style.cursor='default';");
-        }
-    }
-
-    private void showworks()
-    {
-        string snum = cook.Snum;
-        LearnSite.BLL.GroupWork gbll = new LearnSite.BLL.GroupWork();
-        GVwork.DataSource = gbll.GetMyWorks(snum);
-        GVwork.DataBind();
-    }
     protected void BtnSgtitle_Click(object sender, EventArgs e)
     {
         string inputmsg = TextBox1.Text.Trim();
@@ -132,7 +119,10 @@ public partial class Profile_mygroup : System.Web.UI.Page
             int mysid = cook.Sid;
             LearnSite.BLL.Students sbll = new LearnSite.BLL.Students();
             if (sbll.UpdateSgtitle(mysid, inputmsg) > 0)
+            {
                 LearnSite.Common.WordProcess.Alert("修改成功！", this.Page);
+                showGroup();
+            }
             else
                 LearnSite.Common.WordProcess.Alert("修改失败！", this.Page);
 

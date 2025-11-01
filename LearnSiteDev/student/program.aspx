@@ -17,6 +17,7 @@
             <asp:CheckBox ID="CheckBlock" runat="server"  Visible="False" />
             <asp:CheckBox ID="CheckBlockpy" runat="server"  Visible="False" />
 			<asp:Label ID="LabelLid" runat="server" Visible="False"></asp:Label>
+			<asp:Label ID="LabelLtype" runat="server" Visible="False"></asp:Label>
    </div>   
 <div   id="Mcontent"  class="coursecontent" runat="server">	
 		</div>
@@ -37,13 +38,13 @@
         <br />
      
         <div>
-            <asp:Image ID="Thumbnail" runat="server"  style=" width:160px; max-height:240px;"/>
+            <asp:Image ID="Thumbnail" runat="server"  style=" max-width:160px; max-height:240px;"/>
             <div id="pixelsmall" runat="server" ></div>
-            <asp:Label ID="Wtitle" runat="server" ></asp:Label>
+            <asp:Label ID="Wtitle" runat="server" ></asp:Label><br />
             <br />
             <br /> 
             <asp:Button ID="BtnScratch" runat="server" Font-Bold="True" 
-                onclick="BtnScratch_Click" SkinID="buttonSkinPink" Text="开始编写" />
+                onclick="BtnScratch_Click" SkinID="buttonSkinPink" Text="开始创作" />
             <br />
             <br />
             <asp:Label ID="Labelscratch" runat="server" ForeColor="#0066FF"></asp:Label>
@@ -71,13 +72,6 @@
     </center>
 </div>   
     <br />
-        <link href="../js/tinybox.css" rel="stylesheet" type="text/css" />
-        <script src="../js/tinybox.js" type="text/javascript"></script>
-    <script type="text/javascript">
-        function showShare() {
-            var urlat = "../student/groupshare.aspx";
-            TINY.box.show({ iframe: urlat, boxid: 'frameless', width: 600, height: 400, fixed: false, maskopacity: 60, close: false })
-        }
-    </script>
+
 </div>
 </asp:Content>

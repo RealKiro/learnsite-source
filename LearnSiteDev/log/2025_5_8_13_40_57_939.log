@@ -1,0 +1,7 @@
+2025/5/8 13:40:57 页面:http://localhost/student/description.aspx?lid=2
+
+信息类型：%e5%ba%94%e5%90%89%e5%88%a9Query查询语句
+
+ sql语句：select  top 1 Kid,Ksid,Klid,Ktime,Kcheck,Kstar from MenuWorks  where Sid=@Sid and Klid=@Klid
+
+列名 'Sid' 无效。

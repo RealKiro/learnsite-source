@@ -43,6 +43,21 @@ namespace LearnSite.Common
         /// <param name="Sclass"></param>
         /// <param name="Wcid"></param>
         /// <param name="Wmid"></param>
+        private static void CreateWebDir(string Snum)
+        {
+            string savepath = HttpContext.Current.Server.MapPath(WebSavePath());
+            MakeDir(savepath);
+            string snumpath = Flatform.Checkbdir(savepath) + Snum;
+            MakeDir(snumpath);
+        }
+        /// <summary>
+        /// 创建作品目录
+        /// </summary>
+        /// <param name="Syear"></param>
+        /// <param name="Sgrade"></param>
+        /// <param name="Sclass"></param>
+        /// <param name="Wcid"></param>
+        /// <param name="Wmid"></param>
         private static void CreateWorkDir(string Syear, string Sgrade, string Sclass, string Wcid, string Wmid)
         {
             string savepath =HttpContext.Current.Server.MapPath( WorkSavePath());
@@ -75,6 +90,29 @@ namespace LearnSite.Common
 
             return HomeWorkPath;
         }
+        private static string WebSavePath()
+        {
+            string WebPath = "~/website/";
+
+            return WebPath;
+        }
+
+        /// <summary>
+        ///  获得网页存放虚拟路径，如果目录不存在则创建
+        /// </summary>
+        /// <param name="Syear"></param>
+        /// <param name="Sgrade"></param>
+        /// <param name="Sclass"></param>
+        /// <param name="Wcid"></param>
+        /// <param name="Wmid"></param>
+        /// <returns></returns>
+        public static string GetWeb(string Snum)
+        {
+            string Weburl = WebSavePath() + Snum ;
+            CreateWebDir(Snum);// 创建作品目录
+            return Weburl;
+        }
+
         /// <summary>
         ///  获得作品存放虚拟路径，如果目录不存在则创建
         /// </summary>

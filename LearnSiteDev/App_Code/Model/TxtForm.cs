@@ -3,7 +3,7 @@ using System;
 namespace LearnSite.Model
 {
 	/// <summary>
-	/// TxtForm:实体类(属性说明自动提取数据库字段的描述信息)
+    /// TxtForm:实体类(属性说明自动提取数据库字段的描述信息)
 	/// </summary>
 	[Serializable]
 	public partial class TxtForm
@@ -19,6 +19,7 @@ namespace LearnSite.Model
 		private int? _mhit;
 		private bool _mpublish;
 		private bool _mdelete;
+        private bool _mcollabo;
 		/// <summary>
 		/// 
 		/// </summary>
@@ -83,6 +84,14 @@ namespace LearnSite.Model
 			set{ _mdelete=value;}
 			get{return _mdelete;}
 		}
+        /// <summary>
+        /// 
+        /// </summary>
+        public bool Mcollabo
+        {
+            set { _mcollabo = value; }
+            get { return _mcollabo; }
+        }
 		#endregion Model
 
 	}

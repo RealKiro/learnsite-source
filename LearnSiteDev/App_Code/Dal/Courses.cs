@@ -502,6 +502,25 @@ namespace LearnSite.DAL
             }
         }
 
+        /// <summary>
+        /// 获取网页制作活动Mid
+        /// </summary>
+        /// <param name="Mcid"></param>
+        /// <returns></returns>
+        public string GetHtmlMid(string Mcid)
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("select top 1 Mid ");
+            strSql.Append(" FROM Mission ");
+            strSql.Append(" where Mcid=@Mcid and Mfiletype='html' and Mupload=1  ");
+
+            SqlParameter[] parameters = {
+					new SqlParameter("@Mcid", SqlDbType.Int,4)};
+            parameters[0].Value = Mcid;
+
+            return DbHelperSQL.FindString(strSql.ToString(), parameters);
+            
+        }
 
 		/// <summary>
 		/// 获得数据列表

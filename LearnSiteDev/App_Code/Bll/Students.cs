@@ -455,9 +455,9 @@ namespace LearnSite.BLL
         /// <summary>
         /// 终结性评定
         /// </summary>
-        public void TermABCDE()
+        public void TermABCD()
         {
-            dal.TermABCDE();
+            dal.TermABCD();
         }
       
         /// <summary>
@@ -766,16 +766,28 @@ namespace LearnSite.BLL
         public string GroupMember(int Sgrade, int Sclass, int Sgroup)
         {
             return dal.GroupMember(Sgrade, Sclass, Sgroup);
-        }        
+        } 
+       
+                
+        /// <summary>
+        /// 获取本班未参加小组名单
+        /// </summary>
+        /// <param name="Sgrade"></param>
+        /// <param name="Sclass"></param>
+        /// <returns></returns>
+        public string FreeMember(int Sgrade, int Sclass)
+        {
+            return dal.FreeMember(Sgrade, Sclass);
+        }
         /// <summary>
         /// 更新该学号的小组号
         /// 如果原组长已卸任则加入新小组
         /// </summary>
         /// <param name="Snum"></param>
         /// <param name="Sgroup"></param>
-        public void AddThisGroup(string Snum, int Sgroup)
+        public int AddThisGroup(string Snum, int Sgroup)
         {
-            dal.AddThisGroup(Snum, Sgroup);
+            return  dal.AddThisGroup(Snum, Sgroup);
         }
         public void AddThisGroup(int Sid, int Sgroup)
         {
@@ -933,6 +945,16 @@ namespace LearnSite.BLL
         {
             return dal.GetLeader(Sid);
         }
+                
+        /// <summary>
+        /// 返回小组名称
+        /// </summary>
+        /// <param name="Sid"></param>
+        /// <returns></returns>
+        public string GetMySgtitle(int Sid)
+        {
+            return dal.GetMySgtitle(Sid);
+        }
         public string GetLeaderByGroup(int Sgroup)
         {
             return dal.GetLeaderByGroup(Sgroup);
@@ -1020,7 +1042,54 @@ namespace LearnSite.BLL
         public DataTable NoGroupStudents(int Sgrade, int Sclass, string sort)
         {
             return dal.NoGroupStudents(Sgrade, Sclass, sort);
-        }                
+        }
+
+        /// <summary>
+        /// 获取本小组成员姓名和学号 Snum as Head, Sname,Sex
+        /// </summary>
+        /// <param name="Sgrade"></param>
+        /// <param name="Sclass"></param>
+        /// <param name="Sgroup"></param>
+        /// <param name="Sid"></param>
+        /// <returns></returns>
+        public DataTable Teamer(int Sgrade, int Sclass, int Sgroup, string Snum, string Sname, string Sex)
+        {
+            return dal.Teamer(Sgrade, Sclass, Sgroup, Snum, Sname, Sex);
+        }
+                
+        /// <summary>
+        /// 聊天表情图标
+        /// </summary>
+        /// <returns></returns>
+        public DataTable Emo()
+        {
+            return dal.Emo();
+        }
+        /// <summary>
+        /// 获取本小组成员姓名字符串，以顿号为分隔符
+        /// </summary>
+        /// <param name="Sgrade"></param>
+        /// <param name="Sclass"></param>
+        /// <param name="Sgroup"></param>
+        /// <param name="Sid"></param>
+        /// <returns></returns>
+        public string GroupTeam(int Sgrade, int Sclass, int Sgroup)
+        {
+            return dal.GroupTeam(Sgrade, Sclass, Sgroup);
+        }
+                
+        /// <summary>
+        /// 获取本小组成员字符串，以逗号为分隔符
+        /// </summary>
+        /// <param name="Sgrade"></param>
+        /// <param name="Sclass"></param>
+        /// <param name="Sgroup"></param>
+        /// <returns></returns>
+        public string GroupSnums(int Sgrade, int Sclass, int Sgroup)
+        {
+            return dal.GroupSnums(Sgrade, Sclass, Sgroup);
+        }
+        
         /// <summary>
         /// 获取本小组成员
         /// </summary>
@@ -1103,6 +1172,26 @@ namespace LearnSite.BLL
         public int UpdateClassNoSign(int Sgrade, int Classone, int Classtwo, int Classset)
         {
             return dal.UpdateClassNoSign(Sgrade, Classone, Classtwo, Classset);
+        }
+
+
+        /// <summary>
+        /// 获得组长推荐列表
+        /// </summary>
+        public DataTable GetListTeam(int Sgrade, int Sclass)
+        {
+            return dal.GetListTeam(Sgrade, Sclass);
+        }
+
+
+        /// <summary>
+        /// 更新该Sid学生的组长推荐
+        /// </summary>
+        /// <param name="Sid">自己ID</param>
+        /// <param name="Steam">组长ID</param>
+        public void UpdateSidSteam(int Sid, int Steam)
+        {
+            dal.UpdateSidSteam(Sid, Steam);
         }
 		/// <summary>
 		/// 获得数据列表

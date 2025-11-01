@@ -31,7 +31,18 @@ namespace LearnSite.BLL
 		{
 			return dal.Exists(Kid);
 		}
-                 
+        
+        
+                
+        /// <summary>
+        /// 阅读任务标记为已学
+        /// </summary>
+        /// <param name="Ksid"></param>
+        /// <returns></returns>
+        public string readCids(int Ksid)
+        {
+            return dal.readCids(Ksid);
+        }
         /// <summary>
         /// 花费时间
         /// </summary>
@@ -78,7 +89,14 @@ namespace LearnSite.BLL
 			return dal.Delete(Kid);
 		}
 
-
+                
+        /// <summary>
+        /// 得到一个对象实体
+        /// </summary>
+        public LearnSite.Model.MenuWorks GetModelme(int Sid, int Klid)
+        {
+            return dal.GetModelme(Sid,Klid);
+        }
 		/// <summary>
 		/// 得到一个对象实体
 		/// </summary>

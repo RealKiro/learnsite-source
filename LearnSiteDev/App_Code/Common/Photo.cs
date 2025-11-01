@@ -20,7 +20,7 @@ namespace LearnSite.Common
             //
         }
 
-        public static string GetStudentPhotoUrl(string snumstr, string sexstr)
+        public static string GetStudentPhotoUrl(string snumstr)
         {
             string url = "~/images/nothing.gif";
             string photojpgurl = photopath + snumstr + ".jpg";
@@ -29,17 +29,28 @@ namespace LearnSite.Common
             {
                 url = photojpgurl;
             }
-            else
+
+            return url;
+
+        }
+        public static string GetStudentPhotoUrl(string snumstr, string sexstr)
+        {
+            string url = "~/images/nothing.gif";
+            if (sexstr == "男")
             {
-                if (sexstr == "男")
-                {
-                    url = "~/images/boy.gif";
-                }
-                if (sexstr == "女")
-                {
-                    url = "~/images/girl.gif";
-                }
+                url = "~/images/boy.gif";
             }
+            if (sexstr == "女")
+            {
+                url = "~/images/girl.gif";
+            }
+            string photojpgurl = photopath + snumstr + ".jpg";
+            string jpgpath = HttpContext.Current.Server.MapPath(photojpgurl);
+            if (File.Exists(jpgpath))
+            {
+                url = photojpgurl;
+            }
+
             return url;
 
         }

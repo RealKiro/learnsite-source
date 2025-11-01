@@ -8,7 +8,8 @@
    </div><br />
     <div class="courseother">
        日期：<asp:Label ID="LabelMdate"  runat="server" ></asp:Label>
-			&nbsp;  <asp:CheckBox ID="CheckPublish" runat="server" Text="是否发布"  Enabled="False" />           
+			&nbsp;  <asp:CheckBox ID="CheckPublish" runat="server" Text="是否发布"  Enabled="False" /> 
+            <asp:CheckBox ID="CheckCollabo" runat="server" Text="是否协同"  Enabled="False" />         
             <asp:ImageButton ID="BtnEdit" runat="server" ToolTip="点击修改" 
             ImageUrl="~/images/edit.gif" onclick="BtnEdit_Click" 
            style="width: 16px" />

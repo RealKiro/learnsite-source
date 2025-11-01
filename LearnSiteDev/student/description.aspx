@@ -21,30 +21,100 @@
     <script src="../kindeditor/plugins/syntaxhighlighter/scripts/shBrushPhp.js" type="text/javascript"></script>
     <script src="../kindeditor/plugins/syntaxhighlighter/scripts/shBrushXml.js" type="text/javascript"></script>
     <script  type="text/javascript">        SyntaxHighlighter.all();  </script>
+    <style>
+        .star {
+            font-size: 30px;
+            cursor: pointer;
+            color: #ddd;
+            transition: color 0.2s;
+        }
+
+        .star:hover,
+        .star.active {
+            color: #ffd700;
+        }  
+    </style>
 <div   id="Mcontent"  class="descriptioncontent" runat="server">	
-		</div>
-    <asp:Button ID="Btnread" runat="server" onclick="Btnread_Click" Text="已阅读" 
-        ToolTip="1分钟之后才能点击完成当前内容学习"  Enabled="False" BackColor="#3399FF" 
+</div>
+<center>
+    <div class="rating-text">
+    学习评价：
+        <span class="star" data-value="1">★</span>
+        <span class="star" data-value="2">★</span>
+        <span class="star" data-value="3">★</span>
+        <span class="star" data-value="4">★</span>
+        <span class="star" data-value="5">★</span>
+    </div>
+</center>
+<br />
+    <asp:Button ID="Btnread" runat="server" onclick="Btnread_Click" Text="确定" 
+        ToolTip="选择后评价"  Enabled="False" BackColor="#3399FF" 
         BorderStyle="None" Height="24px" Width="80px"  />
 		<br />
 		<br />
+    <input id="TextBoxStar" name="TextBoxStar" type="hidden"  value="0"/>
 </div>   
 </div>
-        <script type="text/javascript">
-            var i = 20; //设定退出按钮几秒钟后有效
-            function setbar() {
-                i--;
-                var btnid = "<%= Btnread.ClientID %>";
-                if (i < 0) {
-                    document.getElementById(btnid).disabled = false;
-                }
-                else {
+    <script type="text/javascript">
+        const stars = document.querySelectorAll('.star');
+        var currentRating = 0;
+        const mystar ="<%= mystar %>";
 
-                    document.getElementById(btnid).value = "已阅读("+i+")";
-                }
-                setTimeout("setbar()", 1000);
+        stars.forEach(star => {
+            star.addEventListener('click', setRating);
+            star.addEventListener('mouseover', addHover);
+            star.addEventListener('mouseout', removeHover);
+        });
+
+        
+        function initRating() {
+            if(mystar>0){
+                stars.forEach(star => {
+                    const starValue = parseInt(star.dataset.value);
+                    star.classList.toggle('active', starValue <= mystar);
+                });       
+            }    
+        }
+        initRating();
+
+        function setRating(e) {
+            const value = parseInt(e.target.dataset.value);
+            currentRating =value;
+            stars.forEach(star => {
+                const starValue = parseInt(star.dataset.value);
+                star.classList.toggle('active', starValue <= value);
+            });
+
+            document.getElementById("TextBoxStar").value = value;
+            setbar();             
+        }
+
+        function addHover(e) {
+            if(mystar == 0){
+                const hoverValue = parseInt(e.target.dataset.value);
+                stars.forEach(star => {
+                    const starValue = parseInt(star.dataset.value);
+                    star.classList.toggle('active', starValue <= hoverValue);
+                });
             }
-            setbar(); 
-          </script>
+        }
+
+        function removeHover() {        
+            if(mystar == 0){
+                stars.forEach(star => {
+                    const starValue = parseInt(star.dataset.value);
+                    star.classList.toggle('active', starValue <= currentRating);
+                });
+            }
+        }
+
+        function setbar() {
+            var btnid = "<%= Btnread.ClientID %>";
+            if (document.getElementById(btnid) != null) {
+                 document.getElementById(btnid).disabled = false;
+            }
+        }
+            
+    </script>
 </asp:Content>
 

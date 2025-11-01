@@ -6,6 +6,7 @@ using System.Web.UI.WebControls;
 
 public partial class Student_description : System.Web.UI.Page
 {
+    protected int mystar = 0;
     LearnSite.Model.Cook cook = new LearnSite.Model.Cook();
     protected void Page_Load(object sender, EventArgs e)
     {
@@ -48,9 +49,12 @@ public partial class Student_description : System.Web.UI.Page
 
                 int sid = cook.Sid;
                 LearnSite.BLL.MenuWorks kbll = new LearnSite.BLL.MenuWorks();
-                if (kbll.Exists(sid, Int32.Parse(Lid)))
+                LearnSite.Model.MenuWorks kmodel = new LearnSite.Model.MenuWorks();
+                kmodel = kbll.GetModelme(sid, Int32.Parse(Lid));
+                if (kmodel!=null)
                 {
                     Btnread.Visible = false;
+                    mystar = kmodel.Kstar;
                 }
                 else
                     Btnread.Visible = true;
@@ -66,6 +70,7 @@ public partial class Student_description : System.Web.UI.Page
     protected void Btnread_Click(object sender, EventArgs e)
     {
         string Lid = Request.QueryString["lid"].ToString();
+        string star = Request.Form["TextBoxStar"];
         if (LearnSite.Common.WordProcess.IsNum(Lid))
         {
             string LoginTime = cook.LoginTime;
@@ -79,6 +84,7 @@ public partial class Student_description : System.Web.UI.Page
             kmodel.Ksid = sid;
             kmodel.Ktime = LearnSite.Common.Computer.GoneMinute(DateTime.Parse(LoginTime), Wdate);
             kmodel.Kcheck = false;
+            kmodel.Kstar = Int32.Parse(star);
             kbll.Add(kmodel);
             Btnread.Visible = false;
             string url = "~/student/description.aspx?lid=" + Lid;

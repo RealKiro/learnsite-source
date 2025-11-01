@@ -129,6 +129,43 @@ namespace LearnSite.BLL
             return result;
         }
 
+        // <summary>
+        /// 获得前几行数据
+        /// </summary>
+        public string GetWuziqiRank(int Top, string Gtitle)
+        {
+            DataTable dt = dal.GetWuziqiRank(Top, Gtitle).Tables[0];
+            string result = "";
+            List<string> arrayname = new List<string>();
+            int count = dt.Rows.Count;
+            for (int i = 0; i < count; i++)
+            {
+                string a = dt.Rows[i][0].ToString();
+                if (!arrayname.Contains(a))
+                {
+                    string b = dt.Rows[i][1].ToString() ;
+                    string c = dt.Rows[i][2].ToString();
+                    string d = dt.Rows[i][3].ToString();
+                    string e = dt.Rows[i][4].ToString();
+                    switch (b)
+                    { 
+                        case "1":
+                            b = "入门";
+                            break;
+                        case "2":
+                            b = "中等";
+                            break;
+                        case "3":
+                            b = "大师";
+                            break;
+                    }
+                    result = result + "<p class='rank'>" + c + d + "班 " + a.PadRight(10) + "   难度：" + b.ToString() + "  " + e + "步获胜" + " </p>";
+                }
+                arrayname.Add(a);//将姓名添加到数组中
+            }
+
+            return result;
+        }
 
 		/// <summary>
 		/// 获得前几行数据

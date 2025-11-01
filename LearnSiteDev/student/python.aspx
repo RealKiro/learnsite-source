@@ -49,6 +49,12 @@
 <div id="savemsg"></div>
 
 <div  id="sideby">
+
+
+<button  onclick="fullide()" class="button"  >
+<i class="fa fa-expand" aria-hidden="true"></i>全屏</button>&nbsp;&nbsp;
+<span class="sp"></span>
+
 <button  onclick="remember()" class="button"  >
 <i class="fa fa-video-camera" aria-hidden="true"></i>回忆</button>&nbsp;&nbsp;
 <span class="sp"></span>

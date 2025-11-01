@@ -38,6 +38,8 @@
                     </asp:TemplateField>
                 </Columns>
                 
+                <RowStyle Height="40px" />
+                
             </asp:GridView>
         </asp:Panel>
         <asp:Panel ID="PanelSgtitle" runat="server">
@@ -48,26 +50,11 @@
                 SkinID="buttonSkin" Text="修改" />
             </div>
         </asp:Panel>
-        <asp:Panel ID="Panelwork" runat="server" >
-            <asp:GridView ID="GVwork" runat="server" AutoGenerateColumns="False" 
-                Caption="小组作品"  CellPadding="5" DataKeyNames="Gid" 
-                EnableModelValidation="True" onrowdatabound="GVwork_RowDataBound" SkinID="GridViewInfo" Width="98%">
-                <Columns>
-                    <asp:BoundField HeaderText="序号"  Visible="false">
-                    <ItemStyle Width="40px" />
-                    </asp:BoundField>
-                    <asp:BoundField DataField="Ggrade" HeaderText="年级" />
-                    <asp:BoundField DataField="Gterm" HeaderText="学期" />
-                    <asp:BoundField DataField="Mtitle" HeaderText="主题" />
-                    <asp:BoundField DataField="Gscore" HeaderText="学分" />
-                    <asp:HyperLinkField DataNavigateUrlFields="Gurl" HeaderText="作品" 
-                        Target="_blank" Text="下载" />
-                </Columns>
-            </asp:GridView>
-        </asp:Panel>
         <br />
-        <br />
-    <br />
+        <div style=" text-align:left; padding:10px;">
+            当前未参加的同学：<br />
+        <asp:Label ID="Labelfree" runat="server" ></asp:Label>
+        </div>
     <br />		
 </div>
 <br />

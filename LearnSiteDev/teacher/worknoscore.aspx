@@ -64,6 +64,11 @@
         <div style=" font-family: 宋体, Arial, Helvetica, sans-serif; font-size: 11pt; margin: 2px; " >
         <asp:Literal ID="Literal1" runat="server"></asp:Literal>
         </div>
+        
+        <br />
+        <asp:HyperLink ID="Hlcode" runat="server" Font-Size="11pt" Target="_blank" 
+            Visible="False" CssClass="HyperlinkNormal" >查看脚本</asp:HyperLink> 
+        </div>
         </center>
         <br />
     <asp:Button ID="Btnback" runat="server" BorderWidth="1px" Height="20px" Text="返回" 

@@ -130,6 +130,7 @@
                             <asp:Label ID="LabelSleader" runat="server" Text='<%# Eval("Sleader") %>' Visible="false" ></asp:Label>
                             <asp:Label ID="LabelSgroup" runat="server" Text='<%# Eval("Sgroup") %>' Visible="false" ></asp:Label>
                             <asp:Label ID="LabelQnum" runat="server" Text='<%# Eval("Qnum") %>' Visible="false" ></asp:Label>
+                        </div>
                     </ItemTemplate>
                 </asp:DataList>
                 <br />
@@ -144,23 +145,28 @@
     </div>
     </div> 
     <div class="divinfo">
-    <div class="divinfo1">学号:</div>
+    <div class="divinfo1">学号</div>
     <div class="divinfo2"><asp:Label ID="snum" runat="server" ></asp:Label></div>
     </div>
     <div class="divinfo">
-    <div class="divinfo1">班级:</div>
+    <div class="divinfo1">班级</div>
     <div class="divinfo2"><asp:Label ID="sclass" runat="server" ></asp:Label></div>
     </div>
     <div class="divinfo">
-    <div class="divinfo1">姓名:</div>
+    <div class="divinfo1">姓名</div>
     <div class="divinfo2"><asp:Label ID="sname" runat="server" ></asp:Label></div>
     </div>  
     <div class="divinfo">
-    <div class="divinfo1">组长:</div>
+    <div class="divinfo1">小组</div>
     <div class="divinfo2"><asp:HyperLink ID="HLgroup" runat="server">[HLgroup]</asp:HyperLink></div>
-    </div>
+    </div> 
+    <div class="divinfo">
+    <div class="divinfo1">成员</div>
+    <div class="divinfo2"></div>
+        <asp:Label ID="Labelteam" runat="server" ></asp:Label>
+    </div><br /><br />
     <div class="divnull">
-        最新作品评语：<br />
+        最新作品评语：
         <br />
         <div style="padding: 4px; width: 90%; border: 1px dashed #ABC1EB; margin:auto;">
         <asp:Label ID="LabelWself" runat="server" ></asp:Label><br />

@@ -29,21 +29,16 @@
                 </div>
                 <div id="Tcontent"  class="typecontent"><asp:Literal ID="Literal1" runat="server"></asp:Literal>
                 </div>
-    <div style="text-align: center">    
-        限时<input id="Text7"  class="text7"
-                 type="text" hidefocus="hideFocus" maxlength="30" readonly="readOnly" 
-                 unselectable="on" name="TypeText7" value="600"  />&nbsp;正确<input id="Text4" class="text7" 
+    <div style="text-align: center; font-size:20px;background-color: #999;">    
+        正确<input id="Text4" class="text7" 
                  type="text" hidefocus="hideFocus" maxlength="30" readonly="readOnly" 
                  unselectable="on" value="0" name="TypeText4" />&nbsp;速度<input 
                  id="Text6" class="text7"
                  type="text" hidefocus="hideFocus" maxlength="30" readonly="readOnly" 
                  unselectable="on" name="Typeresult" value="0"  />&nbsp;拼音<input id="Textpy"  class="text3" 
                  type="text" hidefocus="hideFocus" maxlength="30" readonly="readOnly" 
-                 unselectable="on" />&nbsp;五笔<input 
-                 id="Textwb"  class="text3"
-                 type="text" hidefocus="hideFocus" maxlength="30" readonly="readOnly" 
                  unselectable="on" /></div>
-    <textarea id="InputText"  class="textareacss" cols="6" ondragenter= "return   false; " rows="6" ></textarea>
+    <textarea id="InputText"  class="textareacss" cols="6" onpaste="return   false; " ondragenter= "return   false; "  ondrop= "return   false;" rows="6" ></textarea>
                 <br />
                 <div class="divcenter">
                 <label id="Labelmsg"></label>
@@ -67,7 +62,7 @@
     <br />
 <div>
     <script src="../js/Backcolor.js" type="text/javascript"></script>
-    <script type="text/javascript"> WriteBg();</script>
+    <script type="text/javascript">        WriteBg();</script>
 </div>
     <asp:GridView ID="GVTyper" runat="server" AllowPaging="True"  Caption="中文输入英雄榜" CellPadding="2"         
         onpageindexchanging="GVTyper_PageIndexChanging"  PageSize="20"

@@ -8,6 +8,7 @@ public partial class Student_groupshare : System.Web.UI.Page
 {
     LearnSite.Model.Cook cook = new LearnSite.Model.Cook();
     protected bool isgroup = false;
+    protected bool iscommon = true;
     protected bool can = false;
     protected void Page_Load(object sender, EventArgs e)
     {
@@ -52,38 +53,65 @@ public partial class Student_groupshare : System.Web.UI.Page
         {
             Lbfsize.Text = (Int32.Parse(lbf) / 1024).ToString() + "kb";
         }
-        if (isgroup)
+        if (iscommon)
         {
-            if (fname.Contains(Sname))
+            if (cook.Sid > 0)
             {
-                string strjs = "if(confirm('确定删除" + fname + "文件吗？'))return true;else return false; ";
-                imgbtn.OnClientClick = strjs;
-            }
-            else
-            {
-
                 imgbtn.Visible = false;
+            }
+            else {
+                string strjs = "if(confirm('确定删除" + fname + "文件吗？'))return true;else return false; ";
+                imgbtn.OnClientClick = strjs;            
             }
         }
         else
         {
-            string strjs = "if(confirm('确定删除" + fname + "文件吗？'))return true;else return false; ";
-            imgbtn.OnClientClick = strjs;
+            if (isgroup)
+            {
+                if (fname.Contains(Sname))
+                {
+                    string strjs = "if(confirm('确定删除" + fname + "文件吗？'))return true;else return false; ";
+                    imgbtn.OnClientClick = strjs;
+                }
+                else
+                {
+
+                    imgbtn.Visible = false;
+                }
+            }
+            else
+            {
+                string strjs = "if(confirm('确定删除" + fname + "文件吗？'))return true;else return false; ";
+                imgbtn.OnClientClick = strjs;
+            }
         }
     }
 
     protected void BtnStu_Click(object sender, EventArgs e)
     {
         BtnGroup.BackColor = System.Drawing.Color.FromArgb(207, 228, 208);
+        BtnTea.BackColor = System.Drawing.Color.FromArgb(207, 228, 208);
         BtnStu.BackColor = System.Drawing.Color.FromArgb(230, 240, 231);//自己变背景色
         isgroup = false;
+        iscommon = false;
         ListSelectShare();
     }
     protected void BtnGroup_Click(object sender, EventArgs e)
     {
         BtnGroup.BackColor = System.Drawing.Color.FromArgb(230, 240, 231);//自己变背景色
         BtnStu.BackColor = System.Drawing.Color.FromArgb(207, 228, 208);
+        BtnTea.BackColor = System.Drawing.Color.FromArgb(207, 228, 208);
         isgroup = true;
+        iscommon = false;
+        ListSelectShare();
+    }
+    protected void BtnTea_Click(object sender, EventArgs e)
+    {
+        BtnGroup.BackColor = System.Drawing.Color.FromArgb(207, 228, 208);
+        BtnStu.BackColor = System.Drawing.Color.FromArgb(207, 228, 208);
+        BtnTea.BackColor = System.Drawing.Color.FromArgb(230, 240, 231);//自己变背景色
+        isgroup = false;
+        iscommon = true;
         ListSelectShare();
     }
     private int GetmySgroup()
@@ -97,21 +125,44 @@ public partial class Student_groupshare : System.Web.UI.Page
         bool isenable = isShareEnable(cook.Sgrade, cook.Sclass);
         if (isenable)
         {
-            if (isgroup)
+            if (iscommon)
             {
-                int Sgroup = GetmySgroup();//获取自己的组号
-                if (Sgroup > 0)
+                ListCommonFiles(cook.Syear.ToString());//列出网盘文件
+                Labeltitle.Text = "公共资源";
+                if (cook.Sid > 0)
                 {
-                    if (isGroupShareEnable(cook.Sgrade, cook.Sclass))
+                    can = false;
+                }
+                else
+                {
+                    can = true;
+                }
+            }
+            else
+            {
+                if (isgroup)
+                {
+                    int Sgroup = GetmySgroup();//获取自己的组号
+                    if (Sgroup > 0)
                     {
-                        LearnSite.BLL.Students sbll = new LearnSite.BLL.Students();
-                        Labeltitle.Text = "《" + sbll.GetSgtitle(Sgroup) + "》小组网盘";
-                        ListShareFiles(cook.Syear.ToString(), cook.Sclass.ToString(), Sgroup.ToString(), isgroup);//列出网盘文件
-                        can = true;
+                        if (isGroupShareEnable(cook.Sgrade, cook.Sclass))
+                        {
+                            LearnSite.BLL.Students sbll = new LearnSite.BLL.Students();
+                            Labeltitle.Text = "《" + sbll.GetSgtitle(Sgroup) + "》小组网盘";
+                            ListShareFiles(cook.Syear.ToString(), cook.Sclass.ToString(), Sgroup.ToString(), isgroup);//列出网盘文件
+                            can = true;
+                        }
+                        else
+                        {
+                            Labeltitle.Text = "小组网盘未启用……";
+                            Dlfilelist.Visible = false;
+                            can = false;
+                            Labeldisk.Text = "";
+                        }
                     }
                     else
                     {
-                        Labeltitle.Text = "小组网盘未启用……";
+                        Labeltitle.Text = "您未参加小组……";
                         Dlfilelist.Visible = false;
                         can = false;
                         Labeldisk.Text = "";
@@ -119,17 +170,10 @@ public partial class Student_groupshare : System.Web.UI.Page
                 }
                 else
                 {
-                    Labeltitle.Text = "您未参加小组……";
-                    Dlfilelist.Visible = false;
-                    can = false;
-                    Labeldisk.Text = "";
+                    ListShareFiles(cook.Syear.ToString(), cook.Sclass.ToString(), cook.Snum, isgroup);//列出网盘文件
+                    Labeltitle.Text = Server.UrlDecode(cook.Sname) + "个人网盘";
+                    can = true;
                 }
-            }
-            else
-            {
-                ListShareFiles(cook.Syear.ToString(), cook.Sclass.ToString(), cook.Snum, isgroup);//列出网盘文件
-                Labeltitle.Text = Server.UrlDecode(cook.Sname) + "个人网盘";
-                can = true;
             }
         }
         else
@@ -172,11 +216,11 @@ public partial class Student_groupshare : System.Web.UI.Page
         Dlfilelist.DataSource = dk.Dw;
         Dlfilelist.DataBind();
         DateTime dt2 = DateTime.Now;
-        string timepass = LearnSite.Common.Computer.DatagoneMilliseconds(dt1, dt2) + "ms";
+        //string timepass = LearnSite.Common.Computer.DatagoneMilliseconds(dt1, dt2) + "ms";
         string msgtitle = "我的";
         if (IsGroup)
             msgtitle = "小组";
-        Labeldisk.Text = msgtitle + "网盘" + dk.Dsize.ToString("F1") + "/" + dk.Dlimit.ToString("0") + "MB  " + dk.Dcount.ToString() + "个文件 " + timepass;
+        Labeldisk.Text = msgtitle + "网盘" + dk.Dsize.ToString("F1") + "/" + dk.Dlimit.ToString("0") + "MB  " + dk.Dcount.ToString() + "个文件 " ;
         if (dk.Dupload)
         {
             can = true;
@@ -186,6 +230,25 @@ public partial class Student_groupshare : System.Web.UI.Page
             can = false;
         }
     }
+
+    /// <summary>
+    /// 列表网盘文件
+    /// </summary>
+    /// <param name="Syear">入学年份</param>
+    /// <param name="Sclass">班级</param>
+    /// <param name="sharedir">学号或组号</param>
+    private void ListCommonFiles(string Syear)
+    {
+        Dlfilelist.Visible = true;
+        DateTime dt1 = DateTime.Now;
+        LearnSite.Common.ShareDisk.DiskInfoCommon dk = new LearnSite.Common.ShareDisk.DiskInfoCommon(Syear);
+        Dlfilelist.DataSource = dk.Dw;
+        Dlfilelist.DataBind();
+
+        //Labeldisk.Text =  dk.Dsize.ToString("F1") +  "  " + dk.Dcount.ToString() + "个文件 " ;
+
+    }
+
     private void showDiskgif(bool isEnable,bool isGroup)
     {
         string imgurl = "~/images/diskclose.gif";

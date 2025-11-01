@@ -24,6 +24,7 @@ namespace LearnSite.Model
 		private int? _rclass;
         private int? _ragree;
         private int _rlid;
+        private string _rcontent;
 		/// <summary>
 		/// 
 		/// </summary>
@@ -135,6 +136,14 @@ namespace LearnSite.Model
         {
             set { _rlid = value; }
             get { return _rlid; }
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        public string Rcontent
+        {
+            set { _rcontent = value; }
+            get { return _rcontent; }
         }
 		#endregion Model
 

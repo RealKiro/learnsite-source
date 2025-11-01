@@ -40,6 +40,25 @@ namespace LearnSite.Common
             return k + tempcfx;        
         }
 
+        // 将学号保存到公开的cookie上，给pptist创建数据库名称用
+        public static bool SetPPTistSnum(string Snum) {
+            string stucookie = "PPTistudent";
+            HttpCookie StuCookie = new HttpCookie(stucookie);
+
+            StuCookie.Value = Snum;
+            StuCookie.Expires = DateTime.Now.AddDays(1);
+            StuCookie.Path = "/";
+            StuCookie.HttpOnly = false; //如果设置为true，则页面使用js无法获取cookie
+            HttpContext.Current.Response.AppendCookie(StuCookie);
+
+            if (string.IsNullOrEmpty(Snum)) {
+                return false;
+            }
+            else{
+                return true;
+            }
+        }
+
         public static bool SetStudentCookies(LearnSite.Model.Students stumod, string logip)
         {
             bool isset = false;
@@ -108,7 +127,7 @@ namespace LearnSite.Common
                 Cook.Sgrade = stmodel.Sgrade.Value;
                 Cook.Sclass = stmodel.Sclass.Value;
                 Cook.Sname= UrlEncode(stmodel.Sname.Trim());
-                Cook.Spwd= Common.WordProcess.GetMD5_8bit(stmodel.Spwd);
+                Cook.Spwd= Common.WordProcess.GetMD5_16bit(stmodel.Spwd);//原8位改16位
                 Cook.Sex=UrlEncode(stmodel.Sex);
 
                 Cook.Sscore = stmodel.Sscore.Value + stmodel.Spscore.Value + stmodel.Stxtform.Value + stmodel.Sidle.Value ;
@@ -176,7 +195,7 @@ namespace LearnSite.Common
             if (HttpContext.Current.Request.Cookies[stuCookieNname] != null)
             {
                 HttpCookie sOldCookie = HttpContext.Current.Request.Cookies[stuCookieNname];
-                sOldCookie.Expires = DateTime.Now.AddYears(-20);//将这个Cookie过期掉
+                sOldCookie.Expires = DateTime.Now.AddYears(-1);//将这个Cookie过期掉
                 HttpContext.Current.Response.AppendCookie(sOldCookie);
                 HttpContext.Current.Request.Cookies.Clear();
             }
@@ -290,12 +309,15 @@ namespace LearnSite.Common
                 Model.TeaCook tmcook = new Model.TeaCook();
                 if (tmcook.Ss == teaCookieNname)
                 {
+                    /*
                     LearnSite.BLL.Room rbll = new BLL.Room();
                     if (!rbll.ExistMyClass(tmcook.Hid))
                     {
                         //如果没有任教班级，则始终跳转至信息页面
                         HttpContext.Current.Response.Redirect("~/teacher/infomation.aspx", true);
                     }
+                     
+                     */
                 }
                 else
                 {
@@ -431,13 +453,10 @@ namespace LearnSite.Common
         {
             if (HttpContext.Current.Request.Cookies[teaCookieNname] != null)
             {
-                /***
-                Model.TeaCook tcook = new Model.TeaCook();
-                if (HttpContext.Current.Session.SessionID == tcook.SessionId && !tcook.Hpermiss)
-                    return true;
-                else
-                    return false;
-                ***/
+                return true;
+            }
+            if (HttpContext.Current.Request.Cookies[stuCookieNname] != null)
+            {
                 return true;
             }
             else
@@ -468,19 +487,19 @@ namespace LearnSite.Common
             switch (str)
             {
                 case "1":
-                    myPeriod = DateTime.Now.AddHours(2);
+                    myPeriod = DateTime.Now.AddHours(1);
                     break;
                 case "2":
-                    myPeriod = DateTime.Now.AddHours(4);
+                    myPeriod = DateTime.Now.AddHours(2);
                     break;
                 case "3":
-                    myPeriod = DateTime.Now.AddHours(8);
+                    myPeriod = DateTime.Now.AddHours(3);
                     break;
                 case "4":
                     myPeriod = DateTime.Now.AddHours(12);
                     break;
                 case "5":
-                    myPeriod = DateTime.MaxValue;
+                    myPeriod = DateTime.Now.AddDays(1);
                     break;
             }
             return myPeriod;
@@ -499,10 +518,8 @@ namespace LearnSite.Common
                 LearnSite.BLL.Students stubll = new BLL.Students();
                 LearnSite.Model.Students sModel = new LearnSite.Model.Students();
                 string Syear = stubll.GetYear(Sgrade);
-                //LearnSite.BLL.Room rbll = new BLL.Room();
-                //int Rid = rbll.GetRidByGradeClass(Sgrade, Sclass);
                 string rrr = Syear + Sgrade.ToString() + Sclass.ToString();
-                sModel.Sid = 0 - Int32.Parse(rrr);//将入学年度和班级号作为模拟学生的ID
+                sModel.Sid = 0 - Int32.Parse(rrr);//将入学年度、年级和班级作为模拟学生的ID
                 sModel.Syear =Int32.Parse( Syear);
                 sModel.Snum = "s"+Rhid + Syear +Sgrade.ToString()+ Sclass.ToString();
                 sModel.Sgrade = Sgrade;
@@ -514,7 +531,7 @@ namespace LearnSite.Common
                 sModel.Squiz = 50;
                 sModel.Sattitude = 25;
                 sModel.Sape = "A";
-                sModel.Sgroup = 0;
+                sModel.Sgroup = -1;
 
                 DateTime LoginTime = DateTime.Now;
                 string LoginIp = LearnSite.Common.Computer.GetGuestIP();
@@ -528,7 +545,7 @@ namespace LearnSite.Common
                 Cook.Sgrade = sModel.Sgrade.Value;
                 Cook.Sclass = sModel.Sclass.Value;
                 Cook.Sname = UrlEncode(sModel.Sname.Trim());
-                Cook.Spwd = Common.WordProcess.GetMD5_8bit(sModel.Spwd);
+                Cook.Spwd = Common.WordProcess.GetMD5_16bit(sModel.Spwd);
                 Cook.Sex = UrlEncode(sModel.Sex);
                 Cook.Sscore = sModel.Sscore.Value;
                 Cook.Squiz = sModel.Squiz.Value;

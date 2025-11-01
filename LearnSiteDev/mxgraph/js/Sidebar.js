@@ -112,6 +112,10 @@ Sidebar.prototype.init = function()
 		  'Router_Icon': 'router switch'});
 	this.setCurrentSearchEntryLibrary();
 	*/
+	this.addImagePalette('topology', mxResources.get('topology'), dir + '/topology/', '_128x128.png',
+	['Internet', 'router', 'Firewall', 'exchange', 'computer', 'Internet_1','wifi','server','notebook','phone','ipad'], 
+	['互联网', '路由器', '防火墙', '交换机', '计算机', '因特网','wifi路由器','服务器','笔记本','手机','平板'],null);	
+
 };
 
 /**
@@ -1059,9 +1063,9 @@ Sidebar.prototype.addGeneralPalette = function(expand)
 	 	this.createVertexTemplateEntry('rounded=1;whiteSpace=wrap;html=1;arcSize=50;;fillColor=#DAE8FC;strokeColor=#7890B1;strokeWidth=2', 120, 60, '', '开始或结束框', null, null, 'rounded rect rectangle box'),
 	 	this.createVertexTemplateEntry('rounded=0;whiteSpace=wrap;html=1;fillColor=#E3D4E8;strokeColor=#9A76BE;strokeWidth=2', 120, 60, '', '处理框', null, null, 'rect rectangle box'),
 	 	this.createVertexTemplateEntry('shape=parallelogram;perimeter=parallelogramPerimeter;whiteSpace=wrap;html=1;fixedSize=1;fillColor=#D5E8D4;strokeColor=#7FA369;strokeWidth=2', 120, 60, '', '输入或输出框'),
-	 	this.createVertexTemplateEntry('rhombus;whiteSpace=wrap;html=1;fillColor=#FFE6CC;strokeColor=#C2A051;strokeWidth=2', 80, 80, '', '判断框', null, null, 'diamond rhombus if condition decision conditional question test'),
-	 	this.createEdgeTemplateEntry('endArrow=classic;html=1;strokeColor=#3989FF;strokeWidth=2', 50, 50, '', '流程线', null, lineTags + 'directional directed'),
-	 	this.createVertexTemplateEntry('text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;',40, 20, '文字', '文字', null, null, 'text textbox textarea label')
+	 	this.createVertexTemplateEntry('rhombus;whiteSpace=wrap;html=1;fillColor=#FFE6CC;strokeColor=#C2A051;strokeWidth=2', 80, 80, '', '判断框', null, null, 'diamond rhombus if condition decision conditional question test'),		
+	 	this.createVertexTemplateEntry('text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;',40, 20, '文字', '文字', null, null, 'text textbox textarea label'),
+	 	this.createEdgeTemplateEntry('endArrow=classic;html=1;strokeColor=#3989FF;strokeWidth=2', 50, 50, '', '流程线', null, lineTags + 'directional directed')
 
 	];
 	
@@ -1440,11 +1444,10 @@ Sidebar.prototype.addUmlPalette = function(expand)
 		this.createVertexTemplateEntry('ellipse;whiteSpace=wrap;html=1;', 140, 70, 'Use Case', 'Use Case', null, null, 'uml use case usecase'),
 		this.addEntry('uml activity state start', function()
 		{
-	    	var cell = new mxCell('', new mxGeometry(0, 0, 30, 30),
-	    		'ellipse;html=1;shape=startState;fillColor=#000000;strokeColor=#ff0000;');
+	    	var cell = new mxCell('', new mxGeometry(0, 0, 30, 30),'ellipse;html=1;shape=startState;fillColor=#000000;strokeColor=#ff0000;');
 	    	cell.vertex = true;
 	    	
-			var edge = new mxCell('', new mxGeometry(0, 0, 0, 0), 'edgeStyle=orthogonalEdgeStyle;html=1;verticalAlign=bottom;endArrow=open;endSize=8;strokeColor=#ff0000;');
+			var edge = new mxCell('', new mxGeometry(0, 0, 0, 0), 'edgeStyle=orthogonalEdgeStyle;html=1;verticalAlign=bottom;endArrow=open;endSize=8;strokeColor=#3989FF;');
 			edge.geometry.setTerminalPoint(new mxPoint(15, 90), false);
 			edge.geometry.relative = true;
 			edge.edge = true;
@@ -4155,8 +4158,12 @@ Sidebar.prototype.addImagePalette = function(id, title, prefix, postfix, items, 
 				this.defaultImageWidth, this.defaultImageHeight, '', title, title != null, null, this.filterTags(tmpTags)));
 		}))(items[i], (titles != null) ? titles[i] : null, (tags != null) ? tags[items[i]] : null);
 	}
+	
+	var lineTags = 'line lines connector connectors connection connections arrow arrows ';
+	fns.push(this.createEdgeTemplateEntry('endArrow=none;html=1;strokeColor=#3989FF;strokeWidth=2', 50, 50, '', '有线网络', null, lineTags + 'directional directed'));
+	fns.push(this.createEdgeTemplateEntry('endArrow=none;dashed=1;html=1;strokeColor=#3989FF;strokeWidth=2;', 50, 50, '', '无线网络', null, lineTags + 'directional directed'));	
 
-	this.addPaletteFunctions(id, title, false, fns);
+	this.addPaletteFunctions(id, title, true, fns);
 };
 
 /**

@@ -118,7 +118,7 @@ namespace LearnSite.DAL
             strSql.Append("Rscore=@Rscore,");
             strSql.Append("Rhistory=@Rhistory,");
             strSql.Append("Rwrong=@Rwrong");
-            strSql.Append(" where Rsid=@Rsid and Rscore>@Rscore  and Rdate=@Rdate");
+            strSql.Append(" where Rsid=@Rsid and Rscore<@Rscore  and Rdate=@Rdate");
             SqlParameter[] parameters = {
 					new SqlParameter("@Rsid", SqlDbType.Int,4),
 					new SqlParameter("@Rscore", SqlDbType.Int,4),

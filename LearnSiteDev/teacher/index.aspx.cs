@@ -67,6 +67,7 @@ public partial class Teacher_index : System.Web.UI.Page
             {
                 //登录cookie设置和跳转
                 bool hpermiss = Tmodel.Hpermiss;
+                Request.Cookies.Clear();
                 if (LearnSite.Common.CookieHelp.SetTMCookies(Tmodel, hpermiss))
                 {
                     System.Threading.Thread.Sleep(200);

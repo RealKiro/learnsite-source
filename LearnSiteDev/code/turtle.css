@@ -11,7 +11,9 @@ body{
 }
 
 #editor{  
-  background-color: #252d30;
+  //background-color: #252d30;
+  background-color: transparent;
+  z-index:999;
 }
 
 .btn{
@@ -37,15 +39,16 @@ i {
 
 .fullimg{
     position: absolute;
-	opacity:0.1;
+	opacity:0.2;
 	top:50px;
 	right:0px;  
-	z-index: 887;
-	//filter:invert(80%);
+	//z-index: 887;
+	filter:invert(80%);
 }
 
 .mapimg{
 	max-height:240px;
+	margin-bottom:10px;
 }
 
 .mapimg:hover{
@@ -182,13 +185,6 @@ i {
 	font-weight: bold;
 	line-height:24px;
 }
-.description {
-    width: 20%;
-    min-width: 450px;
-	padding:4px;
-	overflow-y:auto;
-	
-}
 #content{	
 	//min-width:360px;
     z-index:999;
@@ -208,7 +204,7 @@ i {
 }
 #result{
   position: absolute;
-  right: 10px;
+  right: 0px;
   width:600px;
   overflow: hidden;
   z-index:888;
@@ -322,7 +318,7 @@ i {
     margin: 0 10px 0 10px;
     padding: 6px;
     text-align: center;
-    font-size: 18px;
+    font-size: 16px;
     cursor: pointer;
     color: #ddd;
     border: 2px solid #6c787b;
@@ -360,12 +356,17 @@ i {
     margin-top: 10px;
     display: flex;
     height: calc(100vh - 100px);
+    background-color: #252d30;
 }
-
-
-
+.description {
+    width: 20%;
+    min-width: 360px;
+	padding:4px;
+	overflow-y:auto;
+	background-color: #454e4e;	
+}
 .left {
-    width: 60%;
+    width: 80%;
     min-width: 400px;
 	padding:4px;
 }
@@ -373,29 +374,26 @@ i {
 .right {
     width: 20%;
     min-width: 601px;
-	margin-right:10px;
-	margin-left:10px;
-	        
-	background-color:#252d30;	 
+    max-width: 601px;
+	margin-right:0px;
+	margin-left:10px;	       
+	background-color: #454e4e;	 
 }
 
 /*定义滚动条高宽及背景 高宽分别对应横竖滚动条的尺寸#585858;*/
 ::-webkit-scrollbar
 {
-	width: 10px;
-	height: 10px;
-	//background-color: #293134;
+	width: 8px;
+	height: 8px;	
 }
  
 /*定义滚动条轨道 内阴影+圆角*/
 ::-webkit-scrollbar-track
 {
-	//background-color: #2f393c;
 }
  
 /*定义滑块 内阴影+圆角*/
 ::-webkit-scrollbar-thumb
 {
-	-webkit-box-shadow: inset 0 0 4px rgba(0,0,0,.3);
-	//background-color: #49565a;
+	-webkit-box-shadow: inset 0 0 2px rgba(0,0,0,.2);
 }

@@ -135,6 +135,7 @@
 	    var savemsg = document.getElementById("savemsg");
 
 	    function savetoxml() {
+	        $(".savetext").attr("disabled", "true");
 	        var format = "png";
 	        var bg = '#ffffff';
 	        var scale = 1;
@@ -192,6 +193,7 @@
 	                contentType: false
 	            }).done(function (res) {
 	                alert("保存成功！");
+	                $(".savetext").attr("disabled", "false");
 	                console.log(res)
 	            }).fail(function (res) {
 	                alert("保存失败！");
@@ -237,9 +239,7 @@
 	        }
 	    }
 	    function returnurl() {
-	        if (confirm('确定要返回吗，记得先保存。') == true) {
-	            window.location.href = "<%=Fpage %>"
-	        }
+	        window.location.href = "<%=Fpage %>";
 	    }
 
 	    function downFile(content, filename) {

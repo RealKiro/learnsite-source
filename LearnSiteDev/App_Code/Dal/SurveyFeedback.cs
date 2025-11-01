@@ -221,7 +221,32 @@ namespace LearnSite.DAL
 				return false;
 			}
 		}
-        
+
+        /// <summary>
+        /// 删除一条数据
+        /// </summary>
+        public bool DeleteSnum(int Fvid,string Fnum)
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("delete from SurveyFeedback ");
+            strSql.Append(" where Fvid=@Fvid and Fnum=@Fnum ");
+            SqlParameter[] parameters = {
+					new SqlParameter("@Fvid", SqlDbType.Int,4),
+					new SqlParameter("@Fnum", SqlDbType.NVarChar,50)
+			};
+            parameters[0].Value = Fvid;
+            parameters[1].Value = Fnum;
+
+            int rows = DbHelperSQL.ExecuteSql(strSql.ToString(), parameters);
+            if (rows > 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
         /// <summary>
         /// 删除一个班级的调查记录
         /// </summary>

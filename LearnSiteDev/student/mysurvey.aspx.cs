@@ -81,6 +81,8 @@ public partial class Student_mysurvey : System.Web.UI.Page
                     Btnclock.ToolTip = "开启，请开始回答！";
                     showQuestion();
                 }
+                
+
                 int myscore = GetMyScore(Vid, fnum);
                 if (myscore != -1024)
                 {
@@ -113,16 +115,21 @@ public partial class Student_mysurvey : System.Web.UI.Page
                     }
                     Lbcheck.Text = "未完成！";
                     Lbcheck.BackColor = System.Drawing.Color.Red;
-                    Btnshow.Visible = false;
+                    Btnshow.Visible = false; 
+                    ImgBtnClear.Visible = false;
                 }
+
+
                 if (fnum.IndexOf('s') > -1)
                 {
                     Btnshow.Visible = true;
                     //Btnok.Visible = false;
                     Btnclock.Enabled = true;
+                    ImgBtnClear.Visible = true;
                 }
                 else
                 {
+                    ImgBtnClear.Visible = false;
                     Btnclock.Enabled = false;
                 }
             }
@@ -310,6 +317,24 @@ public partial class Student_mysurvey : System.Web.UI.Page
             LearnSite.BLL.Survey vbll = new LearnSite.BLL.Survey();
             vbll.UpdateVclose(Vid);
             showSurvey();
+        }
+    }
+    protected void ImgBtnClear_Click(object sender, ImageClickEventArgs e)
+    {
+        if (Request.QueryString["lid"] != null)
+        {
+            int Lid = Int32.Parse(LabelLid.Text);
+            int Vid = Int32.Parse(LabelVid.Text);
+            if (LearnSite.Common.WordProcess.IsNum(LabelVid.Text))
+            {
+                LearnSite.BLL.MenuWorks kbll = new LearnSite.BLL.MenuWorks();
+                kbll.DeleteMenuWork(cook.Sid, Lid);
+
+                LearnSite.BLL.SurveyFeedback fbll = new LearnSite.BLL.SurveyFeedback();
+                fbll.DeleteSnum(Vid, cook.Snum);
+                System.Threading.Thread.Sleep(300);
+            }
+            
         }
     }
 }

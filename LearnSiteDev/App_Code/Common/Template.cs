@@ -15,9 +15,61 @@ namespace LearnSite.Common
             //TODO: 在此处添加构造函数逻辑
             //
         }
+        public static string markdownhtm()
+        {
+            string strhtm = "~/markdown/preview.html";
+            return readhtm(strhtm);
+        }
+
+        public static string sokobanhtm()
+        {
+            string strhtm = "~/sokoban/mapview.html";
+            return readhtm(strhtm);
+        }
+        public static string xlsxhtml()
+        {
+            //暂时用luckysheet显示xlsx表格
+            string strhtm = "~/plugins/luckysheet/index.html";
+            return readhtm(strhtm);
+        }
+        public static string pptxhtml()
+        {
+            string strhtm = "~/plugins/pptx/index.html";
+            return readhtm(strhtm);
+        }
+        public static string docxhtml()
+        {
+            string strhtm = "~/plugins/docx/index.html";
+            return readhtm(strhtm);
+        }
+        public static string mqtthtml()
+        {
+            string strhtm = "~/plugins/mqtt.html";
+            return readhtm(strhtm);
+        }
+        public static string ppthtm()
+        {
+            string strhtm = "~/plugins/PPTist/ppt.html";
+            return readhtm(strhtm);
+        }
+        public static string wordhtm()
+        {
+            string strhtm = "~/plugins/canvas-editor/word.html";
+            return readhtm(strhtm);
+        }
+        public static string qrcodehtm()
+        {
+            string strhtm = "~/plugins/qrcode/canvas.html";
+            return readhtm(strhtm);
+        }
+        public static string sheethtm()
+        {
+            string strhtm = "~/plugins/luckysheet/example.html";
+            return readhtm(strhtm);
+        }
         public static string pixelhtm()
         {
-            string strhtm = "~/plugins/txt/pixel.htm";
+            string strhtm = "~/pixelartmaker/PixelArt.html";
             return readhtm(strhtm);
         }
         public static string codehtm()
@@ -102,6 +154,23 @@ namespace LearnSite.Common
             return readhtm(strhtm);
         }
 
+        public static string psdhtm()
+        {
+            string strhtmsrc = "~/plugins/psd/psd.htm";
+            return readhtm(strhtmsrc);//直接显示
+        }
+
+        public static string mlimghtm()
+        {
+            string strhtmsrc = "~/machine/preview.html";
+            return readhtm(strhtmsrc);//直接显示
+        }
+
+        public static string previewhtm()
+        {
+            string strhtmsrc = "~/plugins/photo/preview.htm";
+            return readhtm(strhtmsrc);//直接显示
+        }
         public static string photohtm()
         {
             string strhtmsrc = "~/plugins/photo/src.htm";

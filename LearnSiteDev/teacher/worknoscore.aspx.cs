@@ -69,7 +69,7 @@ public partial class Teacher_worknoscore : System.Web.UI.Page
         LearnSite.BLL.Works ws = new LearnSite.BLL.Works();
         DDLstore.DataSource = ws.GetListNoWcheckWork(Wcid, Wclass);
         DDLstore.DataTextField = "Sname";
-        DDLstore.DataValueField = "Wurl";
+        DDLstore.DataValueField = "Wid";
         DDLstore.DataBind();
         int curindex = Int32.Parse(lbcurindex.Text);
         if (DDLstore.Items.Count > 0)
@@ -87,51 +87,34 @@ public partial class Teacher_worknoscore : System.Web.UI.Page
         int icn = DDLstore.Items.Count;
         if (icn > 0)
         {
-            bool ishtm = false;
-            string Wurl = DDLstore.SelectedValue;
-            url = Server.UrlEncode(Wurl);
-            string ext = LearnSite.Common.WordProcess.getext(Wurl);
-
-            string htmname = "index.htm";
-            int cur = DDLstore.SelectedIndex + 1;
-            Labelnum.Text = cur.ToString() + "/" + icn.ToString();
-            if (ishtm)
+            string Wid = DDLstore.SelectedValue;
+            if (!string.IsNullOrEmpty(Wid))
             {
-                Labelnum.ToolTip = LearnSite.Common.WordProcess.GetSnumhtm(Wurl);
+                LearnSite.BLL.Works wbll = new LearnSite.BLL.Works();
+                LearnSite.Model.Works wmodel = new LearnSite.Model.Works();
+                wmodel = wbll.GetModel(Int32.Parse(Wid));
+
+                url = Server.UrlEncode(wmodel.Wurl);
+                string ext = wmodel.Wtype;
+
+                int cur = DDLstore.SelectedIndex + 1;
+                Labelnum.Text = cur.ToString() + "/" + icn.ToString();
+
+                string Wnum = wmodel.Wnum;
+                Labelnum.ToolTip = Wnum;
+
+                string Mid = wmodel.Wmid.ToString();
+                LabelMid.Text = Mid;
+                
+                GetScore(Mid, Wnum);
+
+                lbcount.Text = cur.ToString() + "/" + icn.ToString();
+
+                Literal1.Text = LearnSite.Common.ViewPage.SelectWritePlugin(Wid, ext, url, wmodel.Wcode,wmodel.Wthumbnail, false, true);
             }
             else
             {
-                Labelnum.ToolTip = LearnSite.Common.WordProcess.GetSnum(Wurl);
-            }
-            string Wnum = Labelnum.ToolTip;
-            string Mid = LearnSite.Common.WordProcess.GetMid(Wurl);
-            LearnSite.BLL.Works wbll = new LearnSite.BLL.Works();
-            LabelMid.Text = Mid;
-            GetScore(LabelMid.Text, Labelnum.ToolTip);
-
-            lbcount.Text = cur.ToString() + "/" + icn.ToString();
-
-            if (ext == "sb" || ext == "sb2" || ext == "sb3")
-            {
-                string wid = wbll.GetWid(Mid, Wnum);
-                if (!string.IsNullOrEmpty(wid))
-                {
-                    Literal1.Text = LearnSite.Common.WordProcess.SelectWriteTeaShow(wid, ext, Wurl, true, htmname);
-                }
-                else {
-                    LabeCtitle.Text ="学号："+Wnum+"作品ID："+ wid;
-                }
-                    
-            }
-            else
-            {
-                if (ext == "py")
-                {
-                    string Wcode = wbll.GetWcode(Mid,Wnum);
-                    Literal1.Text = LearnSite.Common.WordProcess.pyWcode(Wcode, Wurl);
-                }
-                else
-                    Literal1.Text = LearnSite.Common.WordProcess.SelectWriteTeaNew(ext, Wurl, true, htmname);
+                Literal1.Text = "";
             }
             
         }

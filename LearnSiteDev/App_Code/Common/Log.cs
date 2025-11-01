@@ -47,9 +47,10 @@ namespace LearnSite.Common
 
         public static void Addlog(string msgtype, string msg)
         {
+            LearnSite.Model.Cook cook = new LearnSite.Model.Cook();
             DateTime today = DateTime.Now;
             string myurl = HttpContext.Current.Request.Url.ToString();//获取当前网页url
-            string logger = today.ToString() + " 页面:" + myurl + "\r\n\r\n" + "信息类型：" + msgtype + "\r\n\r\n" + msg;
+            string logger = today.ToString() + " 页面:" + myurl + "\r\n\r\n" + "信息类型：" + HttpUtility.HtmlDecode(cook.Sname) + msgtype + "\r\n\r\n" + msg;
             string logpath = GetLogFilename(today);
             FileStream fs = new FileStream(logpath, FileMode.Create);
             StreamWriter sw = new StreamWriter(fs);
@@ -123,7 +124,8 @@ namespace LearnSite.Common
                         row = ds.Tables[0].NewRow();
                         i++;
                         row[1] = strdir + fname;
-                        row[2] = File.ReadAllText(fi.FullName);
+                        string str=File.ReadAllText(fi.FullName);
+                        row[2] = str.Replace("\r\n\r\n", "<br>");
                         row[3] = fi.CreationTime;
                         ds.Tables[0].Rows.Add(row);
                     }

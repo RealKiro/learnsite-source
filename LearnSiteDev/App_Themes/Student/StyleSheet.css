@@ -5,7 +5,7 @@ width:100%;
 body
 {
     padding: 0px;
-    margin: 0 auto;
+    margin: 0 auto; 
     font-size: 12pt;
     font-family: 宋体, Arial, Helvetica, sans-serif;
 }
@@ -16,6 +16,42 @@ body
 }
 
 ::-webkit-scrollbar { /* display: none;  Chrome Safari */  }
+
+.chatimg
+{
+     position:absolute;
+     top:10px;
+     right:20px;
+     opacity:0.6;
+	 width:60px;
+	 height:60px;
+	 background-image: url('../../images/chatsleep.png');
+	 z-index:999;
+	 cursor:pointer;
+}
+.chatimg:hover
+{
+     opacity:1;
+	 background-image: url('../../images/chat.png');
+}
+
+.robotchatimg
+{
+     position:absolute;
+     top:10px;
+     right:120px;
+     opacity:0.6;
+	 width:98px;
+	 height:80px;
+	 background-image: url('../../images/robotsleep.png');
+	 z-index:999;
+	 cursor:pointer;
+}
+.robotchatimg:hover
+{
+     opacity:1;
+	 background-image: url('../../images/robotchat.png');
+}
 
 table {border-collapse:collapse;}
 .st
@@ -52,7 +88,12 @@ table {border-collapse:collapse;}
     height: 24px;
     line-height: 24px;
     text-align: center;
-    font-size: 12pt
+    font-size: 12pt;
+    text-align:center;
+}
+.buttonimg:hover
+{
+    font-weight:bold;
 }
 .buttonnone
 {
@@ -67,24 +108,24 @@ table {border-collapse:collapse;}
     margin-right: 0px;
     margin-left: 0px;
 }
-a
+.menu a
 {    
     text-decoration: none;
 } /*链接无下划线none,有为underline*/
-a:link
+.menu a:link
 {
     text-decoration: none;
 } /*未访问的链接 */
-a:visited
+.menu a:visited
 {
     color: #000000;
     text-decoration: none;
 } /*已访问的链接*/
-a:hover
+.menu a:hover
 {
     text-decoration: none;
 } /*鼠标在链接上 */
-a:active
+.menu a:active
 {
     color: #000000;
     text-decoration: none;
@@ -198,7 +239,8 @@ li.return {background:url(../../images/return.png) top left no-repeat;}
     margin: auto;
     font-family: Arial;
     font-size: 11pt;    
-	text-align:center;
+	text-align:center;	
+	padding:10px;
 }
 
 .left
@@ -293,25 +335,24 @@ li.return {background:url(../../images/return.png) top left no-repeat;}
 {
     margin:auto; 
     height:30px;
-    width:160px;
+    width:200px;
 }
 .divinfo1
 {
     border: 1px solid #ABC1EB;    
     float: left;
-    width: 60px;
+    width: 40px;
     text-align: center;
     background-color: #C0D6E4;
-    height: 20px;
 }
 
 .divinfo2
 {
     border: 1px solid #ABC1EB;
     float: left;
-    height: 20px;
-    width: 90px;
+    width: 150px;
 }
+
 
 .divvote
 {
@@ -340,60 +381,7 @@ li.return {background:url(../../images/return.png) top left no-repeat;}
 {
     border: 1px solid #EAEAEA;
 }
-.typecontent
-{
-    padding: 1px;
-    width: 680px;
-    height: 180px;
-    font-family: Arial;
-    font-size: 14pt;
-    background-color: #9799AC;
-    overflow: auto;
-    line-height: 30px;
-    text-align: left;
-}
-.text7
-{
-    padding: 1px;
-    border: 1px solid gainsboro;
-    width: 50px;
-    background-color: #D9E1F0;
-    font-size: 11pt
-    height: 16px;
-}
-.text1
-{
-    border: 1px solid gainsboro;
-    width: 60px;
-    background-color: #D9E1F0;
-    font-size: 24pt;
-    height: 32px;
-    text-align: center;
-    font-weight: bold;
-    font-family: 黑体;
-}
-.text3
-{
-    border: 1px solid gainsboro;
-    width: 60px;
-    background-color: #D9E1F0;
-    font-size: 14pt;
-    text-align: center;
-    font-family: Arial;
-}
 
-.textareacss
-{
-    margin: auto;
-    line-height: 30px;
-    border: 1px solid #E0E0E0;
-    width: 680px;
-    height: 180px;
-    background-color: #F8EEC7;
-    overflow: hidden;
-    font-size: 14pt;
-    font-family: Arial;
-}
 .downworkbd
 {
     margin:auto;
@@ -468,6 +456,10 @@ li.return {background:url(../../images/return.png) top left no-repeat;}
     line-height:1.5;
     padding: 20px;
 }
+div.placeauto img:hover
+{
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.3);
+}
 .ccontent
 {
     margin: auto;
@@ -496,7 +488,7 @@ li.return {background:url(../../images/return.png) top left no-repeat;}
 .divnull
 {
     margin: auto;
-    width: 90%;
+    width: 200px;
 }
 .divbgupload
 {
@@ -660,42 +652,39 @@ li.return {background:url(../../images/return.png) top left no-repeat;}
 .topicleft
 {
     float: left;
-    width: 400px;
+    width: 500px;
     height: 12px;
 }
 .topicright
 {
     float: right;
-    width: 300px;
+    width: 400px;
     text-align: right;
 }
 .topichead
 {
-    padding: 2px;
+    padding: 4px;
     background-color: #E2EDFC;
     border-bottom-style: solid;
     border-bottom-width: 1px;
     border-bottom-color: #E7E7E7;
-    height: 20px;
-    line-height: 18px;
+    height: 28px;
+    line-height: 28px;
 }
 .topictext
 {
-    border: 1px dashed #CCCCCC;
-    padding: 2px;
+    padding: 4px;
     float: left;
     margin: auto;
     white-space: normal;
-    display: block;
     line-height: 20px;
-    width: 820px;
-    background-color: #FFFFDD;
+	width: 99%;
+}
+#plant{
+	margin: auto;	
 }
 .topicagree
 {
-    float: right;
-    width: 30px;
-    vertical-align: middle;
 }
 .formtext
 {
@@ -788,8 +777,90 @@ li.return {background:url(../../images/return.png) top left no-repeat;}
 .text-center{font-size: 10pt;color: #666;font-family: Arial;}
 .txtblank
 { 
-  border: 1px dashed #ddd;
-  background-color:#FBF4D5;
+  border: 1px dashed #666;
+  background-color:#fadaa9;
   margin:20px;
   height:24px;
+}
+.leadvote
+{   
+    opacity: 0.6;
+}
+
+.leadvote:hover
+{   
+    opacity: 1;   
+}
+
+.stunum{
+	text-align: center;
+    vertical-align: middle; 
+	opacity:0.5;
+	padding:6px;
+}
+.stunum:hover{
+	box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.6);
+	opacity:1.0;
+}
+.stuimg{
+    width: 70px;	
+	height:80px;
+}
+.stulink{
+	text-decoration:none;	
+}
+
+
+.quizarea{
+	width: 980px; margin: auto; padding: 10px; text-align: left; box-shadow:0px 0px 6px #ddd;
+}
+
+#questionPage{    
+   overflow:auto;
+   text-align:left;
+}
+
+.blackword{
+    border:none;
+	outline:none;
+	border-bottom: 1px solid #999;
+	display: inline-block;
+	background: #FFF7D9;
+	overflow: hidden;
+	text-align: center;
+	white-space: nowrap;
+	width: 80px;
+	font-size:16px;
+}
+.quiztitle{
+	padding:10px;
+	margin:auto;
+	font-family:Arial,"微软雅黑";
+}
+.quizraido{
+	padding-left:50px;
+	margin:4px;
+	font-family:Arial,"微软雅黑";
+}
+.quizquestion{	
+	font-size:16px;
+	margin:10px;
+	border: 1px solid #fff;	
+}
+.quizquestion:hover{
+	background:#fafafa;
+}
+.btnsubmit{
+	text-align: center;	
+	padding:10px;
+}
+.btnwidth{
+	width:100px;
+}
+
+.linedashed{
+	border-width: 1px; border-color: #808080; border-bottom-style: dashed; padding-bottom: 4px;
+}
+.vcontent{
+	margin: auto; padding: 2px; text-align: left; width: 980px; 
 }

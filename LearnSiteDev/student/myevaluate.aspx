@@ -1,5 +1,6 @@
 ﻿<%@ Page Title="" Language="C#" StylesheetTheme="Student"  AutoEventWireup="true" CodeFile="myevaluate.aspx.cs" Inherits="Student_myevaluate" %>
 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" >
 <head id="Head1" runat="server">
     <title></title>  
@@ -11,7 +12,6 @@
 <body>
 <form id="form1" runat="server">
 <center >
-
 <div id="student">
 <div  class="divcenter">  
 <div >
@@ -92,25 +92,21 @@
                     &nbsp;<asp:Button ID="BtnVote" runat="server" onclick="BtnVote_Click" 
                         SkinID="buttonSkinPink" Text="请投我一票" Width="100px" />
                         <br />
-                <div>
-                <br />
-                <center >
-                <div>
-                    <asp:Literal ID="Literal1" runat="server">
-                    </asp:Literal> 
-                    <br />
-                    <asp:Label ID="Labelwname" runat="server"  Visible="False"></asp:Label>
-                    <br />
-                    <asp:Label ID="lbMyFeedback" runat="server" Visible="False"></asp:Label>
-                    <br />
-                    </div>
-                    </center>
-                </div>
 </div>
-</div> 
-
+</div>
 </center>
  </form>
+
+<div style="height:80vh" >
+	<asp:Literal ID="Literal1" runat="server">
+	</asp:Literal> 
+	<br />
+	<asp:Label ID="Labelwname" runat="server"  Visible="False"></asp:Label>
+	<br />
+	<asp:Label ID="lbMyFeedback" runat="server" Visible="False"></asp:Label>
+	<br />
+</div>
+
 </body>
 </html>
 

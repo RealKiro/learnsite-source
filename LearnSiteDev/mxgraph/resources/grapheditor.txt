@@ -57,6 +57,7 @@ classic=经典
 clearDefaultStyle=清除默认样式
 clearWaypoints=清除航点
 clipart=剪贴画
+topology=拓扑图
 collapse=折叠
 collapseExpand=折叠/展开
 collapsible=可折叠

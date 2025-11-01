@@ -96,30 +96,7 @@
             &nbsp;&nbsp;
             <br />
             <br />
-            期末总评每个班级的APE比例设置=== A占：<asp:DropDownList ID="DDLA" runat="server" Font-Size="9pt" 
-                Width="50px">
-                <asp:ListItem>100</asp:ListItem>
-                <asp:ListItem>90</asp:ListItem>
-                <asp:ListItem>80</asp:ListItem>
-                <asp:ListItem>70</asp:ListItem>
-                <asp:ListItem>60</asp:ListItem>
-                <asp:ListItem Selected="True">50</asp:ListItem>
-                <asp:ListItem>40</asp:ListItem>
-                <asp:ListItem>35</asp:ListItem>
-                <asp:ListItem>30</asp:ListItem>
-                <asp:ListItem>20</asp:ListItem>
-                <asp:ListItem>10</asp:ListItem>
-            </asp:DropDownList>&nbsp;&nbsp;　　总分在百分之<asp:DropDownList ID="DDLE" runat="server" Font-Size="9pt" 
-                Width="50px">
-                <asp:ListItem>50</asp:ListItem>
-                <asp:ListItem>40</asp:ListItem>
-                <asp:ListItem>30</asp:ListItem>
-                <asp:ListItem>20</asp:ListItem>
-                <asp:ListItem>10</asp:ListItem>
-                <asp:ListItem Selected="True">5</asp:ListItem>
-                <asp:ListItem>0</asp:ListItem>
-            </asp:DropDownList>
-            &nbsp;以下自动评Ｅ<br />
+            期末总评每个班级的分数比重：优秀&gt;80%、良好&gt;60%、及格&gt;30%、不及格=0%<br />
             <asp:Label ID="Labelmsg" runat="server"  SkinID="LabelMsgRed" 
                 ></asp:Label>
             </div>

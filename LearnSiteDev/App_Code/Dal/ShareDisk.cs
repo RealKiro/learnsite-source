@@ -330,7 +330,11 @@ namespace LearnSite.DAL
         /// </summary>
         public DataTable GetGroupListall(string Kgroup)
         {
-            string strWhere = "Kown=1 and Kgroup='" + Kgroup + "' order by Kfdate desc ";
+            string strWhere = "Kown=1 and Kgroup=" + Kgroup + " order by Kfdate desc ";
+            if (Kgroup == "-1") {
+                strWhere = " Kgroup=" + Kgroup + " order by Kfdate desc ";
+            }
+
             StringBuilder strSql = new StringBuilder();
             strSql.Append("select Kid,Kown,Kyear,Kgrade,Kclass,Kgroup,Knum,Kname,Kfilename,LEFT([Kfilename],16) as KfnameShort,Kfsize,Kfurl,Kftpe,Kfdate ");
             strSql.Append(" FROM ShareDisk ");
@@ -346,7 +350,7 @@ namespace LearnSite.DAL
         /// </summary>
         public DataTable GetSnumListall(string Knum)
         {
-            string strWhere = "Kown=0 and Knum='" + Knum  + "' order by Kfdate desc ";
+            string strWhere = "Kown=0 and Kgroup>-1  and Knum='" + Knum + "' order by Kfdate desc ";
             StringBuilder strSql = new StringBuilder();
             strSql.Append("select Kid,Kown,Kyear,Kgrade,Kclass,Kgroup,Knum,Kname,Kfilename,LEFT([Kfilename],16) as KfnameShort,Kfsize,Kfurl,Kftpe,Kfdate ");
             strSql.Append(" FROM ShareDisk ");

@@ -44,6 +44,11 @@ public partial class Student_myinfo : System.Web.UI.Page
         LearnSite.BLL.Solves vbll = new LearnSite.BLL.Solves();
         string vcids = vbll.ShowStuDoneSovleCids(mySid, Cterm.ToString(), Cgrade.ToString());
 
+        string rrr = cook.Syear.ToString() + cook.Sgrade.ToString() + cook.Sclass.ToString();
+        int simiSid = 0 - Int32.Parse(rrr);//将入学年度和班级号作为模拟学生的ID
+        LearnSite.BLL.MenuWorks kbll = new LearnSite.BLL.MenuWorks();
+        string kcids = kbll.readCids(simiSid);
+
         string allcids = "";
         if (wcids != "")
             allcids = allcids + wcids;
@@ -55,6 +60,10 @@ public partial class Student_myinfo : System.Web.UI.Page
             allcids = allcids + mcids;
         if (vcids != "")
             allcids = allcids + vcids;
+        if (kcids != "")
+            allcids = allcids + kcids;
+
+        
         LabelCids.Text = LearnSite.Common.WordProcess.SimpleWordsNew(allcids);
     }
     private void shownew()
@@ -252,7 +261,6 @@ public partial class Student_myinfo : System.Web.UI.Page
         sclass.Text = Sgrade + "." + Sclass + "班";
         sname.Text = Server.UrlDecode(cook.Sname);
         string ssex = Server.UrlDecode(cook.Sex);
-        int Sgroup = cook.Sgroup;
         int Sterm = cook.ThisTerm;
         LearnSite.BLL.Works wbll = new LearnSite.BLL.Works();
         string[] tem = wbll.ShowLastWorkSelf(mySid);//2012-12-14修
@@ -269,10 +277,13 @@ public partial class Student_myinfo : System.Web.UI.Page
             Hlwork.Visible = false;
         }
         LearnSite.BLL.Students dbll = new LearnSite.BLL.Students();
-        string leader = dbll.GetLeaderByGroup(Sgroup);//根据自己的组号，获取组长姓名
-        if (leader != "")
+        int Sgroup = dbll.GetSgroup(mySid);
+        string Sgtitle = dbll.GetMySgtitle(mySid);//根据自己的组号，获取小组名称
+        Labelteam.Text = dbll.GroupTeam(cook.Sgrade, cook.Sclass, Sgroup);
+
+        if (Sgtitle != "")
         {
-            HLgroup.Text = Server.UrlDecode(leader);
+            HLgroup.Text = Server.UrlDecode(Sgtitle);
         }
         else
         {
@@ -309,7 +320,7 @@ public partial class Student_myinfo : System.Web.UI.Page
     }
     protected void BtnProfile_Click(object sender, EventArgs e)
     {
-        string url = "~/profile/mychange.aspx";
+        string url = "~/profile/mygroup.aspx";
         Response.Redirect(url, false);
     }
     protected void DataListonline_ItemDataBound(object sender, DataListItemEventArgs e)
@@ -318,7 +329,7 @@ public partial class Student_myinfo : System.Web.UI.Page
         string sgroup = ((Label)e.Item.FindControl("LabelSgroup")).Text;
         string qnum = ((Label)e.Item.FindControl("LabelQnum")).Text;
         HyperLink hl = (HyperLink)e.Item.FindControl("HyperQname");
-        hl.NavigateUrl = "~/teacher/studentwork.aspx?Snum=" + qnum;//本学期作品浏览
+        hl.NavigateUrl = "~/student/myportfolio.aspx?Snum=" + qnum;//本学期作品浏览 myportfolio.aspx
         string vpath = "~/images/gcard.gif";
         Image imga = new Image();
         imga = (Image)e.Item.FindControl("Imageflag");

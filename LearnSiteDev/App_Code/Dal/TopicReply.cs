@@ -129,12 +129,12 @@ namespace LearnSite.DAL
             }
         }
         /// <summary>
-        /// 给本班所有回复评分+2
+        /// 给本班所有回复评分+6
         /// </summary>
         /// <param name="Rid"></param>
         public int UpdateAllscore(int Rtid, int Rgrade, int Rclass, int Ryear)
         {
-            string mysql = "update TopicReply set Rscore=2 where Rscore=0 and Rtid=" + Rtid + " and Rgrade=" + Rgrade + " and Rclass=" + Rclass + " and Ryear=" + Ryear;
+            string mysql = "update TopicReply set Rscore=6 where Rscore=0 and Rtid=" + Rtid + " and Rgrade=" + Rgrade + " and Rclass=" + Rclass + " and Ryear=" + Ryear;
             return DbHelperSQL.ExecuteSql(mysql);
         }
         /// <summary>

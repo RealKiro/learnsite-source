@@ -120,6 +120,15 @@ namespace LearnSite.BLL
             string strWhere = " Qvid="+Qvid+" order by Qid asc";
             return GetList(strWhere);        
         }
+
+                
+        /// <summary>
+        /// 获得所有试题数据列表 返回Base64编码json字符串
+        /// </summary>
+        public string GetListQuestion(int Qvid)
+        {
+            return dal.GetListQuestion(Qvid);
+        }
                 
         /// <summary>
         /// 根据ＩＤ返回调查题目

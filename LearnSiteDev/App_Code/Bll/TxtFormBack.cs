@@ -210,7 +210,21 @@ namespace LearnSite.BLL
 		{
 			return dal.GetListByPage( strWhere,  orderby,  startIndex,  endIndex);
 		}
-                        
+        
+                
+        /// <summary>
+        /// 获取当前班级学过的学案Cid
+        /// </summary>
+        /// <param name="Rgrade"></param>
+        /// <param name="Rclass"></param>
+        /// <param name="Rterm"></param>
+        /// <param name="Ryear"></param>
+        /// <returns></returns>
+        public string ShowDoneBackCids(int Rgrade, int Rclass, int Rterm, int Ryear)
+        {
+            return dal.ShowDoneBackCids(Rgrade, Rclass, Rterm, Ryear);
+        }
+        
         /// <summary>
         /// 获取某学生学过的学案Cid
         /// </summary>
@@ -246,7 +260,8 @@ namespace LearnSite.BLL
                 lmodel = lbll.GetModel(Int32.Parse(Lid));
                 string Mid = lmodel.Lxid.ToString();
 
-                string word = HttpContext.Current.Request["Word"].ToString();
+                string word = HttpContext.Current.Request.Form["Word"];
+                string content = HttpContext.Current.Request.Form["Content"];
                 if (HttpContext.Current.Request.Cookies[Common.CookieHelp.stuCookieNname] != null)
                 {
                     if (Common.WordProcess.IsNum(Mid))
@@ -278,6 +293,7 @@ namespace LearnSite.BLL
                         rmodel.Rwords = HttpUtility.HtmlEncode(word);
                         rmodel.Ryear = Syear;
                         rmodel.Rlid = Int32.Parse(Lid);
+                        rmodel.Rcontent = HttpUtility.HtmlEncode(content);
 
                         int Rid = rbll.GetRid(Wsid.ToString(), Mid);
                         rmodel.Rid = Rid;

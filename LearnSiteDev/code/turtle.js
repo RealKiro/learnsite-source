@@ -1,5 +1,10 @@
 var editor = ace.edit("editor");
 var fontsize=22;
+
+var msgerror="";
+var pass=0; 
+var runing=false;
+
 editor.setOptions({  
   wrap: true,   
   enableLiveAutocompletion: true, 
@@ -13,6 +18,9 @@ editor.getSession().setMode("ace/mode/python");
 editor.setFontSize(fontsize);
 editor.setReadOnly(false)
 editor.getSession().setTabSize(4);
+editor.getSession().on('change', function() {
+  runing=false;
+});
 /*
 editor.commands.addCommand({
 	name: 'execute',
@@ -70,15 +78,45 @@ if(mhelp=="1"){
 
 var cssface=true; //界面颜色切换
 var desface=true; //学案显示隐藏
+var fullflag=false; //全屏
+var fullset=false;
+
+function fullide(){
+	if(fullflag){
+		exitFullscreen();
+	}
+	else{
+		fullScreen();		
+	}
+}
+
+function fullScreen() {
+	if(!fullflag){
+		fullflag=true;
+		var el = document.documentElement;
+		el.requestFullscreen||el.mozRequestFullScreen||el.webkitRequestFullscreen||el.msRequestFullScreen?
+		el.requestFullscreen()||el.mozRequestFullScreen()|| el.webkitRequestFullscreen()||el.msRequestFullscreen():null;
+	}
+}
+
+function exitFullscreen() {
+	if(fullflag){
+		fullflag=false;
+		document.exitFullscreen||document.mozCancelFullScreen||document.webkitExitFullscreen||document.msExitFullscreen?
+		document.exitFullscreen()||document.mozCancelFullScreen()||document.webkitExitFullscreen()||document.msExitFullscreen():null;
+	}
+}
 
 $(".fa-codepen").click(function(){
 	if(desface){
 		$(".description").hide();
 		desface=false;
+		$(window).resize();
 	}
 	else{
 		$(".description").show();
 		desface=true;
+		$(window).resize();
 	}
 });
 
@@ -93,8 +131,10 @@ $("#title").click(function(){
 		$("#content").css({"background":"transparent","color":"#333"});
 		$("#output").css({"color":"#333"});
 		$("#codexample").css({"background":"#eee","border":"#333"});
+		$(".main").css({"background":"#eee"});	
+		$(".description").css({"background":"#eee"});		
 		if(codemodel){
-			$(".right").css("background","url(../code/gridwhite.png)");
+			$(".right").css({"background":"url(../code/gridwhite.png)"});
 			$("#big").css("filter","invert(80%)");
 			$("#small").css("filter","invert(80%)");
 		}
@@ -110,8 +150,10 @@ $("#title").click(function(){
 		$("#content").css({"background":"transparent","color":"#ccc"});
 		$("#output").css({"color":"#ccc"});
 		$("#codexample").css({"background":"#454e4e","border":"#ccc"});
+		$(".main").css({"background":"#252d30"});
+		$(".description").css({"background":"#454e4e"});		
 		if(codemodel){
-			$(".right").css("background","url(../code/grid.png)");
+			$(".right").css({"background":"url(../code/grid.png)"});
 			$("#big").css("filter","");
 			$("#small").css("filter","");
 		}
@@ -119,6 +161,14 @@ $("#title").click(function(){
 		
 	}
 });
+
+if(codemodel){	
+	$("#result").css({"overflow-y":"hidden"});
+}
+else{
+	$("#result").css({"overflow-y":"auto"});	
+}
+
 
 var helpcode=[
 	'<span class="keymodel" title="界面切换">❖</span>',
@@ -175,7 +225,15 @@ $(document).ready(function(){
             savesession();
             window.location.href=url;
 	});	
-
+	
+	$("#editor").click(function(){
+		$("#colorbox").hide();
+        if(fullset){
+		    //fullScreen();
+            //fullset=true;
+        }
+	});
+	
 	$(".keybox").click(function(){
 		keybox=!keybox;
 		if(keybox) {
@@ -357,9 +415,6 @@ function myfun() {
       })
 }
 
-var msgerror="";
-var pass=0; 
-var runing=false;
 
 function runit() {
 	runing=true;
@@ -418,9 +473,8 @@ function toHex(r,g,b) {
 	return ("00000" + (r << 16 | g << 8 | b).toString(16)).slice(-6);
 }
 
-
-function checkright(){
-	if(runing){
+function checkright(){	
+	if(runing&& pass!=-1){
 		var successedmsg = "恭喜自动批改通过！";
 		var errormsg = "批改失败，请仔细思考！";
 		var draw=false;
@@ -671,7 +725,10 @@ function checkright(){
 		}
 	}
 	else{
-		savemsg.innerHTML= "请先运行程序，然后再点保存！";
+		savemsg.innerHTML= "请先运行程序";
+        if(pass==-1){
+            savemsg.innerHTML="请修正程序错误!";
+        }
 	}
 	
 	runing=false;
@@ -865,8 +922,8 @@ function samestr(a,b){
 
 function mistake(a,n){
 	var p=a*n/10;
-	if(p==0) {
-		p=1;
+	if(p<2) {
+		p=2;
 	}
 	return Math.round(p);	
 }

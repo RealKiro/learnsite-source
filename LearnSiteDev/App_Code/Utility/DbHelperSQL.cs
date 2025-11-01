@@ -497,9 +497,6 @@ namespace LearnSite.DBUtility
             string mysqlh = "update GaugeFeedback set Fsid="+newSid+" where Fnum='"+Snum+"'";
             DbHelperSQL.ExecuteSql(mysqlh);
 
-            string mysqli = "update Webstudy set Wsid="+newSid+" where Wnum='"+Snum+"'";
-            DbHelperSQL.ExecuteSql(mysqli);
-
             string mysqlj = "update WorksDiscuss set Dsid="+newSid+" where Dsnum='"+Snum+"'";
             DbHelperSQL.ExecuteSql(mysqlj);
         }

@@ -3,7 +3,7 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="Content" Runat="Server">
 <div  class="cplace">
     <div  class="cleft">
-        &nbsp;讨论主题名称：<asp:TextBox ID="Texttitle" runat="server"  SkinID="TextBoxNormal" 
+        &nbsp;讨论主题：<asp:TextBox ID="Texttitle" runat="server"  SkinID="TextBoxNormal" 
             Width="400px" ></asp:TextBox>
         &nbsp;<asp:CheckBox ID="CheckClose" runat="server" Text="是否暂停" />
         </div>
@@ -27,7 +27,7 @@
 		        });
 		    });
 		</script>
-    <textarea  id ="mcontent" runat ="server" style="width: 780px; height:300px;" ></textarea>  
+    <textarea  id ="mcontent" runat ="server" style="width: 800px; height:500px;" ></textarea>  
     </div>
      <div  class="placehold">
                <asp:Label ID="Labelmsg" runat="server" ></asp:Label>

@@ -386,6 +386,17 @@ namespace LearnSite.DAL
             return DbHelperSQL.Query(strSql.ToString());
         }
 
+        /// <summary>
+        /// 获得前几行数据
+        /// </summary>
+        public DataSet GetWuziqiRank(int Top, string Gtitle)
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("select Gsname,Gsave,Sgrade,Sclass,Gnum,Gdate ");
+            strSql.Append(" FROM Game,Students Where Gscore=0 and Gsid=Sid and Gtitle='" + Gtitle + "' ");
+            strSql.Append(" order by Gdate DESC, Gsave DESC ");
+            return DbHelperSQL.Query(strSql.ToString());
+        }
 		/// <summary>
 		/// 获得前几行数据
 		/// </summary>

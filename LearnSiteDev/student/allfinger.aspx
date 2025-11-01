@@ -2,7 +2,7 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="Cphs" Runat="Server">
 <div id="student">
-<div style="width: 800px; text-align: center;">
+<div style="margin:auto;">
 <center>
      <div class="ccontent">
                         <br />
@@ -16,27 +16,34 @@
     </asp:DropDownList>
     <br />
                 <asp:GridView ID="GVFinger" runat="server" AutoGenerateColumns="False"  CellPadding="2" 
-                    Width="480px" PageSize="40" 
+                    Width="800px" PageSize="40" 
                     OnRowDataBound="GVFinger_RowDataBound" AllowPaging="True" 
                     onpageindexchanging="GVFinger_PageIndexChanging" SkinID="GridViewInfo" 
                             EnableModelValidation="True">
                     <Columns>
-                        <asp:BoundField HeaderText="名次" />
-                        <asp:BoundField DataField="Psnum" HeaderText="学号" />
+                        <asp:BoundField HeaderText="名次" >
+						<HeaderStyle HorizontalAlign="Left" />
+						</asp:BoundField>
+                        <asp:BoundField DataField="Psnum" HeaderText="学号" >
+						<HeaderStyle HorizontalAlign="Left" />
+						</asp:BoundField>
                         <asp:BoundField DataField="Sname" HeaderText="姓名" >
                             <HeaderStyle HorizontalAlign="Left" />
                             <ItemStyle HorizontalAlign="Left" />
                         </asp:BoundField>
-                        <asp:BoundField DataField="Sgrade" HeaderText="年级" />
+                        <asp:BoundField DataField="Sgrade" HeaderText="年级" >
+						<HeaderStyle HorizontalAlign="Left" />
+						</asp:BoundField>
                         <asp:BoundField DataField="Sclass" HeaderText="班级" >
                         <HeaderStyle HorizontalAlign="Left" />
                         </asp:BoundField>
                         <asp:BoundField DataField="Pspd" HeaderText="速度" >
+						<HeaderStyle HorizontalAlign="Left" />
                         <ItemStyle Font-Bold="True" />
                         </asp:BoundField>
                         <asp:BoundField DataField="Pdate" HeaderText="日期" >
                             <HeaderStyle HorizontalAlign="Left" />
-                            <ItemStyle Width="120px" HorizontalAlign="Left" />
+                            <ItemStyle Width="180px" HorizontalAlign="Left" />
                         </asp:BoundField>
                     </Columns>
                     <PagerTemplate>
@@ -67,6 +74,7 @@
     </div>
 </div>
 </asp:Content>
+
 
 
 

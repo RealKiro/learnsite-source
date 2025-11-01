@@ -26,7 +26,7 @@ public partial class Profile_mypwd : System.Web.UI.Page
         LearnSite.Model.Cook cook = new LearnSite.Model.Cook();
 
         string myPwd = cook.Spwd;
-        if (LearnSite.Common.WordProcess.GetMD5_8bit(OldPwd) == myPwd)
+        if (LearnSite.Common.WordProcess.GetMD5_16bit(OldPwd) == myPwd)
         {
             string Spwd = TextBoxpwd.Text.Trim();
             string Spwd0 = TextBoxpwd0.Text.Trim();

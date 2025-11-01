@@ -69,7 +69,7 @@ namespace LearnSite.Common
         {
             int dd = Int32.Parse(GetTypeName("ShareDiskLimit"));
             if (dd == 0)
-                dd = 30;
+                dd = 60;
             return dd;
         }
 

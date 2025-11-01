@@ -7,6 +7,7 @@ using System.Web.UI.WebControls;
 public partial class Student_topicdiscuss : System.Web.UI.Page
 {
     LearnSite.Model.Cook cook = new LearnSite.Model.Cook();
+    protected string myCid;
     protected void Page_Load(object sender, EventArgs e)
     {
         if (LearnSite.Common.CookieHelp.IsStudentLogin())
@@ -68,16 +69,18 @@ public partial class Student_topicdiscuss : System.Web.UI.Page
         string rwords = Request.Form["textareaWord"].Trim();
         string tempcut = LearnSite.Common.WordProcess.DropHTML(rwords);
         int counts = tempcut.Length;
-        int rscore = 0;
+        int rscore = 2;
         bool rban = false;
 
         if (counts > 1 && counts < 600)
         {
-            rwords = rwords.Replace("<br /><br />", "<br />");
-            rwords = rwords.Replace(",", "，");
+            //rwords = rwords.Replace("<br /><br />", "<br />");
+            //rwords = rwords.Replace(",", "，");
 
             LearnSite.BLL.TopicReply rbll = new LearnSite.BLL.TopicReply();
             LearnSite.Model.TopicReply rmodel = new LearnSite.Model.TopicReply();
+            LearnSite.Model.TopicReply rmodelget = new LearnSite.Model.TopicReply();
+
             rmodel.Rban = rban;
             rmodel.Rip = rip;
             rmodel.Rscore = rscore;
@@ -131,19 +134,12 @@ public partial class Student_topicdiscuss : System.Web.UI.Page
                         kbll.Add(kmodel);
                         Labeldiscuss.Text = "回复成功！";
                         string myurl = "~/student/topicdiscuss.aspx?lid=" + Lid.ToString();
-                        Response.Redirect(myurl, false);
+                        Response.Redirect(myurl);
                     }
                     else
                     {
-                        if (rbll.Isedit(Tid, rsid))
-                        {
-                            rbll.UpdateOne(rmodel);//修改一条回复
-                            Labeldiscuss.Text = "修改成功！";
-                        }
-                        else
-                        {
-                            Labeldiscuss.Text = "默认回复最多为1次！";
-                        }
+                        rbll.UpdateOne(rmodel);//修改一条回复
+                        Labeldiscuss.Text = "修改成功！";
                     }
                 }
                 else
@@ -171,7 +167,7 @@ public partial class Student_topicdiscuss : System.Web.UI.Page
             lmodel = lbll.GetModel(Int32.Parse(Lid));
             LabelCid.Text = lmodel.Lcid.ToString();
             LabelTid.Text = lmodel.Lxid.ToString();
-
+            myCid = lmodel.Lcid.ToString();
 
             LearnSite.BLL.TopicDiscuss tbll = new LearnSite.BLL.TopicDiscuss();
             LearnSite.Model.TopicDiscuss tmodel = new LearnSite.Model.TopicDiscuss();
@@ -179,7 +175,7 @@ public partial class Student_topicdiscuss : System.Web.UI.Page
             Labeltopic.Text = tmodel.Ttitle;
             TcloseCheck.Checked = tmodel.Tclose;
 
-            Topics.InnerHtml = "讨论内容：" + HttpUtility.HtmlDecode(tmodel.Tcontent);
+            Topics.InnerHtml = HttpUtility.HtmlDecode(tmodel.Tcontent);
             LearnSite.BLL.Courses cbll = new LearnSite.BLL.Courses();
 
             string mynum = cook.Snum;
@@ -191,7 +187,7 @@ public partial class Student_topicdiscuss : System.Web.UI.Page
             string teasnum = "s" + hid + syear.ToString() + sgrade.ToString() + sclass.ToString();
             LearnSite.BLL.TopicReply rbll = new LearnSite.BLL.TopicReply();
             string treply = rbll.getteareply(lmodel.Lxid.Value, teasnum);
-            TopicsResult.InnerHtml = "老师总结：" + HttpUtility.HtmlDecode(treply);
+            TopicsResult.InnerHtml = HttpUtility.HtmlDecode(treply);
 
             if (mynum == teasnum)
             {
@@ -296,6 +292,7 @@ public partial class Student_topicdiscuss : System.Web.UI.Page
             Label lbsnum = (Label)e.Row.FindControl("Labelsnum");
             CheckBox ckSleader = (CheckBox)e.Row.FindControl("CheckSleader");
             Image imagegroup = (Image)e.Row.FindControl("Imagegroup");
+            Image imagestu = (Image)e.Row.FindControl("Imagestu");
             if (ckSleader.Checked)
             {
                 imagegroup.ImageUrl = "~/images/gflag.gif";
@@ -308,6 +305,9 @@ public partial class Student_topicdiscuss : System.Web.UI.Page
             }
             lb.Text = Convert.ToString(e.Row.RowIndex + 1);
             string mynum = cook.Snum;
+
+            imagestu.ImageUrl = LearnSite.Common.Photo.GetStudentPhotoUrl(lbsnum.Text); ;
+
             int score = Int32.Parse(lbsc.Text);
             if (score > 0)
             {
@@ -323,7 +323,7 @@ public partial class Student_topicdiscuss : System.Web.UI.Page
             {
                 imbtn.Visible = true;
                 imbtngood.Visible = true;
-                imbtnedit.Visible = true;
+                imbtnedit.Visible = false;
                 imbtnless.Visible = true;
                 imbtnedit.ToolTip = "不允许学生修改！";
                 imbtngood.ToolTip = "加分！";
@@ -344,15 +344,11 @@ public partial class Student_topicdiscuss : System.Web.UI.Page
                 imbtngood.Visible = false;
                 imbtnedit.Visible = false;
                 imbtnless.Visible = false;
-                DateTime replaydate = DateTime.Parse(lbdate.Text);
                 ImageButton imgbtnagree = (ImageButton)e.Row.FindControl("ImageButtonAgree");
-                if (LearnSite.Common.Computer.Daysgone(replaydate) > 7)
-                {
-                    imgbtnagree.Visible = false;
-                    lbagree.ToolTip = "7天之后过期，不能继续点赞！";
-                }
                 if (lbsnum.Text == mynum)
-                    imgbtnagree.Visible = false;
+                {
+                    imgbtnagree.Enabled = false;
+                }
             }
         }
     }

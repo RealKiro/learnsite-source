@@ -18,6 +18,7 @@
             <asp:Label ID="Labelgrade" runat="server" Text='<%# Eval("Wgrade") %>' ></asp:Label> 
             <asp:Label ID="Labelclass" runat="server" Text='<%# Eval("Wclass") %>' ></asp:Label>班
             <asp:Label ID="Labeltype" runat="server" Text='<%# Eval("Wtype") %>' Visible="False"></asp:Label>
+            <asp:Label ID="LabelWid" runat="server" Text='<%# Eval("wid") %>' Visible="False"></asp:Label>
             </div>
         </ItemTemplate>
     </asp:DataList>

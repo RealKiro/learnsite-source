@@ -88,7 +88,9 @@ public partial class Student_Scm : System.Web.UI.MasterPage
                 string sepUrl = "../images/separate.gif";
                 string urlarrow = "~/images/arrow.png";
                 string urllocker = "~/images/locker.png";
-                string urllfinish = "~/images/finish.png";
+                string urlfinish = "~/images/finish.png";
+                //string urlfinishing = "~/images/finishing.png";
+                LearnSite.BLL.Works wbll = new LearnSite.BLL.Works();
 
                 bool ispass = false;
                 LearnSite.BLL.Room rbll = new LearnSite.BLL.Room();
@@ -130,7 +132,7 @@ public partial class Student_Scm : System.Web.UI.MasterPage
                             break;
                         case "2"://调查
                             ma.ImageUrl = "~/images/survey.png";
-                            ma.NavigateUrl = "~/student/mysurvey.aspx?lid=" + Lid;
+                            ma.NavigateUrl = "~/student/myexam.aspx?lid=" + Lid;
                             break;
                         case "3"://讨论
                             ma.ImageUrl = "~/images/topic.png";
@@ -176,12 +178,98 @@ public partial class Student_Scm : System.Web.UI.MasterPage
                             ma.ImageUrl = "~/images/blockpy.png";
                             ma.NavigateUrl = "~/student/program.aspx?lid=" + Lid;
                             break;
+                        case "15"://思维导图
+                            ma.ImageUrl = "~/images/kitymind.png";
+                            ma.NavigateUrl = "~/student/program.aspx?lid=" + Lid;
+                            break;
+                        case "16"://表格处理
+                            ma.ImageUrl = "~/images/excel.png";
+                            ma.NavigateUrl = "~/student/program.aspx?lid=" + Lid;
+                            break;
+                        case "17"://二维码
+                            ma.ImageUrl = "~/images/qrcode.png";
+                            ma.NavigateUrl = "~/student/program.aspx?lid=" + Lid;
+                            break;
+                        case "18"://在线文档
+                            ma.ImageUrl = "~/images/word.png";
+                            ma.NavigateUrl = "~/student/program.aspx?lid=" + Lid;
+                            break;
+                        case "19"://演示文稿
+                            ma.ImageUrl = "~/images/pptist.png";
+                            ma.NavigateUrl = "~/student/program.aspx?lid=" + Lid;
+                            break;
+                        case "20"://海报设计
+                            ma.ImageUrl = "~/images/poster.png";
+                            ma.NavigateUrl = "~/student/program.aspx?lid=" + Lid;
+                            break;
+                        case "21"://风格迁移
+                            ma.ImageUrl = "~/images/style.png";
+                            ma.NavigateUrl = "~/student/program.aspx?lid=" + Lid;
+                            break;
+                        case "22"://图像分类
+                            ma.ImageUrl = "~/images/mlimg.png";
+                            ma.NavigateUrl = "~/student/program.aspx?lid=" + Lid;
+                            break;
+                        case "23"://人脸识别
+                            ma.ImageUrl = "~/images/face.png";
+                            ma.NavigateUrl = "~/student/program.aspx?lid=" + Lid;
+                            break;
+                        case "24"://物联网mqtt
+                            ma.ImageUrl = "~/images/mqtt.png";
+                            ma.NavigateUrl = "~/student/program.aspx?lid=" + Lid;
+                            break;
+                        case "25"://手绘画布
+                            ma.ImageUrl = "~/images/excalidraw.png";
+                            ma.NavigateUrl = "~/student/program.aspx?lid=" + Lid;
+                            break;
+                        case "26"://推箱子地图
+                            ma.ImageUrl = "~/images/sokoban.png";
+                            ma.NavigateUrl = "~/student/program.aspx?lid=" + Lid;
+                            break;
+                        case "27"://人工智能对话
+                            ma.ImageUrl = "~/images/ai.png";
+                            ma.NavigateUrl = "~/student/program.aspx?lid=" + Lid;
+                            break;
+                        case "28"://语音合成
+                            ma.ImageUrl = "~/images/speek.png";
+                            ma.NavigateUrl = "~/student/program.aspx?lid=" + Lid;
+                            break;
+                        case "29"://文字识别
+                            ma.ImageUrl = "~/images/ocr.png";
+                            ma.NavigateUrl = "~/student/program.aspx?lid=" + Lid;
+                            break;
+                        case "30"://声音分析
+                            ma.ImageUrl = "~/images/sound.png";
+                            ma.NavigateUrl = "~/student/program.aspx?lid=" + Lid;
+                            break;
+                        case "31"://井字棋
+                            ma.ImageUrl = "~/images/tic-tac-toe.png";
+                            ma.NavigateUrl = "~/student/program.aspx?lid=" + Lid;
+                            break;
+                        case "32"://手写数字识别
+                            ma.ImageUrl = "~/images/handnum.png";
+                            ma.NavigateUrl = "~/student/program.aspx?lid=" + Lid;
+                            break;
+                        case "33"://Markdown写作
+                            ma.ImageUrl = "~/images/markdown.png";
+                            ma.NavigateUrl = "~/student/program.aspx?lid=" + Lid;
+                            break;
+                        case "34"://iframe嵌入网页
+                            ma.ImageUrl = "~/images/iframe.png";
+                            ma.NavigateUrl = "~/student/program.aspx?lid=" + Lid;
+                            break;
+                        case "35"://文生图
+                            ma.ImageUrl = "~/images/text-to-image.png";
+                            ma.NavigateUrl = "~/student/program.aspx?lid=" + Lid;
+                            break;
                     }
                     if (ispass)
                     {
                         if (i < lcount)
                         {
-                            ma.ImageUrl = urllfinish;
+                            bool codepass = wbll.WorkPass(cook.Sid, Int32.Parse(Lxidstr));
+                            if(codepass)
+                                ma.ImageUrl = urlfinish;
                         }
                         if (i > lcount)
                         {

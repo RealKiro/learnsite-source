@@ -140,17 +140,11 @@
     </center>
 </div>   
     <br />
-        <link href="../js/tinybox.css" rel="stylesheet" type="text/css" />
-        <script src="../js/tinybox.js" type="text/javascript"></script>
     <script type="text/javascript">
         function jsCopy(contentid) {
             var e = document.getElementById(contentid); //对象是content 
             e.select(); //选择对象 
             document.execCommand("Copy"); //执行浏览器复制命令 
-        }
-        function showShare() {
-            var urlat = "../student/groupshare.aspx";
-            TINY.box.show({ iframe: urlat, boxid: 'frameless', width: 600, height: 400, fixed: false, maskopacity: 60, close: true })
         }   
     </script>
 </div>

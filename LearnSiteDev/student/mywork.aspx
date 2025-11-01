@@ -12,22 +12,20 @@
                 <asp:Image ID="ImageLeaf" runat="server" ImageUrl="~/images/fruit.gif" />
             </ItemTemplate>
             <ItemStyle Width="60px" />
-            </asp:TemplateField>
-               <asp:HyperLinkField DataNavigateUrlFields="cid" 
-                   DataNavigateUrlFormatString="~/student/showcourse.aspx?cid={0}" 
-                   DataTextField="ctitle" HeaderText="学案">
-               <HeaderStyle HorizontalAlign="Left" />
-               <ItemStyle HorizontalAlign="Left" />
-               </asp:HyperLinkField>            
+            </asp:TemplateField>           
+            <asp:BoundField DataField="Ctitle" HeaderText="学案" >
+            <HeaderStyle HorizontalAlign="Left" />
+            <ItemStyle HorizontalAlign="Left" />
+            </asp:BoundField>           
             <asp:BoundField DataField="Mtitle" HeaderText="活动" >
             <HeaderStyle HorizontalAlign="Left" />
-            <ItemStyle Width="280px" HorizontalAlign="Left" />
+            <ItemStyle HorizontalAlign="Left" />
             </asp:BoundField>
             <asp:HyperLinkField DataNavigateUrlFields="wid" 
                 DataNavigateUrlFormatString="downwork.aspx?Wid={0}" HeaderText="作品" 
-                Text="下载" Target="_blank">
+                Text="查看下载" Target="_blank">
             <ControlStyle Font-Underline="True" />
-            <ItemStyle Width="40px" />
+            <ItemStyle Width="120px" />
             </asp:HyperLinkField>
             <asp:BoundField DataField="Wscore" HeaderText="学分">
             <ItemStyle Width="40px" />

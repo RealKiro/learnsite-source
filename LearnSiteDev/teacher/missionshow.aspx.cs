@@ -46,6 +46,10 @@ public partial class Teacher_missionshow : System.Web.UI.Page
             LabelMfiletype.Text = model.Mfiletype;
             ImageType.ImageUrl = "~/images/filetype/" + LabelMfiletype.Text.ToLower() + ".gif";
             CkMupload.Checked = model.Mupload;
+            if (!model.Mupload) {
+                LabelMfiletype.Text = "阅读";
+                ImageType.Visible = false;
+            }
             CheckGroup.Checked = model.Mgroup;
             CheckMicoWorld.Checked = model.Microworld;
             int Mgid = model.Mgid.Value;

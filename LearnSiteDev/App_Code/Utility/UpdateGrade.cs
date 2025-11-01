@@ -47,8 +47,8 @@ namespace LearnSite.DBUtility
             //如果数据库不为空
             if (DBUtility.SqlHelper.CountTable() > 0)
             {
-                string CheckTabel = "SurveyQuestion";
-                string CheckField = "Qblack";//这里是每次字段增加时的判断入口
+                string CheckTabel = "MenuWorks";
+                string CheckField = "kstar";//这里是每次字段增加时的判断入口
                 if (DbHelperSQL.TabExists(CheckTabel))
                 {
                     try
@@ -2378,6 +2378,49 @@ namespace LearnSite.DBUtility
             if (!DbHelperSQL.ColumnExists(SurveyQuestiontable, Qblack))
             {
                 DbHelperSQL.AddColumn(SurveyQuestiontable, Qblack, "bit", 0);
+            }
+        }
+
+
+        public static void UpdateTable1360()
+        {
+            string TxtFormBacktable = "TxtFormBack";
+            string rcontent = "Rcontent";//填表内容
+            if (!DbHelperSQL.ColumnExists(TxtFormBacktable, rcontent))
+            {
+                DbHelperSQL.AddColumn(TxtFormBacktable, rcontent, "ntext", -1);
+            }
+            string MissionTable = "Mission";
+            string mcase = "Mcase";//任务实例内容
+            if (!DbHelperSQL.ColumnExists(MissionTable, mcase))
+            {
+                DbHelperSQL.AddColumn(MissionTable, mcase, "ntext", -1);
+            }
+
+            string Studentstable = "Students";
+            string Steam = "Steam";//推荐组长候选人
+            if (!DbHelperSQL.ColumnExists(Studentstable, Steam))
+            {
+                DbHelperSQL.AddColumn(Studentstable, Steam, "int", 0);
+            }
+            
+            string TxtFormtable = "TxtForm";
+            string Mcollabo = "Mcollabo";//填表内容
+            if (!DbHelperSQL.ColumnExists(TxtFormtable, Mcollabo))
+            {
+                DbHelperSQL.AddColumn(TxtFormtable, Mcollabo, "bit", 0);
+            }
+
+        }
+
+
+        public static void UpdateTable1365()
+        {
+            string MenuWorkstable = "MenuWorks";
+            string kstar = "kstar";//填表内容
+            if (!DbHelperSQL.ColumnExists(MenuWorkstable, kstar))
+            {
+                DbHelperSQL.AddColumn(MenuWorkstable, kstar, "int", -1);
             }
         }
 

@@ -29,10 +29,8 @@
             ForeColor="#09272B" Target="_blank" Font-Underline="False" 
             ToolTip="如果是课堂测验类型，则排行成绩纳入学分统计！">查看排行</asp:HyperLink>
         <br />
-    <div id="vcontent" runat="server"
-            style="border-width: 1px; border-color: #09272B; margin: auto; padding: 8px; text-align: left; width: 980px; border-top-style: dashed;"></div>
+    <div id="vcontent" runat="server" style=" margin: auto; padding: 8px; text-align: left; width: 980px;"></div>
     </div>
-    <br />
     <div style="border: 2px solid #8CB2B5; width: 980px; margin: auto; padding: 6px;text-align: left; ">
     <asp:DataList ID="DataListonly" runat="server" DataKeyField="Qid" 
                     RepeatColumns="1" RepeatLayout="Flow" 
@@ -113,7 +111,7 @@
         <script type ="text/javascript" >
             function mate(m, v) {
                 var urlat = "../student/mysurveymate.aspx?mid=" + m + "&vid=" + v;
-                TINY.box.show({ iframe: urlat, boxid: 'frameless', width: 400, height: 300, fixed: false, maskopacity: 40, close: false })
+                TINY.box.show({ iframe: urlat, boxid: 'frameless', width: 400, height: 300, fixed: false, maskopacity: 40, close: true })
             }
         </script>          
 </div>

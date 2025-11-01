@@ -52,10 +52,7 @@ public partial class Teacher_termscores : System.Web.UI.Page
     {
         DateTime nowtime1 = DateTime.Now;
         LearnSite.BLL.Students stus = new LearnSite.BLL.Students();
-        int perA = int.Parse(DDLA.SelectedValue);
-        int perE = int.Parse(DDLE.SelectedValue);
-        //stus.TermAPE(perA, perE);//开始自动评价汇总，perA百分比为A优秀，perE百分比为E待合格，其余为合格
-        stus.TermABCDE();
+        stus.TermABCD();
         DateTime nowtime2 = DateTime.Now;
         System.Threading.Thread.Sleep(1000);
         LearnSite.BLL.TermTotal mbll = new LearnSite.BLL.TermTotal();
@@ -76,7 +73,7 @@ public partial class Teacher_termscores : System.Web.UI.Page
         LearnSite.BLL.Students stus = new LearnSite.BLL.Students();
         GVCourse.DataSource = stus.GetListTerm(Sgrade, Sclass);
         GVCourse.DataBind();
-        Btnape.ToolTip = "开始自动评价汇总：" + DDLA.SelectedValue + "%为A优秀，" + DDLE.SelectedValue + "%为E待合格，其余为合格，并保存当前学期成绩表";
+        Btnape.ToolTip = "开始自动评价汇总，并保存当前学期成绩表";
     }
     protected void GVCourse_RowDataBound(object sender, GridViewRowEventArgs e)
     {

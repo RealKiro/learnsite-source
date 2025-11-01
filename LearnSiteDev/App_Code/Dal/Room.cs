@@ -1088,7 +1088,7 @@ namespace LearnSite.DAL
         /// <param name="Rhid"></param>
         public void UnlineClass(int Rhid)
         {
-            string mysql = "UPDATE Room SET Rset=0 WHERE Rset=1 and Rhid=" + Rhid;
+            string mysql = "UPDATE Room SET Rset=0,Rcid=null WHERE Rset=1 and Rhid=" + Rhid;
             DbHelperSQL.ExecuteSql(mysql);
         }
         /// <summary>
@@ -1262,6 +1262,7 @@ namespace LearnSite.DAL
             string mysql = "select Rcid from Room where Rset=1 and Rgrade=" + Rgrade + " and Rclass=" + Rclass;
             return DbHelperSQL.FindString(mysql);
         }
+
         /// <summary>
         /// ¸üÐÂRopen
         /// </summary>

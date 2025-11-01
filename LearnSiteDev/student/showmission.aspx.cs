@@ -90,6 +90,10 @@ public partial class Student_showmission : System.Web.UI.Page
                     case "flash":
                         LabelUploadType.Text = "*.swf;*.fla";
                         break;
+                    case "png":
+                    case "jpg":
+                        LabelUploadType.Text = "*.png;*.jpg;*.jpeg;*.gif";
+                        break;
                     default:
                         LabelUploadType.Text = "*." + sWfiletype;
                         break;

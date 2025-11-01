@@ -14,7 +14,8 @@ namespace LearnSite.Model
 		private int? _ksid;
 		private int? _klid;
 		private int? _ktime;
-		private bool _kcheck;
+        private bool _kcheck;
+        private int  _kstar = 0 ;
 		/// <summary>
 		/// 
 		/// </summary>
@@ -55,6 +56,14 @@ namespace LearnSite.Model
 			set{ _kcheck=value;}
 			get{return _kcheck;}
 		}
+        /// <summary>
+        /// 
+        /// </summary>
+        public int Kstar
+        {
+            set { _kstar = value; }
+            get { return _kstar; }
+        }
 		#endregion Model
 
 	}

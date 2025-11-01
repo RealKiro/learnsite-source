@@ -28,9 +28,9 @@ namespace LearnSite.DAL
 		{
 			StringBuilder strSql=new StringBuilder();
 			strSql.Append("insert into TxtForm(");
-			strSql.Append("Mtitle,Mcid,Mcontent,Mdate,Mhit,Mpublish,Mdelete)");
+            strSql.Append("Mtitle,Mcid,Mcontent,Mdate,Mhit,Mpublish,Mdelete,Mcollabo)");
 			strSql.Append(" values (");
-			strSql.Append("@Mtitle,@Mcid,@Mcontent,@Mdate,@Mhit,@Mpublish,@Mdelete)");
+            strSql.Append("@Mtitle,@Mcid,@Mcontent,@Mdate,@Mhit,@Mpublish,@Mdelete,@Mcollabo)");
 			strSql.Append(";select @@IDENTITY");
 			SqlParameter[] parameters = {
 					new SqlParameter("@Mtitle", SqlDbType.NVarChar,50),
@@ -39,14 +39,16 @@ namespace LearnSite.DAL
 					new SqlParameter("@Mdate", SqlDbType.DateTime),
 					new SqlParameter("@Mhit", SqlDbType.Int,4),
 					new SqlParameter("@Mpublish", SqlDbType.Bit,1),
-					new SqlParameter("@Mdelete", SqlDbType.Bit,1)};
+					new SqlParameter("@Mdelete", SqlDbType.Bit,1),
+					new SqlParameter("@Mcollabo", SqlDbType.Bit,1)};
 			parameters[0].Value = model.Mtitle;
 			parameters[1].Value = model.Mcid;
 			parameters[2].Value = model.Mcontent;
 			parameters[3].Value = model.Mdate;
 			parameters[4].Value = model.Mhit;
 			parameters[5].Value = model.Mpublish;
-			parameters[6].Value = model.Mdelete;
+            parameters[6].Value = model.Mdelete;
+            parameters[7].Value = model.Mcollabo;
 
 			object obj = DbHelperSQL.GetSingle(strSql.ToString(),parameters);
 			if (obj == null)
@@ -68,19 +70,22 @@ namespace LearnSite.DAL
 			strSql.Append("Mtitle=@Mtitle,");
 			strSql.Append("Mcontent=@Mcontent,");
 			strSql.Append("Mdate=@Mdate,");
-			strSql.Append("Mpublish=@Mpublish ");
+            strSql.Append("Mpublish=@Mpublish, ");
+            strSql.Append("Mcollabo=@Mcollabo ");
 			strSql.Append(" where Mid=@Mid");
 			SqlParameter[] parameters = {
 					new SqlParameter("@Mtitle", SqlDbType.NVarChar,50),
 					new SqlParameter("@Mcontent", SqlDbType.NText),
 					new SqlParameter("@Mdate", SqlDbType.DateTime),
 					new SqlParameter("@Mpublish", SqlDbType.Bit,1),
-					new SqlParameter("@Mid", SqlDbType.Int,4)};
+					new SqlParameter("@Mid", SqlDbType.Int,4),
+					new SqlParameter("@Mcollabo", SqlDbType.Bit,1)};
 			parameters[0].Value = model.Mtitle;
 			parameters[1].Value = model.Mcontent;
 			parameters[2].Value = model.Mdate;
 			parameters[3].Value = model.Mpublish;
-			parameters[4].Value = model.Mid;
+            parameters[4].Value = model.Mid;
+            parameters[5].Value = model.Mcollabo;
 
 			int rows=DbHelperSQL.ExecuteSql(strSql.ToString(),parameters);
 			if (rows > 0)
@@ -153,7 +158,7 @@ namespace LearnSite.DAL
 		{
 			
 			StringBuilder strSql=new StringBuilder();
-			strSql.Append("select  top 1 Mid,Mtitle,Mcid,Mcontent,Mdate,Mhit,Mpublish,Mdelete from TxtForm ");
+            strSql.Append("select  top 1 Mid,Mtitle,Mcid,Mcontent,Mdate,Mhit,Mpublish,Mdelete,Mcollabo from TxtForm ");
 			strSql.Append(" where Mid=@Mid");
 			SqlParameter[] parameters = {
 					new SqlParameter("@Mid", SqlDbType.Int,4)
@@ -226,7 +231,18 @@ namespace LearnSite.DAL
 					{
 						model.Mdelete=false;
 					}
-				}
+                }
+                if (row["Mcollabo"] != null && row["Mcollabo"].ToString() != "")
+                {
+                    if ((row["Mcollabo"].ToString() == "1") || (row["Mcollabo"].ToString().ToLower() == "true"))
+                    {
+                        model.Mcollabo = true;
+                    }
+                    else
+                    {
+                        model.Mcollabo = false;
+                    }
+                }
 			}
 			return model;
 		}
@@ -237,7 +253,7 @@ namespace LearnSite.DAL
 		public DataSet GetList(string strWhere)
 		{
 			StringBuilder strSql=new StringBuilder();
-			strSql.Append("select Mid,Mtitle,Mcid,Mcontent,Mdate,Mhit,Mpublish,Mdelete ");
+            strSql.Append("select Mid,Mtitle,Mcid,Mcontent,Mdate,Mhit,Mpublish,Mdelete,Mcollabo ");
 			strSql.Append(" FROM TxtForm ");
 			if(strWhere.Trim()!="")
 			{
@@ -257,7 +273,7 @@ namespace LearnSite.DAL
 			{
 				strSql.Append(" top "+Top.ToString());
 			}
-			strSql.Append(" Mid,Mtitle,Mcid,Mcontent,Mdate,Mhit,Mpublish,Mdelete ");
+            strSql.Append(" Mid,Mtitle,Mcid,Mcontent,Mdate,Mhit,Mpublish,Mdelete,Mcollabo ");
 			strSql.Append(" FROM TxtForm ");
 			if(strWhere.Trim()!="")
 			{

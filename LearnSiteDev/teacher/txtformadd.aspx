@@ -6,6 +6,7 @@
         &nbsp;表格名称：<asp:TextBox ID="Texttitle" runat="server"  SkinID="TextBoxNormal" 
             Width="200px" ></asp:TextBox>
         <asp:CheckBox ID="CheckPublish" runat="server" Text="是否发布"  Checked="True" />
+        <asp:CheckBox ID="CheckCollabo" runat="server" Text="是否协同"  Checked="True" />
         </div>
     <div  >
         <script type="text/javascript" charset="utf-8" src="../kindeditor/kindeditor-min.js"></script>

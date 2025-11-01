@@ -18,15 +18,7 @@ public partial class Student_mysurveyclass : System.Web.UI.Page
             if (!IsPostBack)
             {
                 btnselect();
-                if (!IsRight())
-                {
-                    string url = "mysurvey.aspx";
-                    LearnSite.Common.WordProcess.AlertJump("现在将跳转到调查页面，请完成调查后按查看结果打开！", url, this.Page);
-                }
-                else
-                {
-                    showSurvey(); //显示班级调查统计
-                }
+                showSurvey(); //显示班级调查统计
             }
         }
         else
@@ -54,23 +46,6 @@ public partial class Student_mysurveyclass : System.Web.UI.Page
         }
     }
 
-    private bool IsRight()
-    {
-        bool bl = false;
-        string fnum = cook.Snum;
-        if (Session[fnum + "surveyrnd"] != null && Request.QueryString["rnd"] != null)
-        {
-            string surveyrnd = Session[fnum + "surveyrnd"].ToString();
-            string rnd = Request.QueryString["rnd"].ToString();
-            if (surveyrnd == rnd)
-            {
-                bl = true;
-                //测试用，判断是不是从正确考试入口进入的
-            }
-        }
-        return bl;
-    }
-
     private void showSurvey()
     {
         if (Request.QueryString["vid"] != null && Request.QueryString["cid"] != null)
@@ -86,7 +61,7 @@ public partial class Student_mysurveyclass : System.Web.UI.Page
             vmodel = vbll.GetModel(vid);
             int vtype = vmodel.Vtype.Value;
             Lbtitle.Text = "《" + vmodel.Vtitle + "》班级统计分析";
-            vcontent.InnerHtml = HttpUtility.HtmlDecode(vmodel.Vcontent);
+            //vcontent.InnerHtml = HttpUtility.HtmlDecode(vmodel.Vcontent);不显示调查描述内容
             Lbdate.Text = vmodel.Vdate.ToString();
             Lbsgrade.Text = sgrade.ToString();
             string fnum = Server.UrlDecode(cook.Snum);

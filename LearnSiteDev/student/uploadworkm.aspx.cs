@@ -56,6 +56,13 @@ public partial class Student_uploadworkm : System.Web.UI.Page
                     case "sb":
                         limitext = "*.sb;*.sb2;*.sb3";
                         break;
+                    case "iframe":
+                        limitext = "*.psd;*.iframe";
+                        break;
+                    case "png":
+                    case "jpg":
+                        limitext = "*.png;*.jpg;*.jpeg;*.gif";
+                        break;
                     default:
                         limitext = "*." + Wextention;
                         break;
@@ -108,7 +115,7 @@ public partial class Student_uploadworkm : System.Web.UI.Page
                             
                             LearnSite.BLL.Signin sn = new LearnSite.BLL.Signin();
                             sn.UpdateQwork(Int32.Parse(Wsid), Int32.Parse(Wcid));//更新今天签到表中的作品数量                            
-                            work_upload.SaveAs(resaveFilename);//保存提交作品 
+                            work_upload.SaveAs(resaveFilename);//保存提交作品
                             
                             Hashtable hash = new Hashtable();
                             hash["error"] = 0;
@@ -129,6 +136,7 @@ public partial class Student_uploadworkm : System.Web.UI.Page
                         string OnlyFileName = Wnum + "_" + Wcid + "_" + Wmid + "_" + RndTime;
                         string NewFileName = OnlyFileName + "." + Wfiletype;
                         string Wurl = MySavePath + "/" + NewFileName;
+                        string Wthumbnail = MySavePath + "/" + OnlyFileName + ".jpg";
                         string Wtime = LearnSite.Common.Computer.TimePassed().ToString();
 
                         LearnSite.Model.Works wmodel = new LearnSite.Model.Works();
@@ -154,6 +162,7 @@ public partial class Student_uploadworkm : System.Web.UI.Page
                         wmodel.Wname = HttpUtility.UrlDecode(Sname);
                         wmodel.Wyear = Int32.Parse(Syear);
                         wmodel.Wlid = Int32.Parse(Wlid);
+                        wmodel.Wthumbnail = Wthumbnail;
 
                         switch (Wfiletype)
                         {

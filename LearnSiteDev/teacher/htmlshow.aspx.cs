@@ -38,6 +38,7 @@ public partial class teacher_htmlshow : System.Web.UI.Page
             {
                 LabelMtitle.Text = model.Mtitle;
                 Mcontent.InnerHtml = HttpUtility.HtmlDecode(model.Mcontent);
+                Labelfilename.Text = model.Mback;
 
                 CheckPublish.Checked = model.Mpublish;
                 LabelMdate.Text = model.Mdate.ToString();

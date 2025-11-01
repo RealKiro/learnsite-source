@@ -11,7 +11,7 @@ public partial class Teacher_pixelshow : System.Web.UI.Page
         LearnSite.Common.CookieHelp.JudgeTeacherCookies();
         if (!IsPostBack)
         {
-            Master.Page.Title = LearnSite.Common.CookieHelp.SetMainPageTitle() + "像素画主题页面";
+            Master.Page.Title = LearnSite.Common.CookieHelp.SetMainPageTitle() + "主题创作页面";
             if (Request.QueryString["mcid"] != null && Request.QueryString["mid"] != null)
             {
                 showmission();
@@ -35,7 +35,7 @@ public partial class Teacher_pixelshow : System.Web.UI.Page
         if (model != null)
         {
             LabelMfiletype.Text = model.Mfiletype;
-            if (model.Mfiletype == "pxl")
+            if (model.Mfiletype == "pxl" || model.Mfiletype == "qrcode" || model.Mfiletype == "word" || model.Mfiletype == "mpptx" || model.Mfiletype == "pptist" || model.Mfiletype == "poster" || model.Mfiletype == "style" || model.Mfiletype == "mlimg" || model.Mfiletype == "face" || model.Mfiletype == "mqtt" || model.Mfiletype == "excalidraw" || model.Mfiletype == "sokoban" || model.Mfiletype == "ai" || model.Mfiletype == "speek" || model.Mfiletype == "ocr" || model.Mfiletype == "sound" || model.Mfiletype == "tic-tac-toe" || model.Mfiletype == "handnum" || model.Mfiletype == "markdown" || model.Mfiletype == "iframe" || model.Mfiletype == "text-to-image")
             {
                 LabelMtitle.Text = model.Mtitle;
                 Mcontent.InnerHtml = HttpUtility.HtmlDecode(model.Mcontent);
@@ -49,7 +49,7 @@ public partial class Teacher_pixelshow : System.Web.UI.Page
 
             }
             else
-                Mcontent.InnerHtml = "这里是像素画页面，你走错地方了!";
+                Mcontent.InnerHtml = "这里是主题创作页面，你走错地方了!";
         }
     }
     protected void BtnReturnSmall_Click(object sender, ImageClickEventArgs e)

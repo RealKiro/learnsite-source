@@ -25,7 +25,7 @@
             Font-Size="11pt" Height="24px"></asp:TextBox>
             
 <asp:TextBox SkinId="TextBoxNormal" runat="server" BorderColor="#E7E7E7" BorderStyle="Solid"
-                BorderWidth="1px" Font-Size="11pt"></asp:TextBox>
+                BorderWidth="1px" Font-Size="12pt"></asp:TextBox>
  
  <asp:Button runat="server" SkinId="BtnLong" BackColor="#E6E6E6" 
             BorderColor="#D4D4D4" BorderWidth="1px" Font-Family="Arial" 

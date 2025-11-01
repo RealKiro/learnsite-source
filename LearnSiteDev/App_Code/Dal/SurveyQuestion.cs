@@ -2,7 +2,8 @@
 using System.Data;
 using System.Text;
 using System.Data.SqlClient;
-using LearnSite.DBUtility;//Please add references
+using LearnSite.DBUtility;
+using Newtonsoft.Json;//Please add references
 namespace LearnSite.DAL
 {
 	/// <summary>
@@ -317,6 +318,48 @@ namespace LearnSite.DAL
             string myql = "select Qtitle  FROM SurveyQuestion where Qid="+Qid;
             return DbHelperSQL.FindString(myql);
         }
+
+
+        /// <summary>
+        /// 获得所有试题数据列表 返回Base64编码json字符串
+        /// </summary>
+        public string GetListQuestion(int Qvid)
+        {
+            string strWhere = " Qvid=" + Qvid + " order by Qid asc";
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("select Qid,Qtitle,Qblack ");
+            strSql.Append(" FROM SurveyQuestion ");
+            strSql.Append(" where " + strWhere);
+            DataTable dt = DbHelperSQL.Query(strSql.ToString()).Tables[0];
+            dt.Columns.Add("Qitem");
+            int n = dt.Rows.Count;
+            string qjson = "";
+            if (n > 0) {
+                for (int i = 0; i < n; i++) {
+                    string qid = dt.Rows[i]["Qid"].ToString();
+
+                    string strItem = "select Mid,Mitem,Mscore FROM SurveyItem where  Mqid=" + qid;
+                    DataTable dtItem =  DbHelperSQL.Query(strItem).Tables[0];
+                    int m = dtItem.Rows.Count;
+                    if (m > 0) {
+                        string mjson = JsonConvert.SerializeObject(dtItem);
+                        dt.Rows[i]["Qitem"] = mjson;
+                    }                    
+                }
+                qjson = JsonConvert.SerializeObject(dt);
+
+            }
+            return Base64Json(qjson);
+        }
+
+        private string Base64Json(string jsonstr) {
+            // 将JSON字符串转换为字节数组
+            byte[] jsonBytes = Encoding.UTF8.GetBytes(jsonstr);
+            // 使用Base64类将字节数组转换为64位编码的字符串
+            string base64Json = Convert.ToBase64String(jsonBytes);
+            return base64Json;
+        }
+
 		/// <summary>
 		/// 获得数据列表
 		/// </summary>

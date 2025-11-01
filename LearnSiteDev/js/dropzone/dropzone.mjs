@@ -77,10 +77,11 @@ $fd6031f88dce2e32$exports = "<div class=\"dz-preview dz-file-preview\">\n  <div 
 
 let $4ca367182776f80b$var$defaultOptions = {
     /**
-   * Has to be specified on elements other than form (or when the form
-   * doesn't have an `action` attribute). You can also
-   * provide a function that will be called with `files` and
-   * must return the url (since `v3.12.0`)
+   * Has to be specified on elements other than form (or when the form doesn't
+   * have an `action` attribute).
+   *
+   * You can also provide a function that will be called with `files` and
+   * `dataBlocks`  and must return the url as string.
    */ url: null,
     /**
    * Can be changed to `"put"` if necessary. You can also provide a function
@@ -117,7 +118,7 @@ let $4ca367182776f80b$var$defaultOptions = {
    */ forceChunking: false,
     /**
    * If `chunking` is `true`, then this defines the chunk size in bytes.
-   */ chunkSize: 2000000,
+   */ chunkSize: 2097152,
     /**
    * If `true`, the individual chunks of a file are being uploaded simultaneously.
    */ parallelChunkUploads: false,
@@ -191,6 +192,12 @@ let $4ca367182776f80b$var$defaultOptions = {
    * An optional object to send additional headers to the server. Eg:
    * `{ "My-Awesome-Header": "header value" }`
    */ headers: null,
+    /**
+   * Should the default headers be set or not?
+   * Accept: application/json <- for requesting json response
+   * Cache-Control: no-cache <- Request shouldnt be cached
+   * X-Requested-With: XMLHttpRequest <- We sent the request via XMLHttpRequest
+   */ defaultHeaders: true,
     /**
    * If `true`, the dropzone element itself will be clickable, if `false`
    * nothing will be clickable.
@@ -368,6 +375,12 @@ let $4ca367182776f80b$var$defaultOptions = {
    */ chunksUploaded: function(file, done) {
         done();
     },
+    /**
+   * Sends the file as binary blob in body instead of form data.
+   * If this is set, the `params` option will be ignored.
+   * It's an error to set this to `true` along with `uploadMultiple` since
+   * multiple files cannot be in a single binary body.
+   */ binaryBody: false,
     /**
    * Gets called when the browser is not supported.
    * The default implementation shows the fallback input field and adds
@@ -1366,7 +1379,9 @@ class $3ed269f2f0fb224b$export$2e2bcd8739ae039 extends $4040acfd8584338d$export$
                     chunk.status = $3ed269f2f0fb224b$export$2e2bcd8739ae039.SUCCESS;
                     // Clear the data from the chunk
                     chunk.dataBlock = null;
-                    // Leaving this reference to xhr intact here will cause memory leaks in some browsers
+                    chunk.response = chunk.xhr.responseText;
+                    chunk.responseHeaders = chunk.xhr.getAllResponseHeaders();
+                    // Leaving this reference to xhr will cause memory leaks.
                     chunk.xhr = null;
                     for(let i = 0; i < file.upload.totalChunkCount; i++){
                         if (file.upload.chunks[i] === undefined) return handleNextChunk();
@@ -1396,16 +1411,19 @@ class $3ed269f2f0fb224b$export$2e2bcd8739ae039 extends $4040acfd8584338d$export$
         }
     }
     // This function actually uploads the file(s) to the server.
-    // If dataBlocks contains the actual data to upload (meaning, that this could either be transformed
-    // files, or individual chunks for chunked upload).
+    //
+    //  If dataBlocks contains the actual data to upload (meaning, that this could
+    // either be transformed files, or individual chunks for chunked upload) then
+    // they will be used for the actual data to upload.
     _uploadData(files, dataBlocks) {
         let xhr = new XMLHttpRequest();
         // Put the xhr object in the file objects to be able to reference it later.
         for (let file of files)file.xhr = xhr;
-        if (files[0].upload.chunked) // Put the xhr object in the right chunk object, so it can be associated later, and found with _getChunk
+        if (files[0].upload.chunked) // Put the xhr object in the right chunk object, so it can be associated
+        // later, and found with _getChunk.
         files[0].upload.chunks[dataBlocks[0].chunkIndex].xhr = xhr;
-        let method = this.resolveOption(this.options.method, files);
-        let url = this.resolveOption(this.options.url, files);
+        let method = this.resolveOption(this.options.method, files, dataBlocks);
+        let url = this.resolveOption(this.options.url, files, dataBlocks);
         xhr.open(method, url, true);
         // Setting the timeout after open because of IE11 issue: https://gitlab.com/meno/dropzone/issues/8
         let timeout = this.resolveOption(this.options.timeout, files);
@@ -1425,41 +1443,51 @@ class $3ed269f2f0fb224b$export$2e2bcd8739ae039 extends $4040acfd8584338d$export$
         let progressObj = xhr.upload != null ? xhr.upload : xhr;
         progressObj.onprogress = (e)=>this._updateFilesUploadProgress(files, xhr, e)
         ;
-        let headers = {
+        let headers = this.options.defaultHeaders ? {
             Accept: "application/json",
             "Cache-Control": "no-cache",
             "X-Requested-With": "XMLHttpRequest"
+        } : {
         };
+        if (this.options.binaryBody) headers["Content-Type"] = files[0].type;
         if (this.options.headers) $ewBKy$justextend(headers, this.options.headers);
         for(let headerName in headers){
             let headerValue = headers[headerName];
             if (headerValue) xhr.setRequestHeader(headerName, headerValue);
         }
-        let formData = new FormData();
-        // Adding all @options parameters
-        if (this.options.params) {
-            let additionalParams = this.options.params;
-            if (typeof additionalParams === "function") additionalParams = additionalParams.call(this, files, xhr, files[0].upload.chunked ? this._getChunk(files[0], xhr) : null);
-            for(let key in additionalParams){
-                let value = additionalParams[key];
-                if (Array.isArray(value)) // The additional parameter contains an array,
-                // so lets iterate over it to attach each value
-                // individually.
-                for(let i = 0; i < value.length; i++)formData.append(key, value[i]);
-                else formData.append(key, value);
+        if (this.options.binaryBody) {
+            // Since the file is going to be sent as binary body, it doesn't make
+            // any sense to generate `FormData` for it.
+            for (let file of files)this.emit("sending", file, xhr);
+            if (this.options.uploadMultiple) this.emit("sendingmultiple", files, xhr);
+            this.submitRequest(xhr, null, files);
+        } else {
+            let formData = new FormData();
+            // Adding all @options parameters
+            if (this.options.params) {
+                let additionalParams = this.options.params;
+                if (typeof additionalParams === "function") additionalParams = additionalParams.call(this, files, xhr, files[0].upload.chunked ? this._getChunk(files[0], xhr) : null);
+                for(let key in additionalParams){
+                    let value = additionalParams[key];
+                    if (Array.isArray(value)) // The additional parameter contains an array,
+                    // so lets iterate over it to attach each value
+                    // individually.
+                    for(let i = 0; i < value.length; i++)formData.append(key, value[i]);
+                    else formData.append(key, value);
+                }
             }
+            // Let the user add additional data if necessary
+            for (let file of files)this.emit("sending", file, xhr, formData);
+            if (this.options.uploadMultiple) this.emit("sendingmultiple", files, xhr, formData);
+            this._addFormElementData(formData);
+            // Finally add the files
+            // Has to be last because some servers (eg: S3) expect the file to be the last parameter
+            for(let i = 0; i < dataBlocks.length; i++){
+                let dataBlock = dataBlocks[i];
+                formData.append(dataBlock.name, dataBlock.data, dataBlock.filename);
+            }
+            this.submitRequest(xhr, formData, files);
         }
-        // Let the user add additional data if necessary
-        for (let file1 of files)this.emit("sending", file1, xhr, formData);
-        if (this.options.uploadMultiple) this.emit("sendingmultiple", files, xhr, formData);
-        this._addFormElementData(formData);
-        // Finally add the files
-        // Has to be last because some servers (eg: S3) expect the file to be the last parameter
-        for(let i = 0; i < dataBlocks.length; i++){
-            let dataBlock = dataBlocks[i];
-            formData.append(dataBlock.name, dataBlock.data, dataBlock.filename);
-        }
-        this.submitRequest(xhr, formData, files);
     }
     // Transforms all files with this.options.transformFile and invokes done with the transformed files when done.
     _transformFiles(files, done) {
@@ -1571,7 +1599,12 @@ class $3ed269f2f0fb224b$export$2e2bcd8739ae039 extends $4040acfd8584338d$export$
             console.warn("Cannot send this request because the XMLHttpRequest.readyState is not OPENED.");
             return;
         }
-        xhr.send(formData);
+        if (this.options.binaryBody) {
+            if (files[0].upload.chunked) {
+                const chunk = this._getChunk(files[0], xhr);
+                xhr.send(chunk.dataBlock.data);
+            } else xhr.send(files[0]);
+        } else xhr.send(formData);
     }
     // Called internally when processing is finished.
     // Individual callbacks have to be called in the appropriate sections.
@@ -1635,6 +1668,7 @@ class $3ed269f2f0fb224b$export$2e2bcd8739ae039 extends $4040acfd8584338d$export$
         if (!this.options.url) throw new Error("No URL provided.");
         if (this.options.acceptedFiles && this.options.acceptedMimeTypes) throw new Error("You can't provide both 'acceptedFiles' and 'acceptedMimeTypes'. 'acceptedMimeTypes' is deprecated.");
         if (this.options.uploadMultiple && this.options.chunking) throw new Error("You cannot set both: uploadMultiple and chunking.");
+        if (this.options.binaryBody && this.options.uploadMultiple) throw new Error("You cannot set both: binaryBody and uploadMultiple.");
         // Backwards compatibility
         if (this.options.acceptedMimeTypes) {
             this.options.acceptedFiles = this.options.acceptedMimeTypes;

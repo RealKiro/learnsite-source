@@ -169,8 +169,22 @@ i {
       editor.getSession().setMode("ace/mode/python");
 	  editor.setFontSize(fontsize);
 	editor.setReadOnly(false)
-	editor.getSession().setTabSize(4);
-	
+	editor.getSession().setTabSize(4); 
+    
+    editor.commands.addCommand({
+	    name: 'myCommand',
+	    bindKey: { win: 'Ctrl-C', mac: 'Command-C' },
+	    exec: function (editor) {
+	        console.log('禁止复制')
+	    },
+	    readOnly: true // 如果不需要使用只读模式，这里设置false
+	});
+	editor.container.addEventListener("contextmenu", function (e) {
+	    e.preventDefault();
+	    return false;
+	}, false);
+
+
 	function fontbig(){
 		fontsize+=2;
 		editor.setFontSize(fontsize);	

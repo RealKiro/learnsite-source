@@ -271,7 +271,7 @@ KindEditor.plugin('table', function(K) {
 						for (var i = 0; i < rows; i++) {
 							html += '<tr>';
 							for (var j = 0; j < cols; j++) {
-								html += '<td>' + (K.IE ? '' : '<br />') + '</td>';
+								html += '<td >' + (K.IE ? '' : '<br />') + '</td>';
 							}
 							html += '</tr>';
 						}
@@ -350,11 +350,6 @@ KindEditor.plugin('table', function(K) {
 				'<option value="%">' + lang.percent + '</option>',
 				'<option value="px">' + lang.px + '</option>',
 				'</select>  ',
-				lang.height + ' <input type="text" class="ke-input-text ke-input-number" name="height" value="" maxlength="4" />  ',
-				'<select name="heightType">',
-				'<option value="%">' + lang.percent + '</option>',
-				'<option value="px">' + lang.px + '</option>',
-				'</select>',
 				'</div>',
 				//align
 				'<div class="ke-dialog-row">',
@@ -365,25 +360,17 @@ KindEditor.plugin('table', function(K) {
 				'<option value="center">' + lang.alignCenter + '</option>',
 				'<option value="right">' + lang.alignRight + '</option>',
 				'</select> ',
-				lang.verticalAlign + ' <select name="verticalAlign">',
-				'<option value="">' + lang.alignDefault + '</option>',
-				'<option value="top">' + lang.alignTop + '</option>',
-				'<option value="middle">' + lang.alignMiddle + '</option>',
-				'<option value="bottom">' + lang.alignBottom + '</option>',
-				'<option value="baseline">' + lang.alignBaseline + '</option>',
-				'</select>',
-				'</div>',
-				//border
-				'<div class="ke-dialog-row">',
-				'<label for="keBorder" style="width:90px;">' + lang.border + '</label>',
-				lang.borderWidth + ' <input type="text" id="keBorder" class="ke-input-text ke-input-number" name="border" value="" maxlength="4" />  ',
-				lang.borderColor + ' <span class="ke-inline-block ke-input-color"></span>',
 				'</div>',
 				//background color
 				'<div class="ke-dialog-row">',
 				'<label for="keBgColor" style="width:90px;">' + lang.backgroundColor + '</label>',
 				'<span class="ke-inline-block ke-input-color"></span>',
-				'</div>',
+				'</div>',				
+				//单元格可编辑
+				'<div class="ke-dialog-row">',
+				'<label for="keBgColor" style="width:90px;">单元格可编辑</label>',
+				'<input type="checkbox" id="celledit" name="celledit" value=""/>',
+				'</div>',				
 				'</div>'
 			].join('');
 			var bookmark = self.cmd.range.createBookmark();
@@ -399,41 +386,39 @@ KindEditor.plugin('table', function(K) {
 					name : self.lang('yes'),
 					click : function(e) {
 						var width = widthBox.val(),
-							height = heightBox.val(),
 							widthType = widthTypeBox.val(),
-							heightType = heightTypeBox.val(),
-							padding = paddingBox.val(),
-							spacing = spacingBox.val(),
 							textAlign = textAlignBox.val(),
-							verticalAlign = verticalAlignBox.val(),
-							border = borderBox.val(),
-							borderColor = K(colorBox[0]).html() || '',
-							bgColor = K(colorBox[1]).html() || '';
+							bgColor = K(colorBox[0]).html() || '';
+							editable=editBox[0].checked;
+							
+						
 						if (!/^\d*$/.test(width)) {
 							alert(self.lang('invalidWidth'));
 							widthBox[0].focus();
 							return;
 						}
-						if (!/^\d*$/.test(height)) {
-							alert(self.lang('invalidHeight'));
-							heightBox[0].focus();
-							return;
+						
+						if(!editable) {
+							editable="none";
+							//bgColor="";
 						}
-						if (!/^\d*$/.test(border)) {
-							alert(self.lang('invalidBorder'));
-							borderBox[0].focus();
-							return;
+						else{
+							bgColor="#FBF4D5";
 						}
+						
+						//console.log("单元格状态",editable);
+						//console.log("背景色：",bgColor);
 						cell.css({
 							width : width !== '' ? (width + widthType) : '',
-							height : height !== '' ? (height + heightType) : '',
 							'background-color' : bgColor,
-							'text-align' : textAlign,
-							'vertical-align' : verticalAlign,
-							'border-width' : border,
-							'border-style' : border !== '' ? 'solid' : '',
-							'border-color' : borderColor
+							'text-align' : textAlign
 						});
+						
+						cell.attr({
+							contenteditable:editable
+						});
+						
+						//console.log(cell);			
 						self.hideDialog().focus();
 						self.cmd.range.moveToBookmark(bookmark);
 						self.cmd.select();
@@ -442,47 +427,39 @@ KindEditor.plugin('table', function(K) {
 				}
 			}),
 			div = dialog.div,
+			editBox = K('[name="celledit"]', div),
 			widthBox = K('[name="width"]', div).val(100),
-			heightBox = K('[name="height"]', div),
 			widthTypeBox = K('[name="widthType"]', div),
-			heightTypeBox = K('[name="heightType"]', div),
-			paddingBox = K('[name="padding"]', div).val(2),
-			spacingBox = K('[name="spacing"]', div).val(0),
 			textAlignBox = K('[name="textAlign"]', div),
-			verticalAlignBox = K('[name="verticalAlign"]', div),
-			borderBox = K('[name="border"]', div).val(1),
 			colorBox = K('.ke-input-color', div);
+						
 			_initColorPicker(div, colorBox.eq(0));
-			_initColorPicker(div, colorBox.eq(1));
-			_setColor(colorBox.eq(0), '#000000');
-			_setColor(colorBox.eq(1), '');
+			//_setColor(colorBox.eq(0), '');
+			
 			// foucs and select
 			widthBox[0].focus();
 			widthBox[0].select();
 			// get selected cell
 			var cell = self.plugin.getSelectedCell();
+			
+			if(cell[0].getAttribute("contenteditable")=="true")
+			{
+				editBox[0].checked=true;
+			}
+			else{
+				editBox[0].checked=false;
+			}
+				
 			var match,
-				cellWidth = cell[0].style.width || cell[0].width || '',
-				cellHeight = cell[0].style.height || cell[0].height || '';
+				cellWidth = cell[0].style.width || cell[0].width || '';
 			if ((match = /^(\d+)((?:px|%)*)$/.exec(cellWidth))) {
 				widthBox.val(match[1]);
 				widthTypeBox.val(match[2]);
 			} else {
 				widthBox.val('');
 			}
-			if ((match = /^(\d+)((?:px|%)*)$/.exec(cellHeight))) {
-				heightBox.val(match[1]);
-				heightTypeBox.val(match[2]);
-			}
 			textAlignBox.val(cell[0].style.textAlign || '');
-			verticalAlignBox.val(cell[0].style.verticalAlign || '');
-			var border = cell[0].style.borderWidth || '';
-			if (border) {
-				border = parseInt(border);
-			}
-			borderBox.val(border);
-			_setColor(colorBox.eq(0), K.toHex(cell[0].style.borderColor || ''));
-			_setColor(colorBox.eq(1), K.toHex(cell[0].style.backgroundColor || ''));
+			_setColor(colorBox.eq(0), K.toHex(cell[0].style.backgroundColor || ''));
 			widthBox[0].focus();
 			widthBox[0].select();
 		},

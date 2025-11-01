@@ -26,65 +26,26 @@ public partial class Teacher_circleshow : System.Web.UI.Page
         int icn = DDLstore.Items.Count;
         if (icn > 0)
         {
-            string Wurl = DDLstore.SelectedValue;
-            if (!string.IsNullOrEmpty(Wurl))
+            string Wid = DDLstore.SelectedValue;
+            if (!string.IsNullOrEmpty(Wid))
             {
-                bool ishtm = false;
-                url = Server.UrlEncode(Wurl);
-                string ext = LearnSite.Common.WordProcess.getext(Wurl);
-                string htmname = "index.htm";
+                LearnSite.BLL.Works wbll = new LearnSite.BLL.Works();
+                LearnSite.Model.Works wmodel = new LearnSite.Model.Works();
+                wmodel = wbll.GetModel(Int32.Parse(Wid));
+
+                url = Server.UrlEncode(wmodel.Wurl);
+                string ext = wmodel.Wtype;
                 int cur = DDLstore.SelectedIndex + 1;
                 Labelnum.Text = cur.ToString() + "/" + icn.ToString();
-                if (ishtm)
-                {
-                    Labelnum.ToolTip = LearnSite.Common.WordProcess.GetSnumhtm(Wurl);
-                }
-                else
-                {
-                    Labelnum.ToolTip = LearnSite.Common.WordProcess.GetSnum(Wurl);
-                }
-                string Mid = Request.QueryString["mi"].ToString();
-                string Wnum = Labelnum.ToolTip;
 
-                LearnSite.BLL.Students sbll = new LearnSite.BLL.Students();
-                Labelname.Text = sbll.GetSnameBySnum(Wnum);
+                string Wnum = wmodel.Wnum;
+                Labelnum.ToolTip = Wnum;
+                
+                Labelname.Text = Server.UrlDecode(wmodel.Wname);
 
                 GetScore(Wnum);
-                LearnSite.BLL.Works wbll = new LearnSite.BLL.Works();
-                if (ext.Contains("sb"))
-                {
-                    string wid = wbll.GetWid(Mid, Wnum);
-                    if (!string.IsNullOrEmpty(wid))
-                    {
-                        Literal1.Text = LearnSite.Common.WordProcess.SelectWriteTeaShow(wid, ext, Wurl, true, htmname);
-                    }
-                }
-                else
-                {
-                    if (ext == "py")
-                    {
-                        string Wcode = wbll.GetWcode(Mid, Wnum);
-                        Literal1.Text = LearnSite.Common.WordProcess.pyWcode(Wcode, Wurl);
-                    }
-                    else
-                    {
 
-                        if (ext == "block")
-                        {
-                            string Wcode = wbll.GetWcode(Mid, Wnum);
-                            Literal1.Text = LearnSite.Common.WordProcess.pyBlock(Wcode);
-                        }
-                        else
-                        {
-                            if (ext == "xml")
-                            {
-                                Hlcode.NavigateUrl = "~/teacher/mygraph.aspx?url=" + HttpUtility.UrlEncode(Wurl);
-                                Hlcode.Visible = true;
-                            }
-                            Literal1.Text = LearnSite.Common.WordProcess.SelectWriteTeaNew(ext, Wurl, true, htmname);
-                        }
-                    }
-                }
+                Literal1.Text = LearnSite.Common.ViewPage.SelectWritePlugin(Wid, ext, url, wmodel.Wcode, wmodel.Wthumbnail, false, true);
 
             }
             else
@@ -135,14 +96,14 @@ public partial class Teacher_circleshow : System.Web.UI.Page
                 {
                     bool wcheck = bool.Parse(dt.Rows[i]["Wcheck"].ToString());
                     string sname = dt.Rows[i]["Sname"].ToString();
-                    string wurl = dt.Rows[i]["Wurl"].ToString();
-                    lmname[i + 1] = new ListItem(sname, wurl);
+                    string wid = dt.Rows[i]["Wid"].ToString();
+                    lmname[i + 1] = new ListItem(sname, wid);
 
                     if (wcheck)
-                        sname = "作品" + (i + 1).ToString() + "√";
+                        sname = sname + (i + 1).ToString() + "√";
                     else
-                        sname = "作品" + (i + 1).ToString();
-                    lmnone[i] = new ListItem(sname, wurl);
+                        sname = sname + (i + 1).ToString();
+                    lmnone[i] = new ListItem(sname, wid);
                 }
                 DDLname.Items.AddRange(lmname);
                 DDLstore.Items.AddRange(lmnone);

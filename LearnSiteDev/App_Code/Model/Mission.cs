@@ -27,6 +27,7 @@ namespace LearnSite.Model
         private bool _microworld = false;
         private string _mback = "";
         private bool _mhelp = false;
+        private string _mcase="";
 
 		/// <summary>
 		/// 
@@ -163,6 +164,14 @@ namespace LearnSite.Model
         {
             set { _mhelp = value; }
             get { return _mhelp; }
+        }		
+        /// <summary>
+        /// 
+        /// </summary>
+        public string Mcase
+        {
+            set { _mcase = value; }
+            get { return _mcase; }
         }
 		#endregion Model
 

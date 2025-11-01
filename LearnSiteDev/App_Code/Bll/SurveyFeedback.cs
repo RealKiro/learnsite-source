@@ -72,7 +72,15 @@ namespace LearnSite.BLL
 			
 			return dal.Delete(Fid);
 		}
+         
                 
+        /// <summary>
+        /// 删除一条数据
+        /// </summary>
+        public bool DeleteSnum(int Fvid, string Fnum)
+        {
+            return dal.DeleteSnum(Fvid, Fnum);
+        }
         /// <summary>
         /// 删除一个班级的调查记录
         /// </summary>

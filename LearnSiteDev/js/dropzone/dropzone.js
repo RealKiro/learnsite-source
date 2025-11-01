@@ -132,10 +132,11 @@ $69c61888cc1f4c57$exports = "<div class=\"dz-preview dz-file-preview\">\n  <div 
 
 var $b657c03155fc27e2$var$defaultOptions = {
     /**
-   * Has to be specified on elements other than form (or when the form
-   * doesn't have an `action` attribute). You can also
-   * provide a function that will be called with `files` and
-   * must return the url (since `v3.12.0`)
+   * Has to be specified on elements other than form (or when the form doesn't
+   * have an `action` attribute).
+   *
+   * You can also provide a function that will be called with `files` and
+   * `dataBlocks`  and must return the url as string.
    */ url: null,
     /**
    * Can be changed to `"put"` if necessary. You can also provide a function
@@ -172,7 +173,7 @@ var $b657c03155fc27e2$var$defaultOptions = {
    */ forceChunking: false,
     /**
    * If `chunking` is `true`, then this defines the chunk size in bytes.
-   */ chunkSize: 2000000,
+   */ chunkSize: 2097152,
     /**
    * If `true`, the individual chunks of a file are being uploaded simultaneously.
    */ parallelChunkUploads: false,
@@ -246,6 +247,12 @@ var $b657c03155fc27e2$var$defaultOptions = {
    * An optional object to send additional headers to the server. Eg:
    * `{ "My-Awesome-Header": "header value" }`
    */ headers: null,
+    /**
+   * Should the default headers be set or not?
+   * Accept: application/json <- for requesting json response
+   * Cache-Control: no-cache <- Request shouldnt be cached
+   * X-Requested-With: XMLHttpRequest <- We sent the request via XMLHttpRequest
+   */ defaultHeaders: true,
     /**
    * If `true`, the dropzone element itself will be clickable, if `false`
    * nothing will be clickable.
@@ -423,6 +430,12 @@ var $b657c03155fc27e2$var$defaultOptions = {
    */ chunksUploaded: function chunksUploaded(file, done) {
         done();
     },
+    /**
+   * Sends the file as binary blob in body instead of form data.
+   * If this is set, the `params` option will be ignored.
+   * It's an error to set this to `true` along with `uploadMultiple` since
+   * multiple files cannot be in a single binary body.
+   */ binaryBody: false,
     /**
    * Gets called when the browser is not supported.
    * The default implementation shows the fallback input field and adds
@@ -844,6 +857,7 @@ var $a601ff30f483e917$export$2e2bcd8739ae039 = /*#__PURE__*/ function(Emitter) {
         if (!_this.options.url) throw new Error("No URL provided.");
         if (_this.options.acceptedFiles && _this.options.acceptedMimeTypes) throw new Error("You can't provide both 'acceptedFiles' and 'acceptedMimeTypes'. 'acceptedMimeTypes' is deprecated.");
         if (_this.options.uploadMultiple && _this.options.chunking) throw new Error("You cannot set both: uploadMultiple and chunking.");
+        if (_this.options.binaryBody && _this.options.uploadMultiple) throw new Error("You cannot set both: binaryBody and uploadMultiple.");
         // Backwards compatibility
         if (_this.options.acceptedMimeTypes) {
             _this.options.acceptedFiles = _this.options.acceptedMimeTypes;
@@ -1995,7 +2009,9 @@ var $a601ff30f483e917$export$2e2bcd8739ae039 = /*#__PURE__*/ function(Emitter) {
                             chunk.status = $a601ff30f483e917$export$2e2bcd8739ae039.SUCCESS;
                             // Clear the data from the chunk
                             chunk.dataBlock = null;
-                            // Leaving this reference to xhr intact here will cause memory leaks in some browsers
+                            chunk.response = chunk.xhr.responseText;
+                            chunk.responseHeaders = chunk.xhr.getAllResponseHeaders();
+                            // Leaving this reference to xhr will cause memory leaks.
                             chunk.xhr = null;
                             for(var i = 0; i < file.upload.totalChunkCount; i++){
                                 if (file.upload.chunks[i] === undefined) return handleNextChunk();
@@ -2030,8 +2046,10 @@ var $a601ff30f483e917$export$2e2bcd8739ae039 = /*#__PURE__*/ function(Emitter) {
         },
         {
             // This function actually uploads the file(s) to the server.
-            // If dataBlocks contains the actual data to upload (meaning, that this could either be transformed
-            // files, or individual chunks for chunked upload).
+            //
+            //  If dataBlocks contains the actual data to upload (meaning, that this could
+            // either be transformed files, or individual chunks for chunked upload) then
+            // they will be used for the actual data to upload.
             key: "_uploadData",
             value: function _uploadData(files, dataBlocks) {
                 var _this = this, _this7 = this, _this8 = this, _this9 = this;
@@ -2057,10 +2075,11 @@ var $a601ff30f483e917$export$2e2bcd8739ae039 = /*#__PURE__*/ function(Emitter) {
                         }
                     }
                 }
-                if (files[0].upload.chunked) // Put the xhr object in the right chunk object, so it can be associated later, and found with _getChunk
+                if (files[0].upload.chunked) // Put the xhr object in the right chunk object, so it can be associated
+                // later, and found with _getChunk.
                 files[0].upload.chunks[dataBlocks[0].chunkIndex].xhr = xhr;
-                var method = this.resolveOption(this.options.method, files);
-                var url = this.resolveOption(this.options.url, files);
+                var method = this.resolveOption(this.options.method, files, dataBlocks);
+                var url = this.resolveOption(this.options.url, files, dataBlocks);
                 xhr.open(method, url, true);
                 // Setting the timeout after open because of IE11 issue: https://gitlab.com/meno/dropzone/issues/8
                 var timeout = this.resolveOption(this.options.timeout, files);
@@ -2081,60 +2100,89 @@ var $a601ff30f483e917$export$2e2bcd8739ae039 = /*#__PURE__*/ function(Emitter) {
                 progressObj.onprogress = function(e) {
                     return _this9._updateFilesUploadProgress(files, xhr, e);
                 };
-                var headers = {
+                var headers = this.options.defaultHeaders ? {
                     Accept: "application/json",
                     "Cache-Control": "no-cache",
                     "X-Requested-With": "XMLHttpRequest"
+                } : {
                 };
+                if (this.options.binaryBody) headers["Content-Type"] = files[0].type;
                 if (this.options.headers) $parcel$interopDefault($6mU8w$justextend)(headers, this.options.headers);
                 for(var headerName in headers){
                     var headerValue = headers[headerName];
                     if (headerValue) xhr.setRequestHeader(headerName, headerValue);
                 }
-                var formData = new FormData();
-                // Adding all @options parameters
-                if (this.options.params) {
-                    var additionalParams = this.options.params;
-                    if (typeof additionalParams === "function") additionalParams = additionalParams.call(this, files, xhr, files[0].upload.chunked ? this._getChunk(files[0], xhr) : null);
-                    for(var key in additionalParams){
-                        var value = additionalParams[key];
-                        if (Array.isArray(value)) // The additional parameter contains an array,
-                        // so lets iterate over it to attach each value
-                        // individually.
-                        for(var i = 0; i < value.length; i++)formData.append(key, value[i]);
-                        else formData.append(key, value);
-                    }
-                }
-                var _iteratorNormalCompletion3 = true, _didIteratorError2 = false, _iteratorError2 = undefined;
-                try {
-                    // Let the user add additional data if necessary
-                    for(var _iterator3 = files[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true){
-                        var file = _step3.value;
-                        this.emit("sending", file, xhr, formData);
-                    }
-                } catch (err) {
-                    _didIteratorError2 = true;
-                    _iteratorError2 = err;
-                } finally{
+                if (this.options.binaryBody) {
+                    var _iteratorNormalCompletion = true, _didIteratorError = false, _iteratorError = undefined;
                     try {
-                        if (!_iteratorNormalCompletion3 && _iterator3.return != null) {
-                            _iterator3.return();
+                        // Since the file is going to be sent as binary body, it doesn't make
+                        // any sense to generate `FormData` for it.
+                        for(var _iterator = files[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true){
+                            var file = _step.value;
+                            this.emit("sending", file, xhr);
                         }
+                    } catch (err) {
+                        _didIteratorError = true;
+                        _iteratorError = err;
                     } finally{
-                        if (_didIteratorError2) {
-                            throw _iteratorError2;
+                        try {
+                            if (!_iteratorNormalCompletion && _iterator.return != null) {
+                                _iterator.return();
+                            }
+                        } finally{
+                            if (_didIteratorError) {
+                                throw _iteratorError;
+                            }
                         }
                     }
+                    if (this.options.uploadMultiple) this.emit("sendingmultiple", files, xhr);
+                    this.submitRequest(xhr, null, files);
+                } else {
+                    var formData = new FormData();
+                    // Adding all @options parameters
+                    if (this.options.params) {
+                        var additionalParams = this.options.params;
+                        if (typeof additionalParams === "function") additionalParams = additionalParams.call(this, files, xhr, files[0].upload.chunked ? this._getChunk(files[0], xhr) : null);
+                        for(var key in additionalParams){
+                            var value = additionalParams[key];
+                            if (Array.isArray(value)) // The additional parameter contains an array,
+                            // so lets iterate over it to attach each value
+                            // individually.
+                            for(var i = 0; i < value.length; i++)formData.append(key, value[i]);
+                            else formData.append(key, value);
+                        }
+                    }
+                    var _iteratorNormalCompletion = true, _didIteratorError = false, _iteratorError = undefined;
+                    try {
+                        // Let the user add additional data if necessary
+                        for(var _iterator = files[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true){
+                            var file = _step.value;
+                            this.emit("sending", file, xhr, formData);
+                        }
+                    } catch (err) {
+                        _didIteratorError = true;
+                        _iteratorError = err;
+                    } finally{
+                        try {
+                            if (!_iteratorNormalCompletion && _iterator.return != null) {
+                                _iterator.return();
+                            }
+                        } finally{
+                            if (_didIteratorError) {
+                                throw _iteratorError;
+                            }
+                        }
+                    }
+                    if (this.options.uploadMultiple) this.emit("sendingmultiple", files, xhr, formData);
+                    this._addFormElementData(formData);
+                    // Finally add the files
+                    // Has to be last because some servers (eg: S3) expect the file to be the last parameter
+                    for(var i = 0; i < dataBlocks.length; i++){
+                        var dataBlock = dataBlocks[i];
+                        formData.append(dataBlock.name, dataBlock.data, dataBlock.filename);
+                    }
+                    this.submitRequest(xhr, formData, files);
                 }
-                if (this.options.uploadMultiple) this.emit("sendingmultiple", files, xhr, formData);
-                this._addFormElementData(formData);
-                // Finally add the files
-                // Has to be last because some servers (eg: S3) expect the file to be the last parameter
-                for(var i = 0; i < dataBlocks.length; i++){
-                    var dataBlock = dataBlocks[i];
-                    formData.append(dataBlock.name, dataBlock.data, dataBlock.filename);
-                }
-                this.submitRequest(xhr, formData, files);
             }
         },
         {
@@ -2320,7 +2368,12 @@ var $a601ff30f483e917$export$2e2bcd8739ae039 = /*#__PURE__*/ function(Emitter) {
                     console.warn("Cannot send this request because the XMLHttpRequest.readyState is not OPENED.");
                     return;
                 }
-                xhr.send(formData);
+                if (this.options.binaryBody) {
+                    if (files[0].upload.chunked) {
+                        var chunk = this._getChunk(files[0], xhr);
+                        xhr.send(chunk.dataBlock.data);
+                    } else xhr.send(files[0]);
+                } else xhr.send(formData);
             }
         },
         {

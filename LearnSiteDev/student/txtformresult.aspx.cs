@@ -77,10 +77,13 @@ public partial class Student_txtformresult : System.Web.UI.Page
                 GVtxtform.DataSource = kbll.GetListclass(Sgrade.ToString(), Sclass.ToString(), mid, Sgroup, Sid);
                 GVtxtform.DataBind();
                 Labelreplycount.Text = GVtxtform.Rows.Count.ToString();
-                Labelnostu.Text = kbll.GetUndoStus(Sgrade, Sclass, Int32.Parse(mid));            
+                Labelnostu.Text = kbll.GetUndoStus(Sgrade, Sclass, Int32.Parse(mid));
             }
+            else
+            {
 
-            Labelnostu.Text = "您未填写表单，暂时无法查看！";
+                Labelnostu.Text = "您未填写表单，暂时无法查看！";
+            }
         }
     }
 

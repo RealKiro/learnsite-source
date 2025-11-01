@@ -154,18 +154,25 @@ public partial class Teacher_grouping : System.Web.UI.Page
                 int sclass = Int32.Parse(Request.QueryString["sclass"].ToString());
                 LearnSite.BLL.Students sbll = new LearnSite.BLL.Students();
                 int stucount = sbll.CountClassMate(sgrade, sclass);
-                LearnSite.BLL.Room rbll = new LearnSite.BLL.Room();
-                int groupmax = rbll.GetRgroupMax(sgrade, sclass);
-                if (groupmax == 0) groupmax = 4;
-                int leadnum = stucount / groupmax;
-                if (stucount % groupmax > 1)
-                    leadnum++;
+                if (stucount == DLclass.Items.Count)
+                {
+                    LearnSite.BLL.Room rbll = new LearnSite.BLL.Room();
+                    int groupmax = rbll.GetRgroupMax(sgrade, sclass);
+                    if (groupmax == 0) groupmax = 4;
+                    int leadnum = stucount / groupmax;
+                    if (stucount % groupmax > 1)
+                        leadnum++;
 
-                sbll.AutoSleader(sgrade, sclass, leadnum, groupmax);
-                System.Threading.Thread.Sleep(200);
-                showStudents();
-                showGroups();
-                CkQuit.Checked = true;
+                    sbll.AutoSleader(sgrade, sclass, leadnum, groupmax);
+                    System.Threading.Thread.Sleep(200);
+                    showStudents();
+                    showGroups();
+                    CkQuit.Checked = true;
+                }
+                else
+                {
+                    LearnSite.Common.WordProcess.Alert("已经存在小组成员，无法自动分组！", this.Page);
+                }
             }
         }
         else {

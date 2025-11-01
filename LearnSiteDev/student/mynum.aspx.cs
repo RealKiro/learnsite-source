@@ -7,6 +7,7 @@ using System.Web.UI.WebControls;
 public partial class Student_mynum : System.Web.UI.Page
 {
     protected int loginMode = LearnSite.Common.XmlHelp.LoginMode();
+    protected bool isSameNet = LearnSite.Common.Computer.IsSameNet();
 
     protected void Page_Load(object sender, EventArgs e)
     {
@@ -49,11 +50,21 @@ public partial class Student_mynum : System.Web.UI.Page
         HyperLink hl = new HyperLink();
         hl = (HyperLink)e.Item.FindControl("HLSnum");
         string snum = hl.ToolTip;
-        hl.NavigateUrl = "~/index.aspx?mysnum=" + snum;
+        string sname = hl.Text;
+        hl.NavigateUrl = "~/index.aspx?mysnum=" + snum + "&myname=" + sname;
         string ssex = "无";
         Image img = new Image();
-        img = (Image)e.Item.FindControl("ImageStu");
-        img.ImageUrl = LearnSite.Common.Photo.GetStudentPhotoUrl(snum, ssex) + "?temp=" + DateTime.Now.Millisecond.ToString();
+        img = (Image)e.Item.FindControl("ImageStu"); 
+        if (isSameNet)
+        {
+            img.ImageUrl = LearnSite.Common.Photo.GetStudentPhotoUrl(snum, ssex) + "?temp=" + DateTime.Now.Millisecond.ToString();
+        }
+        else
+        {
+            //如果同一网段，显示头像，否则不显示
+            img.ImageUrl = "~/images/nothing.gif";
+            img.ToolTip = "头像隐藏";
+        }
     }
     protected void BtnSearch_Click(object sender, EventArgs e)
     {

@@ -63,6 +63,7 @@ public partial class Teacher_txtformedit : System.Web.UI.Page
                 tmode.Mdate = DateTime.Now;
                 tmode.Mhit = 0;
                 tmode.Mdelete = false;
+                tmode.Mcollabo = CheckCollabo.Checked;
                 LearnSite.BLL.TxtForm tfmbll = new LearnSite.BLL.TxtForm();
                 tfmbll.Update(tmode);
 
@@ -104,7 +105,8 @@ public partial class Teacher_txtformedit : System.Web.UI.Page
 
             mcontent.InnerText = HttpUtility.HtmlDecode(tmodel.Mcontent);
             CheckPublish.Checked = tmodel.Mpublish;
-            Texttitle.Text =tmodel.Mtitle;
+            Texttitle.Text = tmodel.Mtitle;
+            CheckCollabo.Checked = tmodel.Mcollabo;
         }
     }
 }

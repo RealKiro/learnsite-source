@@ -43,6 +43,7 @@ public partial class Teacher_txtformshow : System.Web.UI.Page
             CheckPublish.Checked = tmodel.Mpublish;
             Mcontent.InnerHtml = HttpUtility.HtmlDecode(tmodel.Mcontent);
             LabelMdate.Text = tmodel.Mdate.ToString();
+            CheckCollabo.Checked = tmodel.Mcollabo;
         }
     }
     protected void LinkBtn_Click(object sender, EventArgs e)

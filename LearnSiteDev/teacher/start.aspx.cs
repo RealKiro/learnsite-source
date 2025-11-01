@@ -83,10 +83,13 @@ public partial class Teacher_start : System.Web.UI.Page
             CheckBoxLogin.Visible = false;
             TBpwd.ToolTip = "个人模式：学生使用个人密码登录";
         }
+
+        /*
         if (LearnSite.Common.XmlHelp.GetSingleLogin())//如果是单点登录
         {
             BtnaAllQuit.Visible = true;
         }
+         */
 
     }
 
@@ -114,15 +117,23 @@ public partial class Teacher_start : System.Web.UI.Page
         int Syear = sbll.GetYear(Rgrade, Rclass);
         LearnSite.BLL.Works wbll = new LearnSite.BLL.Works();
         int Wterm = Int32.Parse(LearnSite.Common.XmlHelp.GetTerm());
-        string Wcids = wbll.ShowDoneWorkCids(Rgrade, Rclass, Wterm, Syear);
+        string Wcids = wbll.ShowDoneWorkCids(Rgrade, Rclass, Wterm, Syear);//作品
         LearnSite.BLL.TopicReply Tbll = new LearnSite.BLL.TopicReply();
-        string Tcids = Tbll.ShowDoneReplyCids(Rgrade, Rclass, Wterm, Syear);
+        string Tcids = Tbll.ShowDoneReplyCids(Rgrade, Rclass, Wterm, Syear);//讨论回复
         LearnSite.BLL.SurveyFeedback fbll = new LearnSite.BLL.SurveyFeedback();
-        string Fcids = fbll.ShowFeedbackCids(Rgrade, Rclass, Wterm, Syear);
+        string Fcids = fbll.ShowFeedbackCids(Rgrade, Rclass, Wterm, Syear);//调查测验
         LearnSite.BLL.Solves vbll = new LearnSite.BLL.Solves();
-        string vcids = vbll.ShowDoneSovleCids(Rgrade.ToString(), Rclass.ToString(), Wterm.ToString(), Syear.ToString());
+        string vcids = vbll.ShowDoneSovleCids(Rgrade.ToString(), Rclass.ToString(), Wterm.ToString(), Syear.ToString());//python测评
 
-        string allCids = Wcids + Tcids + Fcids + vcids;
+        string rrr = Syear.ToString() + Rgrade.ToString() + Rclass.ToString();
+        int simiSid = 0 - Int32.Parse(rrr);//将入学年度和班级号作为模拟学生的ID
+        LearnSite.BLL.MenuWorks kbll = new LearnSite.BLL.MenuWorks();
+        string kcids = kbll.readCids(simiSid);//阅读任务
+
+        LearnSite.BLL.TxtFormBack txbll = new LearnSite.BLL.TxtFormBack();
+        string txcids = txbll.ShowDoneBackCids(Rgrade, Rclass, Wterm, Syear);//填表
+
+        string allCids = Wcids + Tcids + Fcids + vcids + kcids + txcids;
         allCids = LearnSite.Common.WordProcess.SimpleWords(allCids);
         LearnSite.BLL.Courses cs = new LearnSite.BLL.Courses();
         DLdonekc.DataSource = cs.ShowClassDoneCourse(Rgrade, Rhid, allCids);
@@ -725,6 +736,73 @@ public partial class Teacher_start : System.Web.UI.Page
                             break;
                         case "14"://积木
                             imgurl = "~/images/blockpy.png";
+                            break;
+                        case "15"://导图
+                            imgurl = "~/images/kitymind.png";
+                            break;
+                        case "16"://表格处理
+                            imgurl = "~/images/sheet.png";
+                            break;
+                        case "17"://二维码
+                            imgurl = "~/images/qrcode.png";
+                            break;
+                        case "18"://在线文档
+                            imgurl = "~/images/word.png";
+                            break;
+                        case "19"://在线演示文稿
+                            imgurl = "~/images/pptist.png";
+                            break;
+                        case "20"://在线海报设计
+                            imgurl = "~/images/poster.png";
+                            break;
+                        case "21"://风格迁移
+                            imgurl = "~/images/style.png";
+                            break;
+                        case "22"://图像分类
+                            imgurl = "~/images/mlimg.png";
+                            break;
+                        case "23"://人脸识别
+                            imgurl = "~/images/face.png";
+                            break;
+                        case "24"://物联网
+                            imgurl = "~/images/mqtt.png";
+                            break;
+                        case "25"://手绘画布
+                            imgurl = "~/images/excalidraw.png";
+                            break;
+                        case "26"://推箱子地图
+                            imgurl = "~/images/sokoban.png";
+                            break;
+                        case "27"://人工智能对话
+                            imgurl = "~/images/ai.png";
+                            break;
+                        case "28"://人工智能对话
+                            imgurl = "~/images/speek.png";
+                            break;
+                        case "29"://文字识别
+                            imgurl = "~/images/ocr.png";
+                            break;
+                        case "30"://声音分析
+                            imgurl = "~/images/sound.png";
+                            break;
+                        case "31"://井字棋
+                            imgurl = "~/images/tic-tac-toe.png";
+                            break;
+                        case "32"://手写数字识别
+                            imgurl = "~/images/handnum.png";
+                            break;
+                        case "33"://Markdown写作
+                            imgurl = "~/images/markdown.png";
+                            break;
+                        case "34"://iframe嵌入网页
+                            imgurl = "~/images/iframe.png";
+                            break;
+                        case "35"://文生图
+                            imgurl = "~/images/text-to-image.png";
+                            break;
+
+                        default://默认
+                            imgurl = "~/images/lesson.png";
                             break;
                     }
                     dt.Rows[i]["Limgurl"] = imgurl;

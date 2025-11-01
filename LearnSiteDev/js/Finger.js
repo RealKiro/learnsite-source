@@ -2,12 +2,12 @@
 var oldwordKeyObj; //上次字符键对象
 var downKeyWord; //按下键值转成的字符
 var downKeyObj; //按下的键对像
-var picWord="keycom2.gif"; //要打键的图
-var picKey = "keycom.gif"; //键正常状态图
+var picWord = "keyCom2.gif"; //要打键的图
+var picKey = "keyCom.gif"; //键正常状态图
 var picErr = ""; //键错误图
 var wordright = 0; //单词正确数
 var letterright = 0; //字母正确数
-var lettercount = 0;//字母总数
+var lettercount = 0; //字母总数
 var letterwrong = 0; //字母错误数
 var lastsecond = 0;
 var lastminute = 0;
@@ -27,20 +27,26 @@ var ecounts = 0;
 var mcounts = 0;
 var enext = 0;
 var rnd = 0;
-var order = 0;//如果为0则随机，如果为1则顺序
+var order = 0; //如果为0则随机，如果为1则顺序
 var TypeWord = "";  //当前单词
 var TypeLengh = 0;
 var docurl = document.URL;
 var ipurl = docurl.substring(0, docurl.lastIndexOf("/"));
 var victoryshow = 0;
+var allminute=0;//累积打字时间，单位分钟 
+var sessintime=sessionStorage.getItem('fingertime');
+if(sessintime!=null&& sessintime!=""){
+	allminute=parseInt(sessintime);
+	$('#msg').html("累计打字时间："+allminute+"分钟");
+}
 
-var elevel = $('#levelselect').val();//取英文类别
+var elevel = $('#levelselect').val(); //取英文类别
 NewWords(); //获取该类别字典
 
-var handshow=true;
-if(handshow){
-	$('#keyhand').show();
-	$('#keyboard').hide();
+var handshow = true;
+if (handshow) {
+    $('#keyhand').show();
+    $('#keyboard').hide();
 }
 function nextword() {
     if (ewords != null) {
@@ -56,7 +62,7 @@ function nextword() {
             pword = ewords[enext];
             pmeaning = emeanings[enext];
         }
-		pword=pword.replace(/</g, "&lt;");
+        pword = pword.replace(/</g, "&lt;");
         $('#TextWord').html(pword);
         var changemeaning = GetMeaning(pmeaning);
         $('#Meanword').html(changemeaning);
@@ -66,7 +72,7 @@ function nextword() {
         var ktk = TypeWord.substr(eposition, 1);
         dkObj = "key" + ktk.toUpperCase();
         showKey(dkObj);
-		
+
     }
 }
 
@@ -79,7 +85,7 @@ document.onkeydown = function (event) {
 passsecond();
 
 function changelevel() {
-    lastsecond = 0;//换类别时重新开始计时
+    lastsecond = 0; //换类别时重新开始计时
     elevel = $('#levelselect').val();
     NewWords();
 }
@@ -90,8 +96,8 @@ function passsecond() {
     else
         victoryshow--;
     lastsecond++; //秒计时
-    $('#lspd').html("字母速度：" + (letterright / lastsecond).toFixed(2) + "个/秒");
-    $('#lsec').html("流失时间：" + lastsecond + "秒");
+    //$('#lspd').html("字母速度：" + (letterright / lastsecond).toFixed(2) + "个/秒");
+    //$('#lsec').html("流失时间：" + lastsecond + "秒");
     lastminute = lastsecond / 60;
     if (lastminute / savecount == 1) {
         savecount++;
@@ -108,9 +114,14 @@ function passsecond() {
         else {
             $('#msg').html("比刚才的速度低!<br/>系统不自动保存");
         }
+		if(wordright>3){
+			allminute++;
+			$('#msg').html("累计打字时间："+allminute+"分钟");
+			sessionStorage.setItem('fingertime',allminute);
+		}
     }
     if (lettercount == 0)
-        lastsecond = 0;//如果还未输入，则流失时间重置
+        lastsecond = 0; //如果还未输入，则流失时间重置
     window.setTimeout("passsecond()", 1000); //秒定时
 }
 
@@ -138,32 +149,32 @@ $('#InputWord').keyup(function () {
             if (lettercount > 0)
                 rightrank = letterright * 100 / lettercount;
             $('#lrpe').html("正确率：" + rightrank.toFixed(2) + "%");
-            $('#lnum').html("字母数：" + lettercount);
-            $('#lrig').html("正确数：" + letterright);
-            $('#lwrg').html("错误数：" + letterwrong);
-            $('#wnum').html("单词数：" + wordright);
+            //$('#lnum').html("字母数：" + lettercount);
+            //$('#lrig').html("正确数：" + letterright);
+            // $('#lwrg').html("错误数：" + letterwrong);
+            // $('#wnum').html("单词数：" + wordright);
             nextword();
             $(this).val("");
-			voice();
-			if(handshow){
-				$('#keyhand').hide();		
-				$('#keyboard').show();
-			}
-			handshow=false;
+            voice();
+            if (handshow) {
+                $('#keyhand').hide();
+                $('#keyboard').show();
+            }
+            handshow = false;
         }
         else {
             var redword = "";
             var iright = 0;
             for (var i = 0; i < il; i++) {
-				var twd=TypeWord.substr(i, 1);
-				var shtwd=twd;
-				
-                if (iword.substr(i, 1) == twd ) {
+                var twd = TypeWord.substr(i, 1);
+                var shtwd = twd;
+
+                if (iword.substr(i, 1) == twd) {
                     iright = i;
                     redword = redword + shtwd; //对的话加上这个字符
                 }
                 else {
-                    letterwrong++;					
+                    letterwrong++;
                     redword = redword + '<span class=\"wrongchar\">' + shtwd + '</span>'; //错的话加上这个变红字符
                 }
             }
@@ -174,7 +185,7 @@ $('#InputWord').keyup(function () {
 });
 
 function presskey() {
-    var e = window.event ||arguments.callee.caller.arguments[0];
+    var e = window.event || arguments.callee.caller.arguments[0];
     var k = e.keyCode || e.which;
 
     downKeyWord = String.fromCharCode(k);
@@ -188,11 +199,11 @@ function presskey() {
 function showKey(wordKeyObj) {
     var ww = document.getElementById(oldwordKeyObj);
     if (ww != null) {
-        ww.style.backgroundImage = "url(../images/fingering/" + picKey + ")";
+        ww.style.backgroundImage = "url(../Images/Fingering/" + picKey + ")";
     }
     var aa = document.getElementById(wordKeyObj);
     if (aa != null) {
-        aa.style.backgroundImage = "url(../images/fingering/" + picWord + ")";
+        aa.style.backgroundImage = "url(../Images/Fingering/" + picWord + ")";
     }
     oldwordKeyObj = wordKeyObj;
 }
@@ -213,8 +224,8 @@ function NewWords() {
                 ecounts = ewords.length;
                 mcounts = emeanings.length;
                 if (ecounts > 0) {
-                    $('#weid').html("单词数" + ecounts + " 意义数" + mcounts);
-                    $('#msg').html("每过1分钟自动保存<br/>达到最低要求的成绩!");
+                    //$('#weid').html("单词数" + ecounts + " 意义数" + mcounts);
+                    //$('#msg').html("每过1分钟自动保存<br/>达到最低要求的成绩!");
                     $('#InputWord')[0].focus();
                     enext = 0;
                     nextword();

@@ -56,7 +56,17 @@ namespace LearnSite.Model
             else
                 return true;
         }
-
+        /// <summary>
+        /// 是否模拟学生
+        /// </summary>
+        /// <returns></returns>
+        public bool IsSimiStu()
+        {
+            if (_sid > 0)
+                return false;
+            else
+                return true;
+        }
         /// <summary>
         ///模型转字符串
         /// </summary>

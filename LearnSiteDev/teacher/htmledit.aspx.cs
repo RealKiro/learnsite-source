@@ -49,6 +49,9 @@ public partial class teacher_htmledit : System.Web.UI.Page
                 mission.Mtitle = HttpUtility.HtmlEncode(Texttitle.Text.Trim());
                 mission.Mupload = true;
                 mission.Mcategory = 12;//网页页面
+
+                mission.Mback = DDLfilename.SelectedValue;
+
                 mission.Mpublish = CheckPublish.Checked;
                 mission.Mcontent = HttpUtility.HtmlEncode(fckstr);
                 mission.Mfiletype = "html";
@@ -109,6 +112,10 @@ public partial class teacher_htmledit : System.Web.UI.Page
             Texttitle.Text = mission.Mtitle;
             mcontent.InnerText = HttpUtility.HtmlDecode(mission.Mcontent);
 
+            if (mission.Mback != "")
+            {
+                DDLfilename.SelectedValue = mission.Mback;
+            }
             string mgid = mission.Mgid.ToString();
             if (DDLMgid.Items.FindByValue(mgid) != null)
                 DDLMgid.SelectedValue = mgid;

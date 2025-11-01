@@ -173,6 +173,18 @@ namespace LearnSite.BLL
         {
             return dal.GetTableModel(dt);
         }
+
+                      
+        /// <summary>
+        /// 获取网页制作活动Mid
+        /// </summary>
+        /// <param name="Mcid"></param>
+        /// <returns></returns>
+        public string GetHtmlMid(string Mcid)
+        {
+            return dal.GetHtmlMid(Mcid);
+        }
+
 		/// <summary>
 		/// 获得数据列表
 		/// </summary>

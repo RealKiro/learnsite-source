@@ -30,6 +30,7 @@ namespace LearnSite.Model
         private string _qname;
         private int _qclass;
         private int _qsyear;
+        private int _qcid;
         /// <summary>
         /// 
         /// </summary>
@@ -190,6 +191,14 @@ namespace LearnSite.Model
         {
             set { _qsyear = value; }
             get { return _qsyear; }
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        public int Qcid
+        {
+            set { _qcid = value; }
+            get { return _qcid; }
         }
         #endregion Model
 

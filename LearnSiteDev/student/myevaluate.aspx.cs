@@ -52,19 +52,21 @@ public partial class Student_myevaluate : System.Web.UI.Page
         int dlcount = DataListvote.Items.Count;
         if (e.CommandName == "S")
         {
-            string Wurl = e.CommandArgument.ToString();
-            if (Wurl != "")
-            {
+                string Wid = ((Label)e.Item.FindControl("LabelWid")).Text;
+                LearnSite.BLL.Works wbll = new LearnSite.BLL.Works();
+                LearnSite.Model.Works wmodel = new LearnSite.Model.Works();
+                wmodel = wbll.GetModel(Int32.Parse(Wid));
+
                 Literal1.Text = "<img src='../images/load3.gif' />";
                 bool israuge = showRgaugeSet();
-                string ext = LearnSite.Common.WordProcess.getext(Wurl);
+                string Wurl = Server.UrlEncode(wmodel.Wurl);
+                string ext = wmodel.Wtype;
                 LinkButton lkbtn = (LinkButton)e.Item.FindControl("lBtnSname");
                 lkbtn.BackColor = System.Drawing.Color.LightBlue;
                 lkbtn.Font.Bold = true;
                 Labelwname.Text = lkbtn.Text;
-                string Wid = ((Label)e.Item.FindControl("LabelWid")).Text;
                 if (israuge)
-                    Literal1.Text = LearnSite.Common.WordProcess.SelectEvaluateShow(Wid, ext, Wurl, true);
+                    Literal1.Text = LearnSite.Common.ViewPage.SelectWritePlugin(Wid, ext, Wurl, wmodel.Wcode,wmodel.Wthumbnail, true, false);
 
                 BtnVote.CommandArgument = e.Item.ItemIndex.ToString();
 
@@ -89,14 +91,19 @@ public partial class Student_myevaluate : System.Web.UI.Page
                     Labelmsg.Text = "当前作品互评暂停！";
                     BtnVote.Enabled = false;
                 }
-            }
+
             if (e.Item.ItemIndex == dlcount - 1)
             {
                 ListWorks();
             }
         }
     }
-
+    /// <summary>
+    /// 获取互评控制值
+    /// </summary>
+    /// <param name="Rgrade"></param>
+    /// <param name="Rclass"></param>
+    /// <returns></returns>
     private bool showRgaugeSet()
     {
         LearnSite.BLL.Room rbll = new LearnSite.BLL.Room();
@@ -217,7 +224,7 @@ public partial class Student_myevaluate : System.Web.UI.Page
         string Mid = Request.QueryString["mid"].ToString();
         
         LearnSite.BLL.Works wbll = new LearnSite.BLL.Works();
-        DataListvote.DataSource = wbll.ShowMissionWorksGroup(cook.Sgrade, cook.Sclass, Int32.Parse(Mid),cook.Sgroup); //改回为显示作品
+        DataListvote.DataSource = wbll.ShowMissionWorks(cook.Syear, cook.Sgrade, cook.Sclass, Int32.Parse(Mid)); //改回为显示本班作品
         DataListvote.DataBind();
     }
     /// <summary>
@@ -328,6 +335,8 @@ public partial class Student_myevaluate : System.Web.UI.Page
             case "png":
             case "bmp":
             case "gif":
+            case "qrcode":
+            case "word":
                 BtnVote.Enabled = true;//此类型可以投票
                 break;
             default:
@@ -415,6 +424,7 @@ public partial class Student_myevaluate : System.Web.UI.Page
 
     protected void DataListvote_ItemDataBound(object sender, DataListItemEventArgs e)
     {
+        /*
         if (e.Item.ItemIndex > -1)
         {
             if (LearnSite.Common.XmlHelp.GetHideName())
@@ -422,6 +432,7 @@ public partial class Student_myevaluate : System.Web.UI.Page
                 string mySname = Server.UrlDecode(cook.Sname);
                 string mysnum = cook.Snum;
                 LinkButton lbtn = (LinkButton)e.Item.FindControl("lBtnSname");
+
                 string Wnum = ((Label)e.Item.FindControl("LabelWnum")).Text;
                 int itm = e.Item.ItemIndex + 1;
                 if (itm < 10)
@@ -436,5 +447,6 @@ public partial class Student_myevaluate : System.Web.UI.Page
                     lbtn.Text = mySname;
             }
         }
+         */
     }
 }

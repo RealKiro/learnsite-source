@@ -236,15 +236,15 @@
 
              function notsg(n, g, m) {
                 var urlsg ="../teacher/notsign.aspx?nnum=" +n + "&ngrade=" +g + "&qname=" + m;
-                TINY.box.show({ iframe: urlsg, boxid: 'frameless', width: 360, height: 260, fixed: false, maskopacity: 60, close:false })
+                TINY.box.show({ iframe: urlsg, boxid: 'frameless', width: 360, height: 260, fixed: false, maskopacity: 60, close: true })
             }
             function attitude(q, m, a,c) {
                 var urlat = "../teacher/attitude.aspx?qid=" + q + "&qname=" + m + "&qattitude=" + a + "&qcid=" + c;
-                TINY.box.show({ iframe: urlat, boxid: 'frameless', width: 360, height: 320, fixed: false, maskopacity: 60, close:false })
+                TINY.box.show({ iframe: urlat, boxid: 'frameless', width: 360, height: 320, fixed: false, maskopacity: 60, close: true })
             }
             function attitudegroup(g, m, q, c) {
                 var urlat = "../teacher/attitudegroup.aspx?sg=" + g + "&ld=" + m + "&qd=" + q + "&qcid=" + c;
-                TINY.box.show({ iframe: urlat, boxid: 'frameless', width: 360, height: 200, fixed: false, maskopacity: 60, close:false })
+                TINY.box.show({ iframe: urlat, boxid: 'frameless', width: 360, height: 200, fixed: false, maskopacity: 60, close:true })
             }
         </script>
 </div>

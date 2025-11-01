@@ -110,9 +110,9 @@
   </div>
     <script src="../scratch/lib.min.js" type="text/javascript"></script>
     <script src="../scratch/chunks/gui.js" type="text/javascript"></script>
-
-   <div id="mcontext" style="display: none; background: #F9F9F9; overflow-y: auto; overflow-x: hidden;
-        position: absolute;  width: 620px; height: 450px; z-index: 999; left:312px;
+    
+   <div id="mcontext" style="display: none; background: #FFF1C4; overflow-y: auto; overflow-x: hidden;
+        position: absolute;  width: 520px; height: 450px; z-index: 999; left:312px; opacity:90%;
         bottom: 0px; ">
         <div style="margin:10px; ">
         <h4><%=Titles%></h4>

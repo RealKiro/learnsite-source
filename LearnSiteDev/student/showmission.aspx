@@ -56,7 +56,6 @@
                         afterUpload: function (data) {
                             if (data.error === 0) {
                                 alert("作品已经提交成功！");
-                                OfficeToPng();
                                 location.reload();
                             } else {
                                 alert(data.message);
@@ -73,28 +72,6 @@
 
 
                 //自动保存成绩
-                function OfficeToPng() {
-                    var mid = "<%=LabelMid.Text %>";
-                    var num = "<%=LabelSnum.Text %>";
-                    console.log("文档转图片调用开始");
-                    var formData = new FormData();
-                    formData.append('mid', mid);
-                    formData.append('num', num);
-                    var saveurl = "spire.ashx";
-                    $.ajax({
-                        url: saveurl,
-                        type: "POST",
-                        cache: false,
-                        data: formData,
-                        dataType: "html",
-                        processData: false,
-                        contentType: false
-                    }).done(function (res) {
-                        console.log(res);
-                    }).fail(function (res) {
-                        console.log("保存失败");
-                    });
-                }
 
 	        </script>
 				<input type="button" id="uploadButton" value="作品提交" />
@@ -204,18 +181,12 @@
     </center>
 </div>   
     <br />
-        <link href="../js/tinybox.css" rel="stylesheet" type="text/css" />
-        <script src="../js/tinybox.js" type="text/javascript"></script>
     <script type="text/javascript">
         function jsCopy(contentid) {
             var e = document.getElementById(contentid); //对象是content 
             e.select(); //选择对象 
             document.execCommand("Copy"); //执行浏览器复制命令 
-        }
-        function showShare() {
-            var urlat = "../student/groupshare.aspx";
-            TINY.box.show({ iframe: urlat, boxid: 'frameless', width: 600, height: 400, fixed: false, maskopacity: 60, close: true })
-        }   
+        }  
     </script>
 </div>
 </asp:Content>

@@ -138,8 +138,13 @@ public partial class Student_masterwork : System.Web.UI.Page
             string Wurl = e.CommandArgument.ToString();
             if (Wurl != "")
             {
+                string Wid = ((Label)e.Item.FindControl("LabelWid")).Text;
+                LearnSite.BLL.Works wbll = new LearnSite.BLL.Works();
+                LearnSite.Model.Works wmodel = new LearnSite.Model.Works();
+                wmodel = wbll.GetModel(Int32.Parse(Wid));
                 string ext = LearnSite.Common.WordProcess.getext(Wurl);
-                Literal1.Text = LearnSite.Common.WordProcess.SelectWriteStuNew(ext, Wurl,false);
+                //Literal1.Text = LearnSite.Common.WordProcess.SelectWriteStuNew(ext, Wurl, false);
+                Literal1.Text = LearnSite.Common.ViewPage.SelectWritePlugin(Wid, ext, Wurl, wmodel.Wcode, wmodel.Wthumbnail, true, false);
 
             }
         }

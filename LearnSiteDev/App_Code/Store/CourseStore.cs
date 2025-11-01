@@ -106,6 +106,13 @@ namespace LearnSite.Store
             MakeNewDir(QuizStorage);
             return QuizStorage;
         }
+        public static string SetTopicStorage(string cid)
+        {
+            MakeNewDir("~/topic/");
+            string QuizStorage = "~/topic/" + cid + "/";
+            MakeNewDir(QuizStorage);
+            return QuizStorage;
+        }
         /// <summary>
         /// 文件空间浏览用/
         /// </summary>
@@ -148,6 +155,9 @@ namespace LearnSite.Store
                     break;
                 case "Quiz":
                     url = SetQuizStorage();
+                    break;
+                case "Topic":
+                    url = SetTopicStorage(cid);
                     break;
             }
             return url;

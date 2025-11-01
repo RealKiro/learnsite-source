@@ -52,6 +52,7 @@ public partial class Teacher_txtformadd : System.Web.UI.Page
                 tmode.Mcontent = HttpUtility.HtmlEncode(fckstr);
                 tmode.Mdate = DateTime.Now;
                 tmode.Mhit = 0;
+                tmode.Mcollabo = CheckCollabo.Checked;
                 int mid = tbll.Add(tmode); 
                 LearnSite.Model.ListMenu lmodel = new LearnSite.Model.ListMenu();
                 lmodel.Lcid = Mcid;

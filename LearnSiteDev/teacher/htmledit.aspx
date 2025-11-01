@@ -6,6 +6,14 @@
         网页主题：<asp:TextBox ID="Texttitle" runat="server"  SkinID="TextBoxNormal" 
             Width="220px" ></asp:TextBox>
         <asp:CheckBox ID="CheckPublish" runat="server" Text="是否发布"  Checked="True" />
+        &nbsp; 网页文件名<asp:DropDownList ID="DDLfilename" runat="server">
+            <asp:ListItem>index.html</asp:ListItem>
+            <asp:ListItem>w01.html</asp:ListItem>
+            <asp:ListItem>w02.html</asp:ListItem>
+            <asp:ListItem>w03.html</asp:ListItem>
+            <asp:ListItem>w04.html</asp:ListItem>
+            <asp:ListItem>w05.html</asp:ListItem>
+        </asp:DropDownList>
         </div> 
         <div  >
         <script charset="utf-8" src="../kindeditor/kindeditor-min.js"></script>

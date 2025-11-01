@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/teacher/Teach.master" StylesheetTheme="Teacher" Validaterequest="false"  AutoEventWireup="true" CodeFile="courseshow.aspx.cs" Inherits="Teacher_courseshow" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/teacher/Teach.master" StylesheetTheme="Teacher"  AutoEventWireup="true" CodeFile="courseshow.aspx.cs" Inherits="Teacher_courseshow" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="Content" Runat="Server">
 <div  class="courseshow">	
@@ -14,8 +14,8 @@
                      ImageUrl="~/images/edit.gif" onclick="BtnEdit_Click" />
     </div>   
     <br /> 
-<div class="courseother" style="width: 1080px">
-<div style="margin: auto; width: 1080px;">
+<div class="courseother" style="width: 1200px;">
+<div style="margin: auto; ">
          <asp:LinkButton ID="LinkBtnAdd" runat="server"  
           OnClick="LinkBtnAdd_Click" CssClass="button24" >添加活动</asp:LinkButton>
              &nbsp;
@@ -41,10 +41,16 @@
           OnClick="LinkBtnGraph_Click" CssClass="button24" >流程图</asp:LinkButton>
              &nbsp;
           <asp:LinkButton ID="LinkButtonPixel" runat="server"  
-          CssClass="button24" onclick="LinkButtonPixel_Click" >像素画</asp:LinkButton>
+          CssClass="button24" onclick="LinkButtonPixel_Click" >主题创作</asp:LinkButton>
              &nbsp;
           <asp:LinkButton ID="LinkButtonHtml" runat="server"  
           CssClass="button24" onclick="LinkButtonHtml_Click" >Html网页</asp:LinkButton>
+             &nbsp;
+          <asp:LinkButton ID="LinkButtonKm" runat="server"  
+          CssClass="button24" onclick="LinkButtonKm_Click" >思维导图</asp:LinkButton>
+             &nbsp;
+          <asp:LinkButton ID="LinkButtonExcel" runat="server"  
+          CssClass="button24" onclick="LinkButtonExcel_Click" >在线表格</asp:LinkButton>
              &nbsp;
          <asp:LinkButton ID="LinkBtnReturn" runat="server" 
              OnClick="LinkBtnReturn_Click" CssClass="button24" >返回</asp:LinkButton>
@@ -85,7 +91,7 @@
                          <asp:Label ID="Label4" runat="server"></asp:Label>
                      </ItemTemplate>
                      <HeaderStyle HorizontalAlign="Left" />
-                     <ItemStyle Width="100px" HorizontalAlign="Left" />
+                     <ItemStyle Width="160px" HorizontalAlign="Left" />
                  </asp:TemplateField>
                  <asp:TemplateField HeaderText="导航栏目">
                      <ItemTemplate>

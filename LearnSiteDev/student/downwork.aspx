@@ -1,4 +1,6 @@
 ﻿<%@ Page Title="" Language="C#" StylesheetTheme="Student" Validaterequest="false" AutoEventWireup="true" CodeFile="downwork.aspx.cs" Inherits="Student_downwork" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" >
 <head id="Head1" runat="server">
     <title>作品下载</title> 
@@ -9,7 +11,7 @@
             <center>
                 <div class="placeauto">
 <div id="student">
-<div style="background-color: #E8F3FF; padding-bottom: 10px;"> 
+<div style="padding-bottom: 10px;"> 
     <br />
     〖<asp:Label ID="Labelmission" runat="server"></asp:Label>〗
         <strong>作品下载</strong>：<asp:Image ID ="ImageType" runat="server" />
@@ -27,23 +29,19 @@
        &nbsp;互评得分：<asp:Label ID="LbWfscore" runat="server"></asp:Label>&nbsp; 教师评语：<asp:Label ID="LbWself" runat="server" ForeColor="#3399FF"></asp:Label>
     <br />
     </div> 
-    <div style=" text-align:center;">
+    </div>
+    </div>
+    </center>
+</div>
+    <div>
     <asp:Literal ID="Literal1" runat="server"></asp:Literal> 
     </div>
-    <div>
+
         <br />        
         <br />
         <asp:Label ID="Labelwid" runat="server" Visible="False"></asp:Label>
         <asp:Label ID="Labeltype" runat="server" Visible="False"></asp:Label>
         <asp:Label ID="Labelwurl" runat="server" Visible="False"></asp:Label>
-    </div>
-
-<br />
-</div>
-        </div>
-    </center>
-</div>
-
      </form>
 </body>
 </html>

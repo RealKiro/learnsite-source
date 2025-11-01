@@ -354,7 +354,17 @@ namespace LearnSite.BLL
         {
             dal.WorkSetWcheck(Wcid, Sgrade, Sclass, Wmid);
         }
-                
+        /// <summary>
+        /// 根据学生生的年级未评价的活动积分为10的作品为已评价
+        /// </summary>
+        /// <param name="Wcid"></param>
+        /// <param name="Sgrade"></param>
+        /// <param name="Sclass"></param>
+        /// <param name="Wmid"></param>
+        public void WorkSetWcheckall(int Sgrade)
+        {
+            dal.WorkSetWcheckall(Sgrade);
+        }        
         /// <summary>
         /// 根据学生生的年级、班级(不影响班级升学)
         /// 设置该班本学案未评价的活动积分为10的作品为已评价
@@ -561,7 +571,17 @@ namespace LearnSite.BLL
         public DataTable ShowMywork(string Snum)
         {
             return dal.ShowMywork(Snum);
-        }                
+        }  
+                
+        /// <summary>
+        /// 显示我的所有有缩略图的作品
+        /// </summary>
+        /// <param name="Wnum"></param>
+        /// <returns></returns>
+        public DataTable ShowMyAllWork(string Wnum)
+        {
+            return dal.ShowMyAllWork(Wnum);
+        }
         /// <summary>
         /// 显示我本年级本学期的所有作品
         /// </summary>
@@ -1015,7 +1035,17 @@ namespace LearnSite.BLL
         public string IpWorkDoneSnum(int Sgrade, int Sclass, int Wcid, int Wmid, string Wip)
         {
             return dal.IpWorkDoneSnum(Sgrade, Sclass, Wcid, Wmid, Wip);
-        }                
+        } 
+                
+        /// <summary>
+        /// 判断该学号本任务作品是否检验通过
+        /// </summary>
+        /// <param name="Cid"></param>
+        /// <returns></returns>
+        public bool WorkPass(int Wsid, int Wmid)
+        {
+            return dal.WorkPass(Wsid, Wmid);
+        }
         /// <summary>
         /// 根据学号和活动编号返回作品链接
         /// </summary>
@@ -1072,7 +1102,7 @@ namespace LearnSite.BLL
             dal.UpdateWorkUp(Wid, Wurl, Wfilename, Wlength, Wdate, Wcan, Wthumbnail);
         }
 
-                /// <summary>
+        /// <summary>
         /// 作品提交， 更新一条数据Wthumbnail='" + imgurl 
         /// </summary>
         /// <param name="Wid"></param>
@@ -1086,6 +1116,36 @@ namespace LearnSite.BLL
             dal.UpdateHtml(Wid, Wurl, Wfilename, Wlength, Wdate, Wcan, Wthumbnail, Wtitle, Wcode);
         }
 
+        /// <summary>
+        /// 主题作品提交， 更新一条数据Wthumbnail='" + imgurl 
+        /// </summary>
+        /// <param name="Wid"></param>
+        /// <param name="Wurl"></param>
+        /// <param name="Wfilename"></param>
+        /// <param name="Wlength"></param>
+        /// <param name="Wdate"></param>
+        /// <param name="Wcan"></param>
+        public void UpdateTopic(int Wid, string Wurl, string Wfilename, int Wlength, DateTime Wdate, bool Wcan, string Wthumbnail, string Wtitle, string Wcode, string Wtype)
+        {
+            dal.UpdateTopic(Wid, Wurl, Wfilename, Wlength, Wdate, Wcan, Wthumbnail, Wtitle, Wcode, Wtype);
+        }
+                
+        /// <summary>
+        /// 作品提交， 更新一条数据Wthumbnail='" + imgurl 
+        /// </summary>
+        /// <param name="Wid"></param>
+        /// <param name="Wurl"></param>
+        /// <param name="Wfilename"></param>
+        /// <param name="Wlength"></param>
+        /// <param name="Wdate"></param>
+        /// <param name="Wcan"></param>
+        public void UpdatepythonUpIp(int Wid, string Wurl, string Wfilename, int Wlength, DateTime Wdate, bool Wcan, string Wthumbnail, string Wtitle, string Wcode, string Wdict, bool Wpass, string Wtype, string Wip)
+        {
+            int Wscore = 0;
+            if (Wpass) Wscore = 10;
+            dal.UpdatepythonUpIp(Wid, Wurl, Wfilename, Wlength, Wdate, Wcan, Wthumbnail, Wtitle, Wcode, Wdict, Wscore, Wpass, Wtype,Wip);
+
+        }
         /// <summary>
         /// 作品提交， 更新一条数据
         /// </summary>
@@ -1738,7 +1798,15 @@ namespace LearnSite.BLL
                 //记录到数据库
                 if (model != null)
                 {
-                    bll.UpdatepythonUp(model.Wid, Wurl, NewFileName, flen, Wdate, checkcan, Wthumbnail, title, codefile, codedict,passed,Wtype);//更新Wfilename, Wurl,Wlength, Wdate
+                    //程序检测未通过的才更新，已经完成并通过的不更新
+                    if (passed)
+                    {
+                        bll.UpdatepythonUpIp(model.Wid, Wurl, NewFileName, flen, Wdate, checkcan, Wthumbnail, title, codefile, codedict, passed, Wtype, Wip);//更新Wfilename, Wurl,Wlength, Wdate  
+                    }
+                    else
+                    {
+                        bll.UpdatepythonUp(model.Wid, Wurl, NewFileName, flen, Wdate, checkcan, Wthumbnail, title, codefile, codedict, passed, Wtype);//更新Wfilename, Wurl,Wlength, Wdate                    
+                    }
                 }
                 else
                 {
@@ -1955,14 +2023,17 @@ namespace LearnSite.BLL
             string Wtime = cook.LoginTime;
             DateTime Wdate = DateTime.Now;
 
-            string MySavePath = LearnSite.Common.WorkUpload.GetWurl(Wyear, Wgrade, Wclass, Wcid, Wmid);//获得作品保存路径（如果不存在，自动创建）
-            string RndTime = LearnSite.Common.Computer.Datagone(DateTime.Parse(Wtime), Wdate);
-            string OnlyFileName = Wnum + "_" + Wcid + "_" + Wmid + "_" + RndTime;
-            string NewFileName = OnlyFileName + ".html";
-            string Wurl = MySavePath + "/" + NewFileName;
-            string SaveFile = HttpContext.Current.Server.MapPath(Wurl);
+            string mypage = HttpContext.Current.Request.Form["mypage"];
 
-            string Wthumbnail = "";
+            string MyWebPath = LearnSite.Common.WorkUpload.GetWeb(Wnum);//获得网页保存路径（如果不存在，自动创建）
+            string NewFileName = mypage;
+
+            string Wurl = MyWebPath + "/" + NewFileName;
+            string SaveFile = HttpContext.Current.Server.MapPath(Wurl);
+            string[] htmlname = mypage.Split('.');
+            string Wthumbnail = MyWebPath + "/" + htmlname[0] + ".ico";
+            string thumbnailpath = HttpContext.Current.Server.MapPath(Wthumbnail);
+
             int flen = 0;
             string title = "";
             string codefile = "";
@@ -1978,16 +2049,20 @@ namespace LearnSite.BLL
                 try
                 {
                     codefile = HttpContext.Current.Request.Form["codefile"];
+                    HttpPostedFile cover = HttpContext.Current.Request.Files["cover"];
 
                     if (!String.IsNullOrEmpty(codefile))
                     {
                         byte[] c = Convert.FromBase64String(codefile);
-                        string cf = System.Text.Encoding.Default.GetString(c);
+                        string cf = System.Text.Encoding.UTF8.GetString(c);
                         cf = HttpUtility.UrlDecode(cf);//HttpUtility.UrlDecode 等于js中的decodeURIComponent
 
-                        System.IO.File.WriteAllText(SaveFile, cf);
+                        System.IO.File.WriteAllText(SaveFile, cf, Encoding.UTF8);
                         flen = codefile.Length;
 
+                        if (cover.ContentLength > 0) { 
+                            cover.SaveAs(thumbnailpath);                        
+                        }
                     }
                     // LearnSite.Common.Log.Addlog("python作品上传调试信息：", msg);
                 }
@@ -2332,6 +2407,898 @@ namespace LearnSite.BLL
         }
 
 
+        public void SaveMpptx(string id)
+        {
+            string[] arrayid = id.Split('-');
+            string Wcid = arrayid[0];
+            string Wmid = arrayid[1];
+            string Wlid = arrayid[2];
+
+            LearnSite.Model.Cook cook = new LearnSite.Model.Cook();
+
+            int Wsid = cook.Sid;
+            string Wnum = cook.Snum;
+            string Wname = cook.Sname;
+            string Wgrade = cook.Sgrade.ToString();
+            string Wclass = cook.Sclass.ToString();
+            string Wyear = cook.Syear.ToString();
+            string Wterm = cook.ThisTerm.ToString();
+            string Wip = cook.LoginIp;
+            string Wtime = cook.LoginTime;
+            DateTime Wdate = DateTime.Now;
+
+            string MySavePath = LearnSite.Common.WorkUpload.GetWurl(Wyear, Wgrade, Wclass, Wcid, Wmid);//获得作品保存路径（如果不存在，自动创建）
+            string RndTime = LearnSite.Common.Computer.Datagone(DateTime.Parse(Wtime), Wdate);
+            string OnlyFileName = Wnum + "_" + Wcid + "_" + Wmid + "_" + RndTime;
+
+            string Wthumbnail = MySavePath + "/" + OnlyFileName + ".png";
+            string thumbnailpath = HttpContext.Current.Server.MapPath(Wthumbnail);
+
+            string NewFileName = OnlyFileName + ".mpptx";
+            string Wurl = MySavePath + "/" + NewFileName;
+            string SaveFile = HttpContext.Current.Server.MapPath(Wurl);
+
+            int flen = 0;
+            int plen = 0;
+            string title = "";
+            string codefile = "";
+            string codedict = "";
+            string Ext = "mpptx";
+            BLL.Works bll = new BLL.Works();
+            Model.Works model = new Model.Works();//////////////////
+            model = bll.GetModelByStu(Int32.Parse(Wmid), Wnum);
+            bool saved = false;
+            if (model != null)
+                saved = model.Wcheck;//判断作品是否评价过
+
+            if (!saved)
+            {
+                try
+                {
+                    HttpPostedFile pptfile = HttpContext.Current.Request.Files["myppt"];
+                    HttpPostedFile cover = HttpContext.Current.Request.Files["cover"];
+                    plen = pptfile.ContentLength;
+                    if (plen > 0)
+                    {
+                        cover.SaveAs(thumbnailpath);
+                        pptfile.SaveAs(SaveFile);
+                        //LearnSite.Common.Log.Addlog("3保存成功信息", "保存成功");// ec.StackTrace可以出详细信息
+                    }
+
+
+                    // LearnSite.Common.Log.Addlog("python作品上传调试信息：", msg);
+                }
+                catch (Exception ec)
+                {
+                    LearnSite.Common.Log.Addlog("保存出错信息", ec.StackTrace);// ec.StackTrace可以出详细信息
+                }
+
+                bool checkcan = true;
+
+                //string Wid = bll.WorkDone(Wnum, Int32.Parse(Wcid), Int32.Parse(Wmid));//返回空字符表示不存在该记录
+                //记录到数据库
+                if (model != null)
+                {
+                    bll.UpdateTopic(model.Wid, Wurl, NewFileName, flen, Wdate, checkcan, Wthumbnail, title, codefile, Ext);//更新Wfilename, Wurl,Wlength, Wdate
+
+                }
+                else
+                {
+                    //Wnum,Wcid,Wmid,Wmsort,Wfilename,Wtype,Wurl,Wlength,Wdate,Wip
+                    //,Wtime,Wegg,Wgrade,Wterm,Woffice,Wflash,Wsid,Wclass,Wname,Wyear
+                    Model.Works wmodel = new Model.Works();//////////////////
+                    wmodel.Wnum = Wnum;
+                    wmodel.Wcid = Int32.Parse(Wcid);
+                    wmodel.Wmid = Int32.Parse(Wmid);
+                    wmodel.Wmsort = 15;
+                    wmodel.Wfilename = NewFileName;
+                    wmodel.Wtype = Ext;
+                    wmodel.Wurl = Wurl;
+                    wmodel.Wlength = flen;
+                    wmodel.Wdate = Wdate;
+                    wmodel.Wip = Wip;
+                    wmodel.Wtime = Wtime;
+                    wmodel.Wcan = checkcan;
+                    wmodel.Wcheck = false;
+                    wmodel.Wegg = 12;//设定票数为12张
+                    wmodel.Whit = 0;
+                    wmodel.Wgrade = Int32.Parse(Wgrade);
+                    wmodel.Wterm = Int32.Parse(Wterm);
+                    wmodel.Woffice = false;
+                    wmodel.Wsid = Wsid;
+                    wmodel.Wclass = Int32.Parse(Wclass);
+                    wmodel.Wname = HttpUtility.UrlDecode(Wname);
+                    wmodel.Wyear = Int32.Parse(Wyear);
+                    wmodel.Wflash = false;
+                    wmodel.Werror = false;
+                    wmodel.Wtitle = title;
+                    wmodel.Wcode = codefile;
+                    wmodel.Wdict = codedict;
+                    wmodel.Wlid = Int32.Parse(Wlid);
+                    wmodel.Wthumbnail = Wthumbnail;
+
+                    bll.AddWorkUp(wmodel);//添加作品提交记录
+                    BLL.Signin sn = new BLL.Signin();
+                    sn.UpdateQwork(Wsid, Int32.Parse(Wcid));//更新今天签到表中的作品数量
+
+                    //添加课堂活动记录
+                    Model.MenuWorks kmodel = new Model.MenuWorks();
+                    kmodel.Klid = Int32.Parse(Wlid);
+                    kmodel.Ksid = Wsid;
+                    kmodel.Ktime = LearnSite.Common.Computer.GoneMinute(DateTime.Parse(Wtime), Wdate);
+                    kmodel.Kcheck = false;
+                    BLL.MenuWorks kbll = new MenuWorks();
+                    kbll.Add(kmodel);
+                }
+            }
+
+        }
+
+        public void SavePptist(string id)
+        {
+            string[] arrayid = id.Split('-');//-
+            string Wcid = arrayid[0];
+            string Wmid = arrayid[1];
+            string Wlid = arrayid[2];
+
+            LearnSite.Model.Cook cook = new LearnSite.Model.Cook();
+
+            int Wsid = cook.Sid;
+            string Wnum = cook.Snum;
+            string Wname = cook.Sname;
+            string Wgrade = cook.Sgrade.ToString();
+            string Wclass = cook.Sclass.ToString();
+            string Wyear = cook.Syear.ToString();
+            string Wterm = cook.ThisTerm.ToString();
+            string Wip = cook.LoginIp;
+            string Wtime = cook.LoginTime;
+            DateTime Wdate = DateTime.Now;
+
+            string MySavePath = LearnSite.Common.WorkUpload.GetWurl(Wyear, Wgrade, Wclass, Wcid, Wmid);//获得作品保存路径（如果不存在，自动创建）
+            string RndTime = LearnSite.Common.Computer.Datagone(DateTime.Parse(Wtime), Wdate);
+            string OnlyFileName = Wnum + "_" + Wcid + "_" + Wmid + "_" + RndTime;
+
+            string Wthumbnail = MySavePath + "/" + OnlyFileName + ".png";
+            string thumbnailpath = HttpContext.Current.Server.MapPath(Wthumbnail);
+
+            string NewFileName = OnlyFileName + ".pptist";
+            string Wurl = MySavePath + "/" + NewFileName;
+            string SaveFile = HttpContext.Current.Server.MapPath(Wurl);
+
+            int flen = 0;
+            int plen = 0;
+            string title = "";
+            string codefile = "";
+            string codedict = "";
+            string Ext = "pptist";
+            BLL.Works bll = new BLL.Works();
+            Model.Works model = new Model.Works();//////////////////
+            model = bll.GetModelByStu(Int32.Parse(Wmid), Wnum);
+            bool saved = false;
+            if (model != null)
+                saved = model.Wcheck;//判断作品是否评价过
+
+            if (!saved)
+            {
+                try
+                {
+                    HttpPostedFile pptfile = HttpContext.Current.Request.Files["myppt"];
+                    HttpPostedFile cover = HttpContext.Current.Request.Files["cover"];
+                    plen = pptfile.ContentLength;
+                    if (plen > 0)
+                    {
+                        cover.SaveAs(thumbnailpath);
+                        pptfile.SaveAs(SaveFile);
+                        //LearnSite.Common.Log.Addlog("3保存成功信息", "保存成功");// ec.StackTrace可以出详细信息
+                    }
+
+
+                    // LearnSite.Common.Log.Addlog("python作品上传调试信息：", msg);
+                }
+                catch (Exception ec)
+                {
+                    LearnSite.Common.Log.Addlog("保存出错信息", ec.StackTrace);// ec.StackTrace可以出详细信息
+                }
+
+                bool checkcan = true;
+
+                //string Wid = bll.WorkDone(Wnum, Int32.Parse(Wcid), Int32.Parse(Wmid));//返回空字符表示不存在该记录
+                //记录到数据库
+                if (model != null)
+                {
+                    bll.UpdateTopic(model.Wid, Wurl, NewFileName, flen, Wdate, checkcan, Wthumbnail, title, codefile, Ext);//更新Wfilename, Wurl,Wlength, Wdate
+
+                }
+                else
+                {
+                    //Wnum,Wcid,Wmid,Wmsort,Wfilename,Wtype,Wurl,Wlength,Wdate,Wip
+                    //,Wtime,Wegg,Wgrade,Wterm,Woffice,Wflash,Wsid,Wclass,Wname,Wyear
+                    Model.Works wmodel = new Model.Works();//////////////////
+                    wmodel.Wnum = Wnum;
+                    wmodel.Wcid = Int32.Parse(Wcid);
+                    wmodel.Wmid = Int32.Parse(Wmid);
+                    wmodel.Wmsort = 15;
+                    wmodel.Wfilename = NewFileName;
+                    wmodel.Wtype = Ext;
+                    wmodel.Wurl = Wurl;
+                    wmodel.Wlength = flen;
+                    wmodel.Wdate = Wdate;
+                    wmodel.Wip = Wip;
+                    wmodel.Wtime = Wtime;
+                    wmodel.Wcan = checkcan;
+                    wmodel.Wcheck = false;
+                    wmodel.Wegg = 12;//设定票数为12张
+                    wmodel.Whit = 0;
+                    wmodel.Wgrade = Int32.Parse(Wgrade);
+                    wmodel.Wterm = Int32.Parse(Wterm);
+                    wmodel.Woffice = false;
+                    wmodel.Wsid = Wsid;
+                    wmodel.Wclass = Int32.Parse(Wclass);
+                    wmodel.Wname = HttpUtility.UrlDecode(Wname);
+                    wmodel.Wyear = Int32.Parse(Wyear);
+                    wmodel.Wflash = false;
+                    wmodel.Werror = false;
+                    wmodel.Wtitle = title;
+                    wmodel.Wcode = codefile;
+                    wmodel.Wdict = codedict;
+                    wmodel.Wlid = Int32.Parse(Wlid);
+                    wmodel.Wthumbnail = Wthumbnail;
+
+                    bll.AddWorkUp(wmodel);//添加作品提交记录
+                    BLL.Signin sn = new BLL.Signin();
+                    sn.UpdateQwork(Wsid, Int32.Parse(Wcid));//更新今天签到表中的作品数量
+
+                    //添加课堂活动记录
+                    Model.MenuWorks kmodel = new Model.MenuWorks();
+                    kmodel.Klid = Int32.Parse(Wlid);
+                    kmodel.Ksid = Wsid;
+                    kmodel.Ktime = LearnSite.Common.Computer.GoneMinute(DateTime.Parse(Wtime), Wdate);
+                    kmodel.Kcheck = false;
+                    BLL.MenuWorks kbll = new MenuWorks();
+                    kbll.Add(kmodel);
+                }
+            }
+
+        }
+
+
+        public void SaveMqtt(string id)
+        {
+            string[] arrayid = id.Split('-');
+            string Wcid = arrayid[0];
+            string Wmid = arrayid[1];
+            string Wlid = arrayid[2];
+
+            LearnSite.Model.Cook cook = new LearnSite.Model.Cook();
+            int Wsid = cook.Sid;
+            string Wnum = cook.Snum;
+            string Wname = cook.Sname;
+            string Wgrade = cook.Sgrade.ToString();
+            string Wclass = cook.Sclass.ToString();
+            string Wyear = cook.Syear.ToString();
+            string Wterm = cook.ThisTerm.ToString();
+            string Wip = cook.LoginIp;
+            string Wtime = cook.LoginTime;
+            DateTime Wdate = DateTime.Now;
+
+            string MySavePath = LearnSite.Common.WorkUpload.GetWurl(Wyear, Wgrade, Wclass, Wcid, Wmid);//获得作品保存路径（如果不存在，自动创建）
+            string RndTime = LearnSite.Common.Computer.Datagone(DateTime.Parse(Wtime), Wdate);
+            string OnlyFileName = Wnum + "_" + Wcid + "_" + Wmid + "_" + RndTime;
+            string NewThumbnail = OnlyFileName + ".png";
+            string Wthumbnail =  MySavePath + "/" + NewThumbnail;
+            string thumbnailpath = HttpContext.Current.Server.MapPath(Wthumbnail);
+
+            int flen = 0;
+            int plen = 0;
+            string NewFileName = "";
+            string Wurl = "";
+            string title = "";
+            string codefile = "";
+            string codedict = "";
+            string Ext = "";
+            BLL.Works bll = new BLL.Works();
+            Model.Works model = new Model.Works();//////////////////
+            model = bll.GetModelByStu(Int32.Parse(Wmid), Wnum);
+            bool saved = false;
+            if (model != null)
+                saved = model.Wcheck;//判断作品是否评价过
+
+            if (!saved)
+            {
+                try
+                {
+                    codefile = HttpContext.Current.Request.Form["content"];
+                    Ext = HttpContext.Current.Request.Form["ext"];
+                    HttpPostedFile cover = HttpContext.Current.Request.Files["cover"];
+                    plen = cover.ContentLength;
+                    if (plen > 0)
+                    {
+                        cover.SaveAs(thumbnailpath);
+                    }
+                }
+                catch (Exception ec)
+                {
+                    LearnSite.Common.Log.Addlog("保存出错信息", ec.StackTrace);// ec.StackTrace可以出详细信息
+                }
+
+                bool checkcan = true;
+
+                //string Wid = bll.WorkDone(Wnum, Int32.Parse(Wcid), Int32.Parse(Wmid));//返回空字符表示不存在该记录
+                //记录到数据库
+                if (model != null)
+                {
+                    bll.UpdateTopic(model.Wid, Wurl, NewFileName, flen, Wdate, checkcan, Wthumbnail, title, codefile, Ext);//更新Wfilename, Wurl,Wlength, Wdate
+
+                }
+                else
+                {
+                    //Wnum,Wcid,Wmid,Wmsort,Wfilename,Wtype,Wurl,Wlength,Wdate,Wip
+                    //,Wtime,Wegg,Wgrade,Wterm,Woffice,Wflash,Wsid,Wclass,Wname,Wyear
+                    Model.Works wmodel = new Model.Works();//////////////////
+                    wmodel.Wnum = Wnum;
+                    wmodel.Wcid = Int32.Parse(Wcid);
+                    wmodel.Wmid = Int32.Parse(Wmid);
+                    wmodel.Wmsort = 15;
+                    wmodel.Wfilename = NewFileName;
+                    wmodel.Wtype = Ext;
+                    wmodel.Wurl = Wurl;
+                    wmodel.Wlength = flen;
+                    wmodel.Wdate = Wdate;
+                    wmodel.Wip = Wip;
+                    wmodel.Wtime = Wtime;
+                    wmodel.Wcan = checkcan;
+                    wmodel.Wcheck = false;
+                    wmodel.Wegg = 12;//设定票数为12张
+                    wmodel.Whit = 0;
+                    wmodel.Wgrade = Int32.Parse(Wgrade);
+                    wmodel.Wterm = Int32.Parse(Wterm);
+                    wmodel.Woffice = false;
+                    wmodel.Wsid = Wsid;
+                    wmodel.Wclass = Int32.Parse(Wclass);
+                    wmodel.Wname = HttpUtility.UrlDecode(Wname);
+                    wmodel.Wyear = Int32.Parse(Wyear);
+                    wmodel.Wflash = false;
+                    wmodel.Werror = false;
+                    wmodel.Wtitle = title;
+                    wmodel.Wcode = codefile;
+                    wmodel.Wdict = codedict;
+                    wmodel.Wlid = Int32.Parse(Wlid);
+                    wmodel.Wthumbnail = Wthumbnail;
+
+                    bll.AddWorkUp(wmodel);//添加作品提交记录
+                    BLL.Signin sn = new BLL.Signin();
+                    sn.UpdateQwork(Wsid, Int32.Parse(Wcid));//更新今天签到表中的作品数量
+
+                    //添加课堂活动记录
+                    Model.MenuWorks kmodel = new Model.MenuWorks();
+                    kmodel.Klid = Int32.Parse(Wlid);
+                    kmodel.Ksid = Wsid;
+                    kmodel.Ktime = LearnSite.Common.Computer.GoneMinute(DateTime.Parse(Wtime), Wdate);
+                    kmodel.Kcheck = false;
+                    BLL.MenuWorks kbll = new MenuWorks();
+                    kbll.Add(kmodel);
+                }
+            }
+
+        }
+
+
+
+        public void SaveFace(string id)
+        {
+            string[] arrayid = id.Split('-');
+            string Wcid = arrayid[0];
+            string Wmid = arrayid[1];
+            string Wlid = arrayid[2];
+
+            LearnSite.Model.Cook cook = new LearnSite.Model.Cook();
+
+            int Wsid = cook.Sid;
+            string Wnum = cook.Snum;
+            string Wname = cook.Sname;
+            string Wgrade = cook.Sgrade.ToString();
+            string Wclass = cook.Sclass.ToString();
+            string Wyear = cook.Syear.ToString();
+            string Wterm = cook.ThisTerm.ToString();
+            string Wip = cook.LoginIp;
+            string Wtime = cook.LoginTime;
+            DateTime Wdate = DateTime.Now;
+
+            string MySavePath = LearnSite.Common.WorkUpload.GetWurl(Wyear, Wgrade, Wclass, Wcid, Wmid);//获得作品保存路径（如果不存在，自动创建）
+            string RndTime = LearnSite.Common.Computer.Datagone(DateTime.Parse(Wtime), Wdate);
+            string OnlyFileName = Wnum + "_" + Wcid + "_" + Wmid + "_" + RndTime;
+
+            string NewFileName = "";
+            string Wthumbnail = MySavePath + "/" + OnlyFileName + ".png";
+            string thumbnailpath = HttpContext.Current.Server.MapPath(Wthumbnail);
+            string Wurl = Wthumbnail;
+
+            int flen = 0;
+            int plen = 0;
+            string title = "";
+            string codefile = "";
+            string codedict = "";
+            string Ext = "face";
+            BLL.Works bll = new BLL.Works();
+            Model.Works model = new Model.Works();//////////////////
+            model = bll.GetModelByStu(Int32.Parse(Wmid), Wnum);
+            bool saved = false;
+            if (model != null)
+                saved = model.Wcheck;//判断作品是否评价过
+
+            if (!saved)
+            {
+                try
+                {
+                    HttpPostedFile cover = HttpContext.Current.Request.Files["cover"];
+                    plen = cover.ContentLength;
+                    if (plen > 0)
+                    {
+                        cover.SaveAs(thumbnailpath);
+                    }
+                }
+                catch (Exception ec)
+                {
+                    LearnSite.Common.Log.Addlog("保存出错信息", ec.StackTrace);// ec.StackTrace可以出详细信息
+                }
+
+                bool checkcan = true;
+
+                //string Wid = bll.WorkDone(Wnum, Int32.Parse(Wcid), Int32.Parse(Wmid));//返回空字符表示不存在该记录
+                //记录到数据库
+                if (model != null)
+                {
+                    bll.UpdateTopic(model.Wid, Wurl, NewFileName, flen, Wdate, checkcan, Wthumbnail, title, codefile, Ext);//更新Wfilename, Wurl,Wlength, Wdate
+
+                }
+                else
+                {
+                    //Wnum,Wcid,Wmid,Wmsort,Wfilename,Wtype,Wurl,Wlength,Wdate,Wip
+                    //,Wtime,Wegg,Wgrade,Wterm,Woffice,Wflash,Wsid,Wclass,Wname,Wyear
+                    Model.Works wmodel = new Model.Works();//////////////////
+                    wmodel.Wnum = Wnum;
+                    wmodel.Wcid = Int32.Parse(Wcid);
+                    wmodel.Wmid = Int32.Parse(Wmid);
+                    wmodel.Wmsort = 15;
+                    wmodel.Wfilename = NewFileName;
+                    wmodel.Wtype = Ext;
+                    wmodel.Wurl = Wurl;
+                    wmodel.Wlength = flen;
+                    wmodel.Wdate = Wdate;
+                    wmodel.Wip = Wip;
+                    wmodel.Wtime = Wtime;
+                    wmodel.Wcan = checkcan;
+                    wmodel.Wcheck = false;
+                    wmodel.Wegg = 12;//设定票数为12张
+                    wmodel.Whit = 0;
+                    wmodel.Wgrade = Int32.Parse(Wgrade);
+                    wmodel.Wterm = Int32.Parse(Wterm);
+                    wmodel.Woffice = false;
+                    wmodel.Wsid = Wsid;
+                    wmodel.Wclass = Int32.Parse(Wclass);
+                    wmodel.Wname = HttpUtility.UrlDecode(Wname);
+                    wmodel.Wyear = Int32.Parse(Wyear);
+                    wmodel.Wflash = false;
+                    wmodel.Werror = false;
+                    wmodel.Wtitle = title;
+                    wmodel.Wcode = codefile;
+                    wmodel.Wdict = codedict;
+                    wmodel.Wlid = Int32.Parse(Wlid);
+                    wmodel.Wthumbnail = Wthumbnail;
+
+                    bll.AddWorkUp(wmodel);//添加作品提交记录
+                    BLL.Signin sn = new BLL.Signin();
+                    sn.UpdateQwork(Wsid, Int32.Parse(Wcid));//更新今天签到表中的作品数量
+
+                    //添加课堂活动记录
+                    Model.MenuWorks kmodel = new Model.MenuWorks();
+                    kmodel.Klid = Int32.Parse(Wlid);
+                    kmodel.Ksid = Wsid;
+                    kmodel.Ktime = LearnSite.Common.Computer.GoneMinute(DateTime.Parse(Wtime), Wdate);
+                    kmodel.Kcheck = false;
+                    BLL.MenuWorks kbll = new MenuWorks();
+                    kbll.Add(kmodel);
+                }
+            }
+
+        }
+
+
+        public void SaveModel(string id)
+        {
+            string[] arrayid = id.Split('-');
+            string Wcid = arrayid[0];
+            string Wmid = arrayid[1];
+            string Wlid = arrayid[2];
+
+            LearnSite.Model.Cook cook = new LearnSite.Model.Cook();
+
+            int Wsid = cook.Sid;
+            string Wnum = cook.Snum;
+            string Wname = cook.Sname;
+            string Wgrade = cook.Sgrade.ToString();
+            string Wclass = cook.Sclass.ToString();
+            string Wyear = cook.Syear.ToString();
+            string Wterm = cook.ThisTerm.ToString();
+            string Wip = cook.LoginIp;
+            string Wtime = cook.LoginTime;
+            DateTime Wdate = DateTime.Now;
+
+            string MySavePath = LearnSite.Common.WorkUpload.GetWurl(Wyear, Wgrade, Wclass, Wcid, Wmid);//获得作品保存路径（如果不存在，自动创建）
+
+            string OnlyFileName = HttpContext.Current.Request.Form["modelName"];
+
+            string Wthumbnail = MySavePath + "/" + OnlyFileName + ".png";
+            string thumbnailpath = HttpContext.Current.Server.MapPath(Wthumbnail);
+
+            string NewFileName = OnlyFileName + ".json";
+            string Wurl = MySavePath + "/" + NewFileName;
+            string SaveFile = HttpContext.Current.Server.MapPath(Wurl);
+
+            int flen = 0;
+            int plen = 0;
+            string title = "";
+            string codefile = "";
+            string codedict = "";
+            string Ext = "mlimg";
+            BLL.Works bll = new BLL.Works();
+            Model.Works model = new Model.Works();//////////////////
+            model = bll.GetModelByStu(Int32.Parse(Wmid), Wnum);
+            bool saved = false;
+            if (model != null)
+                saved = model.Wcheck;//判断作品是否评价过
+
+            if (!saved)
+            {
+                try
+                {
+                    string base64 = HttpContext.Current.Request.Form["base64"];
+                    HttpPostedFile cover = HttpContext.Current.Request.Files["cover"];
+                    plen = base64.Length;
+                    if (plen > 0)
+                    {
+                        cover.SaveAs(thumbnailpath);
+                        System.IO.File.WriteAllText(SaveFile, base64);
+                    }
+                }
+                catch (Exception ec)
+                {
+                    LearnSite.Common.Log.Addlog("保存出错信息", ec.StackTrace);// ec.StackTrace可以出详细信息
+                }
+
+                bool checkcan = true;
+
+                //string Wid = bll.WorkDone(Wnum, Int32.Parse(Wcid), Int32.Parse(Wmid));//返回空字符表示不存在该记录
+                //记录到数据库
+                if (model != null)
+                {
+                    bll.UpdateTopic(model.Wid, Wurl, NewFileName, flen, Wdate, checkcan, Wthumbnail, title, codefile, Ext);//更新Wfilename, Wurl,Wlength, Wdate
+
+                }
+                else
+                {
+                    //Wnum,Wcid,Wmid,Wmsort,Wfilename,Wtype,Wurl,Wlength,Wdate,Wip
+                    //,Wtime,Wegg,Wgrade,Wterm,Woffice,Wflash,Wsid,Wclass,Wname,Wyear
+                    Model.Works wmodel = new Model.Works();//////////////////
+                    wmodel.Wnum = Wnum;
+                    wmodel.Wcid = Int32.Parse(Wcid);
+                    wmodel.Wmid = Int32.Parse(Wmid);
+                    wmodel.Wmsort = 15;
+                    wmodel.Wfilename = NewFileName;
+                    wmodel.Wtype = Ext;
+                    wmodel.Wurl = Wurl;
+                    wmodel.Wlength = flen;
+                    wmodel.Wdate = Wdate;
+                    wmodel.Wip = Wip;
+                    wmodel.Wtime = Wtime;
+                    wmodel.Wcan = checkcan;
+                    wmodel.Wcheck = false;
+                    wmodel.Wegg = 12;//设定票数为12张
+                    wmodel.Whit = 0;
+                    wmodel.Wgrade = Int32.Parse(Wgrade);
+                    wmodel.Wterm = Int32.Parse(Wterm);
+                    wmodel.Woffice = false;
+                    wmodel.Wsid = Wsid;
+                    wmodel.Wclass = Int32.Parse(Wclass);
+                    wmodel.Wname = HttpUtility.UrlDecode(Wname);
+                    wmodel.Wyear = Int32.Parse(Wyear);
+                    wmodel.Wflash = false;
+                    wmodel.Werror = false;
+                    wmodel.Wtitle = title;
+                    wmodel.Wcode = codefile;
+                    wmodel.Wdict = codedict;
+                    wmodel.Wlid = Int32.Parse(Wlid);
+                    wmodel.Wthumbnail = Wthumbnail;
+
+                    bll.AddWorkUp(wmodel);//添加作品提交记录
+                    BLL.Signin sn = new BLL.Signin();
+                    sn.UpdateQwork(Wsid, Int32.Parse(Wcid));//更新今天签到表中的作品数量
+
+                    //添加课堂活动记录
+                    Model.MenuWorks kmodel = new Model.MenuWorks();
+                    kmodel.Klid = Int32.Parse(Wlid);
+                    kmodel.Ksid = Wsid;
+                    kmodel.Ktime = LearnSite.Common.Computer.GoneMinute(DateTime.Parse(Wtime), Wdate);
+                    kmodel.Kcheck = false;
+                    BLL.MenuWorks kbll = new MenuWorks();
+                    kbll.Add(kmodel);
+                }
+            }
+
+        }
+
+
+        public void SavePoster(string id)
+        {
+            string[] arrayid = id.Split('-');
+            string Wcid = arrayid[0];
+            string Wmid = arrayid[1];
+            string Wlid = arrayid[2];
+
+            LearnSite.Model.Cook cook = new LearnSite.Model.Cook();
+
+            int Wsid = cook.Sid;
+            string Wnum = cook.Snum;
+            string Wname = cook.Sname;
+            string Wgrade = cook.Sgrade.ToString();
+            string Wclass = cook.Sclass.ToString();
+            string Wyear = cook.Syear.ToString();
+            string Wterm = cook.ThisTerm.ToString();
+            string Wip = cook.LoginIp;
+            string Wtime = cook.LoginTime;
+            DateTime Wdate = DateTime.Now;
+
+            string MySavePath = LearnSite.Common.WorkUpload.GetWurl(Wyear, Wgrade, Wclass, Wcid, Wmid);//获得作品保存路径（如果不存在，自动创建）
+            string RndTime = LearnSite.Common.Computer.Datagone(DateTime.Parse(Wtime), Wdate);
+            string OnlyFileName = Wnum + "_" + Wcid + "_" + Wmid + "_" + RndTime;
+
+            string Wthumbnail = MySavePath + "/" + OnlyFileName + ".png";
+            string thumbnailpath = HttpContext.Current.Server.MapPath(Wthumbnail);
+
+            string NewFileName = OnlyFileName + ".json";
+            string Wurl = MySavePath + "/" + NewFileName;
+            string SaveFile = HttpContext.Current.Server.MapPath(Wurl);
+
+            int flen = 0;
+            int plen = 0;
+            string title = "";
+            string codefile = "";
+            string codedict = "";
+            string Ext = "poster";
+            BLL.Works bll = new BLL.Works();
+            Model.Works model = new Model.Works();//////////////////
+            model = bll.GetModelByStu(Int32.Parse(Wmid), Wnum);
+            bool saved = false;
+            if (model != null)
+                saved = model.Wcheck;//判断作品是否评价过
+
+            if (!saved)
+            {
+                try
+                {
+                    HttpPostedFile posterfile = HttpContext.Current.Request.Files["poster"];
+                    HttpPostedFile cover = HttpContext.Current.Request.Files["cover"];
+                    plen = posterfile.ContentLength;
+                    if (plen > 0)
+                    {
+                        cover.SaveAs(thumbnailpath);
+                        posterfile.SaveAs(SaveFile);
+                        //LearnSite.Common.Log.Addlog("3保存成功信息", "保存成功");// ec.StackTrace可以出详细信息
+                    }
+
+                    // LearnSite.Common.Log.Addlog("python作品上传调试信息：", msg);
+                }
+                catch (Exception ec)
+                {
+                    LearnSite.Common.Log.Addlog("保存出错信息", ec.StackTrace);// ec.StackTrace可以出详细信息
+                }
+
+                bool checkcan = true;
+
+                //string Wid = bll.WorkDone(Wnum, Int32.Parse(Wcid), Int32.Parse(Wmid));//返回空字符表示不存在该记录
+                //记录到数据库
+                if (model != null)
+                {
+                    bll.UpdateTopic(model.Wid, Wurl, NewFileName, flen, Wdate, checkcan, Wthumbnail, title, codefile, Ext);//更新Wfilename, Wurl,Wlength, Wdate
+
+                }
+                else
+                {
+                    //Wnum,Wcid,Wmid,Wmsort,Wfilename,Wtype,Wurl,Wlength,Wdate,Wip
+                    //,Wtime,Wegg,Wgrade,Wterm,Woffice,Wflash,Wsid,Wclass,Wname,Wyear
+                    Model.Works wmodel = new Model.Works();//////////////////
+                    wmodel.Wnum = Wnum;
+                    wmodel.Wcid = Int32.Parse(Wcid);
+                    wmodel.Wmid = Int32.Parse(Wmid);
+                    wmodel.Wmsort = 15;
+                    wmodel.Wfilename = NewFileName;
+                    wmodel.Wtype = Ext;
+                    wmodel.Wurl = Wurl;
+                    wmodel.Wlength = flen;
+                    wmodel.Wdate = Wdate;
+                    wmodel.Wip = Wip;
+                    wmodel.Wtime = Wtime;
+                    wmodel.Wcan = checkcan;
+                    wmodel.Wcheck = false;
+                    wmodel.Wegg = 12;//设定票数为12张
+                    wmodel.Whit = 0;
+                    wmodel.Wgrade = Int32.Parse(Wgrade);
+                    wmodel.Wterm = Int32.Parse(Wterm);
+                    wmodel.Woffice = false;
+                    wmodel.Wsid = Wsid;
+                    wmodel.Wclass = Int32.Parse(Wclass);
+                    wmodel.Wname = HttpUtility.UrlDecode(Wname);
+                    wmodel.Wyear = Int32.Parse(Wyear);
+                    wmodel.Wflash = false;
+                    wmodel.Werror = false;
+                    wmodel.Wtitle = title;
+                    wmodel.Wcode = codefile;
+                    wmodel.Wdict = codedict;
+                    wmodel.Wlid = Int32.Parse(Wlid);
+                    wmodel.Wthumbnail = Wthumbnail;
+
+                    bll.AddWorkUp(wmodel);//添加作品提交记录
+                    BLL.Signin sn = new BLL.Signin();
+                    sn.UpdateQwork(Wsid, Int32.Parse(Wcid));//更新今天签到表中的作品数量
+
+                    //添加课堂活动记录
+                    Model.MenuWorks kmodel = new Model.MenuWorks();
+                    kmodel.Klid = Int32.Parse(Wlid);
+                    kmodel.Ksid = Wsid;
+                    kmodel.Ktime = LearnSite.Common.Computer.GoneMinute(DateTime.Parse(Wtime), Wdate);
+                    kmodel.Kcheck = false;
+                    BLL.MenuWorks kbll = new MenuWorks();
+                    kbll.Add(kmodel);
+                }
+            }
+
+        }
+
+        public static string DecodeBase64(string base64EncodedData)
+        {
+            // 解码Base64字符串
+            byte[] base64EncodedBytes = Convert.FromBase64String(base64EncodedData);
+            return Encoding.UTF8.GetString(base64EncodedBytes);
+        }
+
+        public void SaveTopic(string id)
+        {
+            string[] arrayid = id.Split('-');
+            string Wcid = arrayid[0];
+            string Wmid = arrayid[1];
+            string Wlid = arrayid[2];
+
+            LearnSite.Model.Cook cook = new LearnSite.Model.Cook();
+            int Wsid = cook.Sid;
+            string Wnum = cook.Snum;
+            string Wname = cook.Sname;
+            string Wgrade = cook.Sgrade.ToString();
+            string Wclass = cook.Sclass.ToString();
+            string Wyear = cook.Syear.ToString();
+            string Wterm = cook.ThisTerm.ToString();
+            string Wip = cook.LoginIp;
+            string Wtime = cook.LoginTime;
+            DateTime Wdate = DateTime.Now;
+
+            string MySavePath = LearnSite.Common.WorkUpload.GetWurl(Wyear, Wgrade, Wclass, Wcid, Wmid);//获得作品保存路径（如果不存在，自动创建）
+            string RndTime = LearnSite.Common.Computer.Datagone(DateTime.Parse(Wtime), Wdate);
+            string OnlyFileName = Wnum + "_" + Wcid + "_" + Wmid + "_" + RndTime;
+            string NewThumbnail = OnlyFileName + ".png";
+            string Wthumbnail = MySavePath + "/" + NewThumbnail;
+            string thumbnailpath = HttpContext.Current.Server.MapPath(Wthumbnail);
+
+            int flen = 0;
+            int plen = 0;
+            string NewFileName = "";
+            string Wurl = "";
+            string title = "";
+            string codefile = "";
+            string codedict = "";
+            string Ext = "";
+            BLL.Works bll = new BLL.Works();
+            Model.Works model = new Model.Works();//////////////////
+            model = bll.GetModelByStu(Int32.Parse(Wmid), Wnum);
+            bool saved = false;
+            if (model != null)
+                saved = model.Wcheck;//判断作品是否评价过
+
+            if (!saved)
+            {
+                try
+                {
+                    title = HttpContext.Current.Request.Form["title"];
+                    HttpPostedFile cover = HttpContext.Current.Request.Files["cover"];
+                    codefile = HttpContext.Current.Request.Form["content"];
+                    Ext = HttpContext.Current.Request.Form["ext"];
+                    Wurl = MySavePath + "/" + OnlyFileName + "." + Ext;
+                    if (Ext == "pxl")
+                    {
+                        NewThumbnail = OnlyFileName + ".gif";
+                        Wthumbnail = MySavePath + "/" + NewThumbnail;
+                        thumbnailpath = HttpContext.Current.Server.MapPath(Wthumbnail);
+                    }
+                    plen = cover.ContentLength;
+                    if (plen > 0)
+                    {
+                        cover.SaveAs(thumbnailpath);
+                        //LearnSite.Common.Log.Addlog("3保存成功信息", "保存成功");// ec.StackTrace可以出详细信息
+                    }
+                    if (Ext == "excalidraw")
+                    {
+                        string Wpath = HttpContext.Current.Server.MapPath(Wurl);
+                        string jsoncode = DecodeBase64(codefile);
+                         jsoncode = HttpContext.Current.Server.UrlDecode(jsoncode);
+                        File.WriteAllText(Wpath, jsoncode);
+                    }
+
+                    // LearnSite.Common.Log.Addlog("python作品上传调试信息：", msg);
+                }
+                catch (Exception ec)
+                {
+                    LearnSite.Common.Log.Addlog("保存出错信息", ec.StackTrace);// ec.StackTrace可以出详细信息
+                }
+
+                bool checkcan = true;
+
+                //string Wid = bll.WorkDone(Wnum, Int32.Parse(Wcid), Int32.Parse(Wmid));//返回空字符表示不存在该记录
+                //记录到数据库
+                if (model != null)
+                {
+                    bll.UpdateTopic(model.Wid, Wurl, NewFileName, flen, Wdate, checkcan, Wthumbnail, title, codefile,Ext);//更新Wfilename, Wurl,Wlength, Wdate
+
+                }
+                else
+                {
+                    //Wnum,Wcid,Wmid,Wmsort,Wfilename,Wtype,Wurl,Wlength,Wdate,Wip
+                    //,Wtime,Wegg,Wgrade,Wterm,Woffice,Wflash,Wsid,Wclass,Wname,Wyear
+                    Model.Works wmodel = new Model.Works();//////////////////
+                    wmodel.Wnum = Wnum;
+                    wmodel.Wcid = Int32.Parse(Wcid);
+                    wmodel.Wmid = Int32.Parse(Wmid);
+                    wmodel.Wmsort = 15;
+                    wmodel.Wfilename = NewFileName;
+                    wmodel.Wtype = Ext;
+                    wmodel.Wurl = Wurl;
+                    wmodel.Wlength = flen;
+                    wmodel.Wdate = Wdate;
+                    wmodel.Wip = Wip;
+                    wmodel.Wtime = Wtime;
+                    wmodel.Wcan = checkcan;
+                    wmodel.Wcheck = false;
+                    wmodel.Wegg = 12;//设定票数为12张
+                    wmodel.Whit = 0;
+                    wmodel.Wgrade = Int32.Parse(Wgrade);
+                    wmodel.Wterm = Int32.Parse(Wterm);
+                    wmodel.Woffice = false;
+                    wmodel.Wsid = Wsid;
+                    wmodel.Wclass = Int32.Parse(Wclass);
+                    wmodel.Wname = HttpUtility.UrlDecode(Wname);
+                    wmodel.Wyear = Int32.Parse(Wyear);
+                    wmodel.Wflash = false;
+                    wmodel.Werror = false;
+                    wmodel.Wtitle = title;
+                    wmodel.Wcode = codefile;
+                    wmodel.Wdict = codedict;
+                    wmodel.Wlid = Int32.Parse(Wlid);
+                    wmodel.Wthumbnail = Wthumbnail;
+
+                    bll.AddWorkUp(wmodel);//添加作品提交记录
+                    BLL.Signin sn = new BLL.Signin();
+                    sn.UpdateQwork(Wsid, Int32.Parse(Wcid));//更新今天签到表中的作品数量
+
+                    //添加课堂活动记录
+                    Model.MenuWorks kmodel = new Model.MenuWorks();
+                    kmodel.Klid = Int32.Parse(Wlid);
+                    kmodel.Ksid = Wsid;
+                    kmodel.Ktime = LearnSite.Common.Computer.GoneMinute(DateTime.Parse(Wtime), Wdate);
+                    kmodel.Kcheck = false;
+                    BLL.MenuWorks kbll = new MenuWorks();
+                    kbll.Add(kmodel);
+                }
+            }
+
+        }
+
         public void SavePixel(string id)
         {
             string[] arrayid = id.Split('-');
@@ -2447,6 +3414,255 @@ namespace LearnSite.BLL
 
         }
 
+
+        public void Savekitymind(string id)
+        {
+            string[] arrayid = id.Split('-');
+            string Wcid = arrayid[0];
+            string Wmid = arrayid[1];
+            string Wlid = arrayid[2];
+
+            LearnSite.Model.Cook cook = new LearnSite.Model.Cook();
+
+            int Wsid = cook.Sid;
+            string Wnum = cook.Snum;
+            string Wname = cook.Sname;
+            string Wgrade = cook.Sgrade.ToString();
+            string Wclass = cook.Sclass.ToString();
+            string Wyear = cook.Syear.ToString();
+            string Wterm = cook.ThisTerm.ToString();
+            string Wip = cook.LoginIp;
+            string Wtime = cook.LoginTime;
+            DateTime Wdate = DateTime.Now;
+
+            string MySavePath = LearnSite.Common.WorkUpload.GetWurl(Wyear, Wgrade, Wclass, Wcid, Wmid);//获得作品保存路径（如果不存在，自动创建）
+            string RndTime = LearnSite.Common.Computer.Datagone(DateTime.Parse(Wtime), Wdate);
+            string OnlyFileName = Wnum + "_" + Wcid + "_" + Wmid + "_" + RndTime;
+            string NewFileName = OnlyFileName + ".km";
+            string Wurl = MySavePath + "/" + NewFileName;
+            string SaveFile = HttpContext.Current.Server.MapPath(Wurl);
+
+            string NewThumbnail = OnlyFileName + ".png";
+            string Wthumbnail = MySavePath + "/" + NewThumbnail;
+            string thumbnailpath = HttpContext.Current.Server.MapPath(Wthumbnail);
+
+            int flen = 0;
+            int plen = 0;
+            string title = "";
+            string codefile = "";
+            string codedict = "";
+            BLL.Works bll = new BLL.Works();
+            Model.Works model = new Model.Works();//////////////////
+            model = bll.GetModelByStu(Int32.Parse(Wmid), Wnum);
+            bool saved = false;
+            if (model != null)
+                saved = model.Wcheck;//判断作品是否评价过
+
+            if (!saved)
+            {
+                try
+                {
+                    title = HttpContext.Current.Request.Form["title"];
+                    codefile = HttpContext.Current.Request.Form["km"];
+
+                    if (!String.IsNullOrEmpty(codefile))
+                    {
+                        string cf = HttpUtility.UrlDecode(codefile);//HttpUtility.UrlDecode 等于js中的decodeURIComponent                        
+                        System.IO.File.WriteAllText(SaveFile, cf);
+                        flen = codefile.Length;
+                    }
+
+                    HttpPostedFile pngf = HttpContext.Current.Request.Files["thumb"];
+                    plen = pngf.ContentLength;
+
+                    if (plen > 0)
+                    {
+                        pngf.SaveAs(thumbnailpath);
+                        //LearnSite.Common.Log.Addlog("3保存成功信息", "保存成功");// ec.StackTrace可以出详细信息
+                    }
+
+
+                    // LearnSite.Common.Log.Addlog("python作品上传调试信息：", msg);
+                }
+                catch (Exception ec)
+                {
+                    LearnSite.Common.Log.Addlog("保存出错信息", ec.StackTrace);// ec.StackTrace可以出详细信息
+                }
+
+                bool checkcan = true;
+
+                //string Wid = bll.WorkDone(Wnum, Int32.Parse(Wcid), Int32.Parse(Wmid));//返回空字符表示不存在该记录
+                //记录到数据库
+                if (model != null)
+                {
+                    bll.UpdateHtml(model.Wid, Wurl, NewFileName, flen, Wdate, checkcan, Wthumbnail, title, codefile);//更新Wfilename, Wurl,Wlength, Wdate
+
+                }
+                else
+                {
+                    //Wnum,Wcid,Wmid,Wmsort,Wfilename,Wtype,Wurl,Wlength,Wdate,Wip
+                    //,Wtime,Wegg,Wgrade,Wterm,Woffice,Wflash,Wsid,Wclass,Wname,Wyear
+                    Model.Works wmodel = new Model.Works();//////////////////
+                    wmodel.Wnum = Wnum;
+                    wmodel.Wcid = Int32.Parse(Wcid);
+                    wmodel.Wmid = Int32.Parse(Wmid);
+                    wmodel.Wmsort = 15;
+                    wmodel.Wfilename = NewFileName;
+                    wmodel.Wtype = "km";
+                    wmodel.Wurl = Wurl;
+                    wmodel.Wlength = flen;
+                    wmodel.Wdate = Wdate;
+                    wmodel.Wip = Wip;
+                    wmodel.Wtime = Wtime;
+                    wmodel.Wcan = checkcan;
+                    wmodel.Wcheck = false;
+                    wmodel.Wegg = 12;//设定票数为12张
+                    wmodel.Whit = 0;
+                    wmodel.Wgrade = Int32.Parse(Wgrade);
+                    wmodel.Wterm = Int32.Parse(Wterm);
+                    wmodel.Woffice = false;
+                    wmodel.Wsid = Wsid;
+                    wmodel.Wclass = Int32.Parse(Wclass);
+                    wmodel.Wname = HttpUtility.UrlDecode(Wname);
+                    wmodel.Wyear = Int32.Parse(Wyear);
+                    wmodel.Wflash = false;
+                    wmodel.Werror = false;
+                    wmodel.Wtitle = title;
+                    wmodel.Wcode = codefile;
+                    wmodel.Wdict = codedict;
+                    wmodel.Wlid = Int32.Parse(Wlid);
+                    wmodel.Wthumbnail = Wthumbnail;
+
+                    bll.AddWorkUp(wmodel);//添加作品提交记录
+                    BLL.Signin sn = new BLL.Signin();
+                    sn.UpdateQwork(Wsid, Int32.Parse(Wcid));//更新今天签到表中的作品数量
+
+                    //添加课堂活动记录
+                    Model.MenuWorks kmodel = new Model.MenuWorks();
+                    kmodel.Klid = Int32.Parse(Wlid);
+                    kmodel.Ksid = Wsid;
+                    kmodel.Ktime = LearnSite.Common.Computer.GoneMinute(DateTime.Parse(Wtime), Wdate);
+                    kmodel.Kcheck = false;
+                    BLL.MenuWorks kbll = new MenuWorks();
+                    kbll.Add(kmodel);
+                }
+            }
+
+        }
+
+
+        public void SaveExcel(string id)
+        {
+            string[] arrayid = id.Split('-');
+            string Wcid = arrayid[0];
+            string Wmid = arrayid[1];
+            string Wlid = arrayid[2];
+
+            LearnSite.Model.Cook cook = new LearnSite.Model.Cook();
+
+            int Wsid = cook.Sid;
+            string Wnum = cook.Snum;
+            string Wname = cook.Sname;
+            string Wgrade = cook.Sgrade.ToString();
+            string Wclass = cook.Sclass.ToString();
+            string Wyear = cook.Syear.ToString();
+            string Wterm = cook.ThisTerm.ToString();
+            string Wip = cook.LoginIp;
+            string Wtime = cook.LoginTime;
+            DateTime Wdate = DateTime.Now;
+
+            string MySavePath = LearnSite.Common.WorkUpload.GetWurl(Wyear, Wgrade, Wclass, Wcid, Wmid);//获得作品保存路径（如果不存在，自动创建）
+            string RndTime = LearnSite.Common.Computer.Datagone(DateTime.Parse(Wtime), Wdate);
+            string OnlyFileName = Wnum + "_" + Wcid + "_" + Wmid + "_" + RndTime;
+            string NewFileName = OnlyFileName + ".sheet";
+            string Wurl = MySavePath + "/" + NewFileName;
+            string SaveFile = HttpContext.Current.Server.MapPath(Wurl);
+
+            string Wthumbnail = "";
+            int flen = 0;
+            string title = "";
+            string codefile = "";
+            string codedict = "";
+            BLL.Works bll = new BLL.Works();
+            Model.Works model = new Model.Works();//////////////////
+            model = bll.GetModelByStu(Int32.Parse(Wmid), Wnum);
+            bool saved = false;
+            if (model != null)
+                saved = model.Wcheck;//判断作品是否评价过
+
+            if (!saved)
+            {
+                try
+                {
+                    title = HttpContext.Current.Request.Form["title"];
+                    codefile = HttpContext.Current.Request.Form["excel"];
+
+                    // LearnSite.Common.Log.Addlog("python作品上传调试信息：", msg);
+                }
+                catch (Exception ec)
+                {
+                    LearnSite.Common.Log.Addlog("保存出错信息", ec.StackTrace);// ec.StackTrace可以出详细信息
+                }
+
+                bool checkcan = true;
+
+                //string Wid = bll.WorkDone(Wnum, Int32.Parse(Wcid), Int32.Parse(Wmid));//返回空字符表示不存在该记录
+                //记录到数据库
+                if (model != null)
+                {
+                    bll.UpdateHtml(model.Wid, Wurl, NewFileName, flen, Wdate, checkcan, Wthumbnail, title, codefile);//更新Wfilename, Wurl,Wlength, Wdate
+
+                }
+                else
+                {
+                    //Wnum,Wcid,Wmid,Wmsort,Wfilename,Wtype,Wurl,Wlength,Wdate,Wip
+                    //,Wtime,Wegg,Wgrade,Wterm,Woffice,Wflash,Wsid,Wclass,Wname,Wyear
+                    Model.Works wmodel = new Model.Works();//////////////////
+                    wmodel.Wnum = Wnum;
+                    wmodel.Wcid = Int32.Parse(Wcid);
+                    wmodel.Wmid = Int32.Parse(Wmid);
+                    wmodel.Wmsort = 16;
+                    wmodel.Wfilename = NewFileName;
+                    wmodel.Wtype = "sheet";
+                    wmodel.Wurl = Wurl;
+                    wmodel.Wlength = flen;
+                    wmodel.Wdate = Wdate;
+                    wmodel.Wip = Wip;
+                    wmodel.Wtime = Wtime;
+                    wmodel.Wcan = checkcan;
+                    wmodel.Wcheck = false;
+                    wmodel.Wegg = 12;//设定票数为12张
+                    wmodel.Whit = 0;
+                    wmodel.Wgrade = Int32.Parse(Wgrade);
+                    wmodel.Wterm = Int32.Parse(Wterm);
+                    wmodel.Woffice = false;
+                    wmodel.Wsid = Wsid;
+                    wmodel.Wclass = Int32.Parse(Wclass);
+                    wmodel.Wname = HttpUtility.UrlDecode(Wname);
+                    wmodel.Wyear = Int32.Parse(Wyear);
+                    wmodel.Wflash = false;
+                    wmodel.Werror = false;
+                    wmodel.Wtitle = title;
+                    wmodel.Wcode = codefile;
+                    wmodel.Wdict = codedict;
+                    wmodel.Wlid = Int32.Parse(Wlid);
+
+                    bll.AddWorkUp(wmodel);//添加作品提交记录
+                    BLL.Signin sn = new BLL.Signin();
+                    sn.UpdateQwork(Wsid, Int32.Parse(Wcid));//更新今天签到表中的作品数量
+
+                    //添加课堂活动记录
+                    Model.MenuWorks kmodel = new Model.MenuWorks();
+                    kmodel.Klid = Int32.Parse(Wlid);
+                    kmodel.Ksid = Wsid;
+                    kmodel.Ktime = LearnSite.Common.Computer.GoneMinute(DateTime.Parse(Wtime), Wdate);
+                    kmodel.Kcheck = false;
+                    BLL.MenuWorks kbll = new MenuWorks();
+                    kbll.Add(kmodel);
+                }
+            }
+
+        }
 
         private int FindPos(string source, string word)
         {

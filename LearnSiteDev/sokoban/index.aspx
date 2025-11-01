@@ -1,4 +1,5 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="index.aspx.cs" Inherits="sokoban_index" %>
+
 <!doctype html>
 <html>
 	<head>
@@ -205,7 +206,7 @@
 		function init(){  
             var gpass=parseInt(timepass);  
 			$("#rank").html("英雄榜：<br><br>"+grank);	        
-            if (gpass>40){
+            if (gpass>0){
 			    initLevel();//初始化对应等级的游戏
 			    if(levelsave!="0"){
 				    console.log(parseInt(levelsave));
@@ -518,9 +519,6 @@
 					notice('pop');
 					return false;
 				}
-				//如果判断不成功小人前面的箱子前进一步
-				curMap[p2.x][p2.y] = 3;//更改地图对应坐标点的值
-				//console.log(curMap[p2.x][p2.y]);
 								
 				//console.log(moves);
 				if(curMap[p2.x][p2.y]==2){
@@ -528,6 +526,9 @@
 				}else{				
 					notice('tui');				
 				}
+				//如果判断不成功小人前面的箱子前进一步
+				curMap[p2.x][p2.y] = 3;//更改地图对应坐标点的值
+				//console.log(curMap[p2.x][p2.y]);
 			}
 			else{
 				notice('zou');
@@ -719,6 +720,17 @@
 
 	</script>
 </html>
+
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -7,7 +7,6 @@ using System.Web.UI.WebControls;
 public partial class Student_program : System.Web.UI.Page
 {
     LearnSite.Model.Cook cook = new LearnSite.Model.Cook();
-    
     protected void Page_Load(object sender, EventArgs e)
     {
         if (LearnSite.Common.CookieHelp.IsStudentLogin())
@@ -42,6 +41,7 @@ public partial class Student_program : System.Web.UI.Page
                 {
                     LabelMcid.Text = lmodel.Lcid.ToString();
                     LabelMid.Text = lmodel.Lxid.ToString();
+                    LabelLtype.Text = lmodel.Ltype.ToString();//类型编号
 
                     LearnSite.Model.Mission model = new LearnSite.Model.Mission();
                     LearnSite.BLL.Mission mn = new LearnSite.BLL.Mission();
@@ -81,9 +81,10 @@ public partial class Student_program : System.Web.UI.Page
         LearnSite.Model.Works work = new LearnSite.Model.Works();
         work = bll.GetModelByStu(Int32.Parse(LabelMid.Text), Snum);
         BtnScratch.Text = "开始创作";
-        Thumbnail.ImageUrl = "~/images/thumbnail.png";
+        Thumbnail.ImageUrl = "~/images/thumbnail.png";//finished.png
         if (work != null)
         {
+
             string Wurl = work.Wurl;
             string Wthumbnail = work.Wthumbnail;
             if (!string.IsNullOrEmpty(Wthumbnail))
@@ -91,36 +92,32 @@ public partial class Student_program : System.Web.UI.Page
                 Thumbnail.ImageUrl = Wthumbnail + "?temp=" + DateTime.Now.Millisecond.ToString();
                 Wtitle.Text = HttpUtility.HtmlDecode(work.Wtitle);
             }
-            if (work.Wtype == "pxl")
-            {
-                string piximg = LearnSite.Common.WordProcess.pixelsmall(Wurl);
-                pixelsmall.InnerHtml = piximg;
+            else {
+                Thumbnail.ImageUrl = "~/images/finished.png";
             }
-            if (work.Wpass) {
-                ImagePass.Visible = true;
-                if (cook.LoginIp != work.Wip)
-                {
-                    BtnScratch.Visible = false;//登录的IP不是作品提交IP，则无法再进入继续创作
-                    Labelmsg.Text = "换机无法继续创作！";
-                }
-            }            
             bool IsCheck = work.Wcheck;
             if (IsCheck)
             {
                 Labelmsg.Text = "你的作品已评分！";
-                BtnScratch.Text = "继续创作";
-                BtnScratch.Visible = false;
+                BtnScratch.Text = "查看作品";
+                //BtnScratch.Visible = false;
             }
             else
             {
                 Labelmsg.Text = "您的作品还未评分!<br/>可以继续修改提交！";
                 BtnScratch.Text = "继续创作";
             }
+            if (work.Wpass)
+            {
+                ImagePass.Visible = true;
+            }
+
         }
-        if (Snum.StartsWith("s"))
+        if (Snum.StartsWith("s") && cook.Sid < 0)
         {
             BtnBegin.Visible = true;
             ButtonClear.Visible = true;
+            BtnScratch.Visible = true;
         }
         else
         {
@@ -135,34 +132,98 @@ public partial class Student_program : System.Web.UI.Page
         string url = "";
         string ext = LabelUploadType.Text;
         string Lid = LabelLid.Text;
-        switch (ext)
+        string Ltype = LabelLtype.Text;
+        switch (Ltype)
         {
-            case "py":
+            case "8":
                 url = "~/student/python.aspx?lid=" + Lid;
                 if (CheckBack.Checked)
                 {
                     url = "~/student/turtleidle.aspx?lid=" + Lid;               
                 }
-                if (CheckBlock.Checked)
-                {
-                    url = "~/student/pythonblock.aspx?lid=" + Lid;  
-                }
-                if (CheckBlockpy.Checked)
-                {
-                    url = "~/student/pythonblockly.aspx?lid=" + Lid;   
-                }
                 break;
-            case "sb3":
+            case "13":
+                    url = "~/student/pythonblock.aspx?lid=" + Lid;
+
+                    break;
+            case "14":
+                    url = "~/student/pythonblockly.aspx?lid=" + Lid;   
+         
+                break;
+            case "5":
                 url = "~/student/coding.aspx?lid=" + Lid;
                 break;
-            case "xml":
+            case "10":
                 url = "~/student/mxgraph.aspx?lid=" + Lid;
                 break;
-            case "pxl":
+            case "11":
                 url = "~/student/pixel.aspx?lid=" + Lid;
                 break;
-            case "html":
+            case "12":
                 url = "~/student/htmleditor.aspx?lid=" + Lid;
+                break;
+            case "15":
+                url = "~/student/kitymind.aspx?lid=" + Lid;
+                break;
+            case "16":
+                url = "~/student/excel.aspx?lid=" + Lid;
+                break;
+            case "17":
+                url = "~/student/qrcode.aspx?lid=" + Lid;
+                break;
+            case "18":
+                url = "~/student/word.aspx?lid=" + Lid;
+                break;
+            case "19":
+                url = "~/student/pptist.aspx?lid=" + Lid;
+                break;
+            case "20":
+                url = "~/fabriceditor/poster.aspx?lid=" + Lid;
+                break;
+            case "21":
+                url = "~/student/style.aspx?lid=" + Lid;
+                break;
+            case "22":
+                url = "~/machine/imageclass.aspx?lid=" + Lid;
+                break;
+            case "23":
+                url = "~/faceai/face.aspx?lid=" + Lid;
+                break;
+            case "24":
+                url = "~/student/mqtt.aspx?lid=" + Lid;
+                break;
+            case "25":
+                url = "~/student/draw.aspx?lid=" + Lid;
+                break;
+            case "26":
+                url = "~/student/sokoban.aspx?lid=" + Lid;
+                break;
+            case "27":
+                url = "~/deepseek/deepseek.aspx?lid=" + Lid;
+                break;
+            case "28":
+                url = "~/deepseek/speek.aspx?lid=" + Lid;
+                break;
+            case "29":
+                url = "~/deepseek/ocr.aspx?lid=" + Lid;
+                break;
+            case "30":
+                url = "~/deepseek/soundlab.aspx?lid=" + Lid;
+                break;
+            case "31":
+                url = "~/deepseek/tic-tac-toe.aspx?lid=" + Lid;
+                break;
+            case "32":
+                url = "~/student/handnum.aspx?lid=" + Lid;
+                break;
+            case "33":
+                url = "~/student/markdown.aspx?lid=" + Lid;
+                break;
+            case "34":
+                url = "~/student/iframe.aspx?lid=" + Lid;
+                break;
+            case "35":
+                url = "~/deepseek/aidraw.aspx?lid=" + Lid;
                 break;
             default:
                 url = "#";
@@ -170,6 +231,7 @@ public partial class Student_program : System.Web.UI.Page
         }
 
         string Snum = cook.Snum;
+
         if (Snum.StartsWith("s"))
             Response.Redirect(url);
         else

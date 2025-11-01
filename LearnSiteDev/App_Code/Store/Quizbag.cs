@@ -26,7 +26,7 @@ namespace LearnSite.Store
                 ds = bll.GetListByQtype(Qtype);
             else
                 ds = bll.GetListByQtypeQclass(Qtype, Qclass);
-
+            
             string xmlstorage = "~/quiz/storage/Quiz.xml";
             string xmlFile = HttpContext.Current.Server.MapPath(xmlstorage);
 
@@ -40,6 +40,7 @@ namespace LearnSite.Store
                 ds.DataSetName = "LearnSite";
                 if (ds.Tables[0].Rows.Count > 0)
                 {
+                    QuizStorage();//如果不存在则创建
                     ds.Tables[0].TableName = "Quiz";
                     ds.WriteXml(xmlFile);//生成xml文件
                     LearnSite.Store.SharpZip.PackFiles(rarFile, QuizStorage());//把Storage文件夹打包

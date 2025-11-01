@@ -1,9 +1,6 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/teacher/Teach.master"  StylesheetTheme="Teacher" AutoEventWireup="true" CodeFile="topicshow.aspx.cs" Inherits="Teacher_topicshow" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="Content" Runat="Server">
-<br />
-<div  class="typeplace"> 
-
     <div class="courseshow">
     <br />
         <asp:ImageButton ID="Btnclock" runat="server" ImageUrl="~/images/clock.gif" 
@@ -24,12 +21,9 @@
 		</div>
 		<br />
 		<br />
-
-</div> 
-              <br />
               <asp:Button ID="Btnreturn" runat="server"  Text="返回" OnClick="Btnreturn_Click"  SkinID="BtnNormal" />
-    <br />
- <br /> 
 </div> 
+    <br />
+
 </asp:Content>
 

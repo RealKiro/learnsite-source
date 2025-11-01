@@ -228,7 +228,7 @@ namespace LearnSite.DAL
 					new SqlParameter("@Sscore", SqlDbType.Int,4),
 					new SqlParameter("@Squiz", SqlDbType.Int,4),
 					new SqlParameter("@Sattitude", SqlDbType.Int,4),
-					new SqlParameter("@Sape", SqlDbType.NVarChar,1)};
+					new SqlParameter("@Sape", SqlDbType.NVarChar,10)};
             parameters[0].Value = model.Snum;
             parameters[1].Value = model.Syear;
             parameters[2].Value = model.Sgrade;
@@ -1307,6 +1307,50 @@ namespace LearnSite.DAL
             }
         }
 
+        /// <summary>
+        /// 终结性评定
+        /// </summary>
+        public void TermABCD()
+        {
+            string strSqlp = "UPDATE Students SET Stenscore='0',Sape='' ";
+            DbHelperSQL.ExecuteSql(strSqlp);
+
+            LearnSite.BLL.Room rm = new LearnSite.BLL.Room();
+            int SgradeMin = rm.GetMinRgrade();
+            int SgradeMax = rm.GetMaxRgrade();
+            int SclassMin = rm.GetMinRclass();
+            int SclassMax = rm.GetMaxRclass();
+            for (int i = SgradeMin; i < SgradeMax + 1; i++)
+            {
+                for (int j = SclassMin; j < SclassMax + 1; j++)
+                {
+                    int Sgrade = i;
+                    int Sclass = j;
+                    
+                    string mysql = "SELECT MAX(Sallscore) From Students WHERE Sgrade=" + Sgrade + " AND Sclass=" + Sclass;
+                    int Smaxscore = DbHelperSQL.FindNum(mysql);
+
+                    if (Smaxscore >0)
+                    {   
+                        int A = Smaxscore * 80 / 100;
+                        int B = Smaxscore * 60 / 100;
+                        int C = Smaxscore * 30 / 100;
+
+                        string strA = "UPDATE Students SET Sape='优秀',Stenscore= 10  WHERE  Sid IN (SELECT Sid FROM Students WHERE Sgrade='" + Sgrade + "' AND Sclass='" + Sclass + "' AND Sallscore>= "+A+" AND Sape='' ) ";
+                        DbHelperSQL.ExecuteSql(strA);
+                        string strB = "UPDATE Students SET Sape='良好',Stenscore= 8  WHERE  Sid IN (SELECT Sid FROM Students WHERE Sgrade='" + Sgrade + "' AND Sclass='" + Sclass + "' AND Sallscore< " + A + " AND Sallscore>= " + B + " AND Sape='' ) ";
+                        DbHelperSQL.ExecuteSql(strB);
+                        string strC = "UPDATE Students SET Sape='及格',Stenscore= 6 WHERE  Sid IN (SELECT Sid FROM Students WHERE Sgrade='" + Sgrade + "' AND Sclass='" + Sclass + "' AND Sallscore< " + B + " AND Sallscore>= " + C + " AND Sape='' ) ";
+                        DbHelperSQL.ExecuteSql(strC);
+                        string strD = "UPDATE Students SET Sape='不及格',Stenscore= 4  WHERE  Sid IN (SELECT Sid FROM Students WHERE Sgrade='" + Sgrade + "' AND Sclass='" + Sclass + "' AND Sape='' ) ";
+                        DbHelperSQL.ExecuteSql(strD);
+                        string strE = "UPDATE Students SET Sape='不及格', Stenscore=2  WHERE  Sid IN (SELECT  Sid FROM Students WHERE Sgrade='" + Sgrade + "' AND Sclass='" + Sclass + "' AND Sallscore=0 ) ";
+                        DbHelperSQL.ExecuteSql(strE);
+                    }
+                }
+            }
+        }
+
 
         /// <summary>
         /// 终结性评定
@@ -1924,6 +1968,7 @@ namespace LearnSite.DAL
             string mysql = "select Sid,Snum,Sname,Sgroup,Sgtitle from Students where Sleader=1 and Sgrade="+Sgrade+" and Sclass="+Sclass+" order by Snum asc";
             return DbHelperSQL.Query(mysql);        
         }
+
         /// <summary>
         /// 获取本小组成员名单
         /// </summary>
@@ -1951,6 +1996,35 @@ namespace LearnSite.DAL
             }
             return str;
         }
+
+
+        /// <summary>
+        /// 获取本班未参加小组名单
+        /// </summary>
+        /// <param name="Sgrade"></param>
+        /// <param name="Sclass"></param>
+        /// <returns></returns>
+        public string FreeMember(int Sgrade, int Sclass)
+        {
+            string mysql = "select Sname from Students where Sgroup=0 and Sgrade=" + Sgrade + " and Sclass=" + Sclass + " order by Snum asc";
+            DataSet ds = DbHelperSQL.Query(mysql);
+            string str = "";
+            int counts = ds.Tables[0].Rows.Count;
+            if (counts > 0)
+            {
+                for (int i = 0; i < counts; i++)
+                {
+                    string Sname = ds.Tables[0].Rows[i]["Sname"].ToString();
+                    str = str + Sname;
+                    if (i < counts - 1)
+                    {
+                        str = str + "、";
+                    }
+                }
+            }
+            return str;
+        }
+
         /// <summary>
         /// 根据学号获取同组成员的所有学号
         /// </summary>
@@ -1982,13 +2056,14 @@ namespace LearnSite.DAL
         /// </summary>
         /// <param name="Snum"></param>
         /// <param name="Sgroup"></param>
-        public void AddThisGroup(string Snum, int Sgroup)
+        public int AddThisGroup(string Snum, int Sgroup)
         {
             if (!FindLeader(Snum))//如果原组长已卸任则加入新小组
             {
                 string mysql = "update Students set Sgroup=" + Sgroup + " where   Snum='" + Snum + "'";
-                DbHelperSQL.ExecuteSql(mysql);
+                return DbHelperSQL.ExecuteSql(mysql);
             }
+            return 0;
         }
         public void AddThisGroup(int Sid, int Sgroup)
         {
@@ -2172,6 +2247,18 @@ namespace LearnSite.DAL
             string mysql = "select Sname from Students where Sid=(select top 1 Sgroup from Students where Sid=" + Sid + ")";
             return DbHelperSQL.FindString(mysql);
         }
+
+        /// <summary>
+        /// 返回小组名称
+        /// </summary>
+        /// <param name="Sid"></param>
+        /// <returns></returns>
+        public string GetMySgtitle(int Sid)
+        {
+            string mysql = "select Sgtitle from Students where Sid=(select top 1 Sgroup from Students where Sid=" + Sid + ")";
+            return DbHelperSQL.FindString(mysql);
+        }
+
         public string GetLeaderByGroup(int Sgroup)
         {
             string mysql = "select Sname from Students where Sid=" + Sgroup;
@@ -2185,7 +2272,7 @@ namespace LearnSite.DAL
         /// <returns></returns>
         public int NoGroup(int Sgrade, int Sclass)
         {
-            string mysql = "update Students set Sgroup=null,Sleader=0 where  Sgrade=" + Sgrade + " and Sclass=" + Sclass;
+            string mysql = "update Students set Sgroup=null,Sleader=0,Steam=null where  Sgrade=" + Sgrade + " and Sclass=" + Sclass;
             return DbHelperSQL.ExecuteSql(mysql);
         }
 
@@ -2393,6 +2480,127 @@ namespace LearnSite.DAL
             }
             return DbHelperSQL.Query(mysql).Tables[0];
         }
+
+        /// <summary>
+        /// 获取本小组成员姓名和学号 Snum as Head, Sname,Sex
+        /// </summary>
+        /// <param name="Sgrade"></param>
+        /// <param name="Sclass"></param>
+        /// <param name="Sgroup"></param>
+        /// <param name="Sid"></param>
+        /// <returns></returns>
+        public DataTable Teamer(int Sgrade, int Sclass,int Sgroup, string Snum, string Sname, string Sex)
+        {
+            string mysql = "select Snum,Sname,Sex from Students where Sgroup<>0 and  Sgroup=" + Sgroup + " and Sgrade=" + Sgrade + " and Sclass=" + Sclass + "  order by Sscore desc";
+            if (Snum.IndexOf('s') > -1)
+            {
+                mysql = "select Snum,Sname,Sex from Students where Sleader=1 and Sgroup<>0 and  Sgrade=" + Sgrade + " and Sclass=" + Sclass + "  order by Sscore desc";
+            }
+
+            DataTable dt = DbHelperSQL.Query(mysql).Tables[0];
+            dt.Columns.Add("Avatar", typeof(System.String));
+            int dcount = dt.Rows.Count;
+            if (dcount > 0)
+            {
+                for (int i = 0; i < dcount; i++)
+                {
+                    string snuma = dt.Rows[i][0].ToString();
+                    string sex = dt.Rows[i][2].ToString();
+                    string imgurl = LearnSite.Common.Photo.GetStudentPhotoUrl(snuma, sex).Replace("~", "..");
+                    dt.Rows[i][0] = "stu" + snuma;
+                    dt.Rows[i][3] = imgurl;
+                }
+            }
+            else
+            {
+                DataRow dw = dt.NewRow();
+
+                string imgurl = LearnSite.Common.Photo.GetStudentPhotoUrl(Snum, Sex);
+                string Head = imgurl.Replace("~", "..");
+
+                dw[0] = "stu" + Snum;
+                dw[1] = Sname;
+                dw[2] = Sex;
+                dw[3] = Head;
+                dt.Rows.Add(dw);
+            }
+
+            return dt;
+        }
+
+        /// <summary>
+        /// 聊天表情图标
+        /// </summary>
+        /// <returns></returns>
+        public DataTable Emo() {
+            DataTable dt = new DataTable();
+            dt.Columns.Add("Emo",typeof(string));
+            for (int i = 1; i < 61; i++)
+            {
+                string num = i.ToString("D2");
+                string emourl = "../code/imgchat/emo/emo_" + num + ".gif";
+                DataRow row = dt.NewRow();
+                row[0] = emourl;
+                dt.Rows.Add(row);           
+            }
+            return dt;
+        }
+
+
+        /// <summary>
+        /// 获取本小组成员姓名字符串，以顿号为分隔符
+        /// </summary>
+        /// <param name="Sgrade"></param>
+        /// <param name="Sclass"></param>
+        /// <param name="Sgroup"></param>
+        /// <param name="Sid"></param>
+        /// <returns></returns>
+        public string GroupTeam(int Sgrade, int Sclass, int Sgroup)
+        {
+            string mysql = "select Sname from Students where Sgroup<>0 and Sgroup=" + Sgroup + " and Sgrade=" + Sgrade + " and Sclass=" + Sclass + "order by Sleader desc";
+            DataTable dt = DbHelperSQL.Query(mysql).Tables[0];
+            int dcount = dt.Rows.Count;
+            string numstr = "";
+            if (dcount > 0)
+            {
+                for (int i = 0; i < dcount; i++)
+                {
+                    numstr = numstr + dt.Rows[i][0].ToString();
+                    if (i < dcount - 1)
+                    {
+                        numstr = numstr + "、";
+                    }
+                }
+            }
+
+            return numstr;
+        }
+
+        /// <summary>
+        /// 获取本小组成员字符串，以逗号为分隔符
+        /// </summary>
+        /// <param name="Sgrade"></param>
+        /// <param name="Sclass"></param>
+        /// <param name="Sgroup"></param>
+        /// <returns></returns>
+        public string GroupSnums(int Sgrade, int Sclass, int Sgroup)
+        {
+            string mysql = "select Snum from Students where  Sgroup=" + Sgroup + " and Sgrade=" + Sgrade + " and Sclass=" + Sclass + " order by Sscore desc";
+            DataTable dt = DbHelperSQL.Query(mysql).Tables[0];
+            int dcount = dt.Rows.Count;
+            string numstr = "";
+            if (dcount > 0) {
+                for (int i = 0; i < dcount; i++) {
+                    numstr = numstr + dt.Rows[i][0].ToString();
+                    if (i < dcount - 1) {
+                        numstr = numstr + ",";
+                    }                
+                }            
+            }
+
+            return numstr;
+        }
+
         /// <summary>
         /// 获取本小组成员
         /// </summary>
@@ -2513,6 +2721,61 @@ namespace LearnSite.DAL
             parameters[3].Value = Classset;
 
             return DbHelperSQL.ExecuteSql(strSql.ToString(), parameters);
+        }
+
+
+        /// <summary>
+        /// 获得组长推荐列表
+        /// </summary>
+        public DataTable GetListTeam(int Sgrade, int Sclass)
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("select Sid,Snum,Sname,Sleader ");
+            strSql.Append(" FROM Students ");
+            strSql.Append(" where Sgrade=@Sgrade and Sclass=@Sclass ");
+            SqlParameter[] parameters = {
+					new SqlParameter("@Sgrade", SqlDbType.Int,4),
+                    new SqlParameter("@Sclass", SqlDbType.Int,4)};
+
+            parameters[0].Value = Sgrade;
+            parameters[1].Value = Sclass;
+
+            DataTable dt = DbHelperSQL.Query(strSql.ToString(), parameters).Tables[0];
+            int dcount = dt.Rows.Count;
+            if (dcount > 0)
+            {
+                dt.Columns.Add("Steam", typeof(int));
+                for (int i = 0; i < dcount; i++)
+                {
+                    string sid = dt.Rows[i]["Sid"].ToString();
+                    string mysql = "select count(*) FROM Students where Steam=" + sid;
+                    int steam = DbHelperSQL.FindNum(mysql);
+                    dt.Rows[i]["Steam"] = steam;
+                }
+
+            }
+
+            return dt;
+        }
+
+
+        /// <summary>
+        /// 更新该Sid学生的组长推荐
+        /// </summary>
+        /// <param name="Sid">自己ID</param>
+        /// <param name="Steam">组长ID</param>
+        public void UpdateSidSteam(int Sid, int Steam)
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("update Students set Steam=@Steam ");
+            strSql.Append("where Sid=@Sid ");
+            SqlParameter[] parameters = {
+					new SqlParameter("@Sid", SqlDbType.Int,4),
+					new SqlParameter("@Steam", SqlDbType.Int,4)};
+            parameters[0].Value = Sid;
+            parameters[1].Value = Steam;
+
+            DbHelperSQL.ExecuteSql(strSql.ToString(), parameters);
         }
 
 		/*

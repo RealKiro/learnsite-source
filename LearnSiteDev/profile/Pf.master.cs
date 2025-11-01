@@ -27,7 +27,7 @@ public partial class Student_Profile_Pf : System.Web.UI.MasterPage
 
         int mySid = cook.Sid;
         LearnSite.BLL.Students dbll = new LearnSite.BLL.Students();
-        sleadername.Text = Server.UrlDecode(dbll.GetLeader(mySid));
+        sleadername.Text = Server.UrlDecode(dbll.GetMySgtitle(mySid));
         string ssex = cook.Sex;
         snum.Text = Server.UrlDecode(cook.Snum);
 

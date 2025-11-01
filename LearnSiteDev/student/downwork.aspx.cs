@@ -72,15 +72,7 @@ public partial class Student_downwork : System.Web.UI.Page
             Labeltype.Text = Wfiletype;
             Labelwurl.Text = Wurl;
 
-            if (Wfiletype == "py")
-            {
-                if (cook.Snum == WorkSnum && cook.LoginIp == Wip)
-                    Literal1.Text = LearnSite.Common.WordProcess.pystuWcode(Wcode, Wurl);
-                else
-                    Literal1.Text = "该内容在版权保护期内，暂时无法查阅。";
-            }
-            else
-                Literal1.Text = LearnSite.Common.WordProcess.SelectEvaluateShow(Wid, Wfiletype, Wurl, false);
+            Literal1.Text = LearnSite.Common.ViewPage.SelectWritePlugin(Wid, Wfiletype, Wurl, Wcode,wmodel.Wthumbnail, true, false);
 
             ImageType.ImageUrl = "~/images/filetype/" + Wfiletype.ToLower() + ".gif";
             if (ts.Days < days)

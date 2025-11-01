@@ -686,10 +686,23 @@ table {border-collapse:collapse;}
     display: inline-block;
     background-color: #6699FF;
     padding: 2px;
-    width: 82px;
+    width: 75px;
     font-size: 11pt;
     color:Black;
     height: 18px;
     line-height: 18px;
     text-decoration: none;
+}
+
+.blackword{	
+    border:none;
+	outline:none;
+	border-bottom: 1px solid #999;
+	display: inline-block;
+	background: transparent!important;
+	overflow: hidden;
+	text-align: center;
+	white-space: nowrap;
+	width: 60px;
+	font-size:16px;
 }

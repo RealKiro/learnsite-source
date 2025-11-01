@@ -7,9 +7,9 @@
     <title></title>
     <style type="text/css">
     .by {margin: 0px;background-color: #E6F0E7}
-    .disk{margin: auto; text-align: center; width: 600px; font-size: 11pt; font-family: 宋体, Arial, Helvetica, sans-serif;}
+    .disk{margin: auto; text-align: center; width: 600px; font-size: 11pt;background-color: #FFFFDD; font-family: 宋体, Arial, Helvetica, sans-serif;}
     .dhead{border-width: 1px; border-color: #CCCCCC; padding: 2px; background-color: #CFE4D0; border-bottom-style: solid;}
-    .dcontext{margin: auto; padding: 2px;background-color: #FFFFDD; height: 340px; overflow-x: hidden;}
+    .dcontext{margin: auto; padding: 2px; height: 340px; overflow-x: hidden;background:url('../js/dropzone/dropzone.png');}
     .dfile{border-width: 1px; border-color: #E6E8E6; border-bottom-style: dashed; text-align: left; width:270px;}
     .txt{ line-height:16px; }
     .leftcss{ float:left; left:10px; width:12px;margin:auto;}
@@ -20,12 +20,11 @@
 </head>
 <body  class="by">
     <form id="form1" class="dropzone" runat="server">
-    <div >
-    <div id="doc_area" class="disk" title="请将文件拖放到这里上传">
+    <div id="doc_area" class="disk" >
     <div class="dhead">
         <asp:Label ID="Labeltitle" runat="server" Font-Bold="True" Font-Size="11pt"></asp:Label>
         </div>
-        <div  class="dcontext"> 
+        <div id="file_area"  class="dcontext"  title="请点击或拖放文件到这里"> 
                 <asp:DataList ID="Dlfilelist" runat="server" 
                     RepeatColumns="2" RepeatDirection="Horizontal" CellPadding="3" 
                     CellSpacing="3" Width="99%" 
@@ -56,30 +55,34 @@
         </div>
         <div id="dright" class="rightcss">   
         <div style="text-align: left">
+         <asp:Button ID="BtnTea" runat="server" BackColor="#CFE4D0" BorderStyle="None" 
+             Font-Bold="False" Font-Size="9pt" onclick="BtnTea_Click" Text="公共资源" />&nbsp;
          <asp:Button ID="BtnStu" runat="server" BackColor="#CFE4D0" BorderStyle="None" 
-             Font-Bold="False" Font-Size="9pt" onclick="BtnStu_Click" Text="我的网盘" />
-&nbsp;<asp:Button ID="BtnGroup" runat="server" BackColor="#CFE4D0" BorderStyle="None" 
+             Font-Bold="False" Font-Size="9pt" onclick="BtnStu_Click" Text="我的网盘" />&nbsp;
+             <asp:Button ID="BtnGroup" runat="server" BackColor="#CFE4D0" BorderStyle="None" 
              Font-Bold="False" Font-Size="9pt" onclick="BtnGroup_Click" Text="小组网盘" />
-         <asp:CheckBox ID="CkIsGroup" runat="server" Enabled="False" Visible="False" />
-&nbsp; <asp:Label ID="Labeldisk" runat="server" Font-Size="9pt" ForeColor="#3F6159"></asp:Label>
+         <asp:CheckBox ID="CkIsGroup" runat="server" Enabled="False" Visible="False" />&nbsp;
+          <asp:Label ID="Labeldisk" runat="server" Font-Size="9pt" ForeColor="#3F6159"></asp:Label>
         </div>
         </div>  
 		<div>
      </div>    
     </div>
+    </div>
     </form>
     <script type="text/javascript" >
     //acceptedFiles: ".txt,.pdf,.doc,.docx,.xlsx,.xls,.ppt,.pptx,.png,.jpg,.jpeg,.gif,.mp4,.py,.wav,.mp3,.psd,.fla,.rar",
         var isgroup = "<%=isgroup %>";
+        var iscommon = "<%=iscommon %>";
         var can = "<%=can %>";
-        var urlstr = "share.ashx?isgroup=" + isgroup;
+        var urlstr = "share.ashx?isgroup=" + isgroup + "&iscommon=" + iscommon;
         if (can == "True") {
-            $("#doc_area").dropzone({
-                url: urlstr,       
+            $("#file_area").dropzone({
+                url: urlstr,
                 method: "POST",
                 addRemoveLinks: true,
-                maxFiles: 1,
-                maxFilesize: 30,
+                maxFiles: 1, //一次性上传的文件数量上限
+                maxFilesize: 30, //MB
                 uploadMultiple: false,
                 parallelUploads: 100,
                 previewsContainer: false,
@@ -89,6 +92,10 @@
                 }
             });
         }
+        else {
+            $("#doc_area").attr("title", "");
+        }
+
     </script>
 </body>
 </html>

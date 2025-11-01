@@ -30,7 +30,7 @@ namespace LearnSite.Common
         }
         public static string SysVerUpdate()
         {
-            return "2023-6-7";
+            return "2025-9-19";
         }
         public static string SystemVersion()
         {
@@ -38,7 +38,7 @@ namespace LearnSite.Common
         }
         public static string NewVersion()
         {
-            return "v1.3.5.2";
+            return "v1.3.6.3";
         }
                 
 
@@ -229,6 +229,17 @@ namespace LearnSite.Common
             return s.ToLower();
         }
         /// <summary>
+        /// 根据配置对指定字符串进行 MD5 加密取8位
+        /// </summary>
+        /// <param name="s"></param>
+        /// <returns></returns>
+        public static string GetMD5_16bit(string s)
+        {
+            s = System.Web.Security.FormsAuthentication.HashPasswordForStoringInConfigFile(s, "md5").ToString();
+            s = s.Substring(0, 16);
+            return s.ToLower();
+        }
+        /// <summary>
         /// 根据配置对指定字符串进行 MD5 加密取n位；注意不要超过原加密后长度
         /// </summary>
         /// <param name="s"></param>
@@ -328,6 +339,66 @@ namespace LearnSite.Common
                 return 0;
             }
         }
+
+        /// <summary>
+        /// 去除所有Html格式，保留<>尖括号
+        /// </summary>
+        /// <param name="strHtml"></param>
+        /// <returns></returns>
+        public static string DropHTMLok(string strHtml)
+        {
+            string[] aryReg ={
+          @"<script[^>]*?>.*?</script>",
+          @"<(\/\s*)?!?((\w+:)?\w+)(\w+(\s*=?\s*(([""''])(\\[""''tbnr]|[^\7])*?\7|\w+)|.{0})|\s)*?(\/\s*)?>",
+          @"([\r])[\s]+",
+          @"&(quot|#34);",
+          @"&(amp|#38);",
+          @"&(lt|#60);",
+          @"&(gt|#62);", 
+          @"&(nbsp|#160);", 
+          @"&(iexcl|#161);",
+          @"&(cent|#162);",
+          @"&(pound|#163);",
+          @"&(copy|#169);",
+          @"&#(\d+);",
+          @"-->",
+          @"<!--.*"         
+         };
+
+            string[] aryRep = {
+           "",
+           "",
+           "",
+           "\"",
+           "&",
+           "<",
+           ">",
+           " ",
+           "\xa1",//chr(161),
+           "\xa2",//chr(162),
+           "\xa3",//chr(163),
+           "\xa9",//chr(169),
+           "",
+           "\r",
+           ""  
+          };
+
+            string newReg = aryReg[0];
+            string strOutput = strHtml;
+            for (int i = 0; i < aryReg.Length; i++)
+            {
+                Regex regex = new Regex(aryReg[i], RegexOptions.IgnoreCase);
+                strOutput = regex.Replace(strOutput, aryRep[i]);
+            }
+
+            //strOutput.Replace("<", "");
+            //strOutput.Replace(">", "");
+            strOutput.Replace("\r", "");
+            return strOutput;
+
+        }
+        
+
         /// <summary>
         /// 去除所有Html格式
         /// </summary>
@@ -775,10 +846,18 @@ namespace LearnSite.Common
             string mySnum = "";
             if (Wurl != "")
             {
-                int ln = Wurl.LastIndexOf("/") + 1;
-                string shortfname = Wurl.Substring(ln, Wurl.Length - ln);
-                string[] splitfname = shortfname.Split('_');
-                mySnum = splitfname[0];
+                if (Wurl.LastIndexOf(".html") > -1)
+                {
+                    string[] wstr = Wurl.Split('/');
+                    mySnum = wstr[2];
+                }
+                else
+                {
+                    int ln = Wurl.LastIndexOf("/") + 1;
+                    string shortfname = Wurl.Substring(ln, Wurl.Length - ln);
+                    string[] splitfname = shortfname.Split('_');
+                    mySnum = splitfname[0];
+                }
             }
             return mySnum;
         }
@@ -793,7 +872,10 @@ namespace LearnSite.Common
             if (Wurl != "")
             {
                 string[] splitfname = Wurl.Split('/');
-                myMid = splitfname[6];
+                if (splitfname.Length > 5)
+                {
+                    myMid = splitfname[6];
+                }
             }
             return myMid;
         }
@@ -1010,6 +1092,54 @@ namespace LearnSite.Common
             return ext;
         }
 
+        public static string mqtthtml(string code,string Wthumbnail)
+        {
+            string str = "";
+            string shtm = Common.Template.mqtthtml();
+            if (shtm != "")
+            {
+                str = shtm.Replace("#mymessage#", code);
+                string img = "<img src='" + Wthumbnail.Replace("~","..") + "' />";
+                str = str.Replace("#mychart#", img);
+            }
+
+            return str;
+        }
+
+        public static string mlimg(string wurl)
+        {
+            string str = "";
+            string pExt = getext(wurl);
+
+            string modelpath = HttpContext.Current.Server.MapPath(wurl);
+            if (File.Exists(modelpath))
+            {
+                string shtm = Common.Template.mlimghtm();
+                if (shtm != "")
+                {
+                    string jsurl = wurl.Replace("~", "..");
+                    shtm = shtm.Replace("my-model.json", jsurl);
+                    str = shtm;
+                }
+            }
+            return str;
+        }
+
+
+        public static string htmlauto(string htmlcode)
+        {
+            string str = "";
+
+            string shtm = Common.Template.previewhtm();
+            if (shtm != "")
+            {
+                shtm = shtm.Replace("#html#", htmlcode);
+                str = shtm;
+            }
+
+            return str;
+        }
+
         public static string photohtmlauto(string photourl)
         {
             string str = "";
@@ -1021,37 +1151,9 @@ namespace LearnSite.Common
                 string shtm = Common.Template.photohtm();
                 if (shtm != "")
                 {
-                    if (isPicNew(photopath))
-                    {
-                        int pWidth = 10;
-                        int pHeight = 10;
-                        string jsurl = photourl.Replace("~", "..");
-
-                        System.Drawing.Bitmap bm = new System.Drawing.Bitmap(photopath);//photopath图片的物理路径
-                        if (bm.Width < 1600)
-                        {
-                            pWidth = bm.Width;
-                            pHeight = bm.Height;
-                        }
-                        else
-                        {
-                            pWidth = 1600;
-                            double rw = bm.Width;
-                            double rh = bm.Height;
-                            double rn = rw / 1600;
-                            rh = rh / rn;
-                            pHeight = Convert.ToInt32(rh);
-                        }
-
-                        shtm = shtm.Replace("140", pWidth.ToString());
-                        shtm = shtm.Replace("105", pHeight.ToString());
-                        shtm = shtm.Replace("1.png", jsurl);
-                        str = shtm;
-                    }
-                    else
-                    {
-                        str = "该作品类型不是真实的" + pExt + "格式！";
-                    }
+                    string jsurl = photourl.Replace("~", "..");
+                    shtm = shtm.Replace("1.png", jsurl);
+                    str = shtm;
                 }
             }
             return str;
@@ -1287,6 +1389,57 @@ namespace LearnSite.Common
 
             return null;
         }
+        public static string markdownhtml(string code)
+        {
+            string str = "";
+            string shtm = Common.Template.markdownhtm();
+            if (shtm != "")
+            {
+                str = shtm.Replace("#mymd#", code);
+            }
+
+            return str;
+        }
+
+        public static string ppthtml(string url)
+        {
+            string str = "";
+            string shtm = Common.Template.ppthtm();
+            if (shtm != "")
+            {
+                url = url.Replace("~", "..");
+                str = shtm.Replace("#Ppturl#", url);
+            }
+
+            return str;
+        }
+        public static string wordhtml(string code)
+        {
+            string str = "";
+            string shtm = Common.Template.wordhtm();
+            if (shtm != "")
+            {
+                str = shtm.Replace("#mytext#", code);
+            }
+
+            return str;
+        }
+
+        public static string qrcodehtml(string imgurl)
+        {
+            string str = "";
+            string shtm = Common.Template.qrcodehtm();
+
+            if (shtm != "")
+            {
+                string jsurl = imgurl.Replace("~", "..");
+                jsurl = jsurl.Replace("qrcode", "png");
+                str = shtm.Replace("#thumburl#", jsurl);
+            }
+
+            return str;
+        }
+
         public static string mp3html(string mp3url,string ext)
         {
             string str = "";
@@ -1431,6 +1584,21 @@ namespace LearnSite.Common
             return str;
         }
 
+        public static string psdhtml(string psdurl)
+        {
+            string str = "";
+            string shtm = Common.Template.psdhtm(); // Common.Template.scratchhtm();
+            string psdpath = HttpContext.Current.Server.MapPath(psdurl);
+            if (File.Exists(psdpath))
+            {
+                if (shtm != "")
+                {
+                    string jsurl = psdurl.Replace("~", "../..");
+                    str = shtm.Replace("example.psd", jsurl);
+                }
+            }
+            return str;
+        }
 
         public static string pdfhtml(string pdfurl)
         {
@@ -1564,19 +1732,28 @@ namespace LearnSite.Common
         /// </summary>
         /// <param name="txturl"></param>
         /// <returns></returns>
-        public static string pixelview(string txturl)
+        public static string sokobanview(string Wcode)
+        {
+            string str = "没有模板";
+            string shtm = Common.Template.sokobanhtm();
+            if (shtm != "")
+            {
+                str = shtm.Replace("#mapData#", Wcode);
+            }
+            return str;
+        }
+        /// <summary>
+        /// 直接显示
+        /// </summary>
+        /// <param name="txturl"></param>
+        /// <returns></returns>
+        public static string pixelview(string Wcode)
         {
             string str = "没有像素模板";
-            string txtpath = HttpContext.Current.Server.MapPath(txturl);
-            if (File.Exists(txtpath))
+            string shtm = Common.Template.pixelhtm();
+            if (shtm != "")
             {
-                string strTemp = File.ReadAllText(txtpath, EncodingType.GetType(txtpath));
-
-                string shtm = Common.Template.pixelhtm();
-                if (shtm != "")
-                {
-                    str = shtm.Replace("#pixel#", strTemp);
-                }
+                str = shtm.Replace("#pixel#", Wcode);
             }
             return str;
         }
@@ -1598,9 +1775,28 @@ namespace LearnSite.Common
             }
             return str;
         }
-
         /// <summary>
-        /// 直接显示ssssssssssssss
+        /// 直接显示在线表格内容
+        /// </summary>
+        /// <param name="pyurl"></param>
+        /// <returns></returns>
+        public static string sheetstuview(string wid)
+        {
+            Model.Works wmodel = new Model.Works();
+            BLL.Works bll = new BLL.Works();
+            wmodel = bll.GetModel(Int32.Parse(wid));
+            string Wcode = wmodel.Wcode;
+
+            string str = "#没有代码";
+            string codefile = HttpUtility.UrlEncode(Wcode).Replace("+", "%20"); //如果不为空，则获取原来的作品链接
+
+            string shtm = Common.Template.sheethtm();
+            str = shtm.Replace("#codefile#", codefile);
+
+            return str;
+        }
+        /// <summary>
+        /// 直接显示积木
         /// </summary>
         /// <param name="pyurl"></param>
         /// <returns></returns>
@@ -1622,7 +1818,7 @@ namespace LearnSite.Common
         }
 
         /// <summary>
-        /// 直接显示ssssssssssssss
+        /// 直接显示py代码
         /// </summary>
         /// <param name="pyurl"></param>
         /// <returns></returns>
@@ -1725,6 +1921,68 @@ namespace LearnSite.Common
                    
             string shtm = Common.Template.pythonblockhtm();
             str = shtm.Replace("#codefile#", codefile);
+
+            return str;
+        }
+        /// <summary>
+        /// 显示在线表格
+        /// </summary>
+        /// <param name="Wcode"></param>
+        /// <returns></returns>
+        public static string onlineSheet(string Wcode)
+        {
+            string str = "#没有代码";
+            string codefile = Wcode;
+
+            string shtm = Common.Template.sheethtm();
+            str = shtm.Replace("#codefile#", codefile);
+
+            return str;
+        }
+
+
+        /// <summary>
+        /// 显示在线xlsx表格
+        /// </summary>
+        /// <param name="Wcode"></param>
+        /// <returns></returns>
+        public static string xlsxView(string Wurl)
+        {
+            string str = "#没有代码";
+            string shtm = Common.Template.xlsxhtml();
+            Wurl = Wurl.Replace("~", "../..");
+            str = shtm.Replace("demo.xlsx", Wurl);
+
+            return str;
+        }
+
+
+        /// <summary>
+        /// 显示在线word文档
+        /// </summary>
+        /// <param name="Wcode"></param>
+        /// <returns></returns>
+        public static string docxView(string Wurl)
+        {
+            string str = "#没有代码";
+            string shtm = Common.Template.docxhtml();
+            Wurl = Wurl.Replace("~", "../..");
+            str = shtm.Replace("Sample.docx", Wurl);
+
+            return str;
+        }
+
+        /// <summary>
+        /// 显示在线pptx演示文稿
+        /// </summary>
+        /// <param name="Wcode"></param>
+        /// <returns></returns>
+        public static string pptxView(string Wurl)
+        {
+            string str = "#没有代码";
+            string shtm = Common.Template.pptxhtml();
+            Wurl = Wurl.Replace("~", "../..");
+            str = shtm.Replace("Sample.pptx", Wurl);
 
             return str;
         }
@@ -2315,6 +2573,12 @@ namespace LearnSite.Common
             string str = "";
             switch (filetype)
             {
+                case "word":
+                    str = wordhtml(downfilename);
+                    break;
+                case "qrcode":
+                    str = qrcodehtml(downfilename);
+                    break;
                 case "pdf":
                     str = pdfhtml(downfilename);
                     break;
@@ -2347,6 +2611,9 @@ namespace LearnSite.Common
                     break;
                 case "swf":
                     str = flashhtml(downfilename);
+                    break;
+                case "sheet":
+                    str = sheetstuview(Wid);
                     break;
                 case "xls":
                 case "xlsx":
@@ -2440,6 +2707,9 @@ namespace LearnSite.Common
             string str = "";
             switch (filetype)
             {
+                case "qrcode":
+                    str = qrcodehtml(downfilename);
+                    break;
                 case "pdf":
                     str = pdfhtml(downfilename);
                     break;
@@ -3123,6 +3393,33 @@ namespace LearnSite.Common
             }
             return isSpecial;
         }
+
+        /// <summary>
+        /// 无路径的文件名（包含后缀），过滤处理后返回新文件名（包含后缀），abc.jpg
+        /// </summary>
+        /// <param name="filename"></param>
+        /// <returns></returns>
+        public static string FilterFName(string filename)
+        {
+            if (!string.IsNullOrEmpty(filename))
+            {
+                int lastdot = filename.LastIndexOf('.');
+                if (lastdot > 0)
+                {
+                    string shortfilename = filename.Substring(0, lastdot);
+                    string fext = filename.Substring(lastdot);
+                    shortfilename = FilterChar(shortfilename);//过滤文件名中的特殊符号
+                    return shortfilename+fext;
+                }
+                else
+                {
+                    return filename;
+                }
+            }
+            else
+                return filename;
+        }
+
         /// <summary>
         /// 无路径的文件名（包含后缀），过滤处理后返回新文件名（不包含后缀），abc.jpg
         /// </summary>
