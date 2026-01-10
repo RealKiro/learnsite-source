@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/teacher/Teach.master" StylesheetTheme="Teacher"  AutoEventWireup="true" CodeFile="courseshow.aspx.cs" Inherits="Teacher_courseshow" %>
+﻿<%@ page title="" language="C#" masterpagefile="~/teacher/Teach.master" stylesheettheme="Teacher" autoeventwireup="true" inherits="Teacher_courseshow, LearnSite" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="Content" Runat="Server">
 <div  class="courseshow">	
@@ -12,48 +12,51 @@
                  第<asp:Label ID="LabelCks"  runat="server" ></asp:Label>课&nbsp;	
                  <asp:ImageButton ID="BtnEdit" runat="server" ToolTip="点击修改" 
                      ImageUrl="~/images/edit.gif" onclick="BtnEdit_Click" />
+                 &nbsp;
+             <asp:LinkButton ID="LinkBtnReturn" runat="server" 
+                 OnClick="LinkBtnReturn_Click" title ="返回" ><img src="../images/return.gif" /></asp:LinkButton>
     </div>   
     <br /> 
 <div class="courseother" style="width: 1200px;">
 <div style="margin: auto; ">
          <asp:LinkButton ID="LinkBtnAdd" runat="server"  
-          OnClick="LinkBtnAdd_Click" CssClass="button24" >添加活动</asp:LinkButton>
+          OnClick="LinkBtnAdd_Click" CssClass="button24" title="学习活动" >添加活动</asp:LinkButton>
              &nbsp;
          <asp:LinkButton ID="LinkBtnAddTopic" runat="server" 
-          OnClick="LinkBtnAddTopic_Click" CssClass="button24" >添加讨论</asp:LinkButton>
+          OnClick="LinkBtnAddTopic_Click" CssClass="button24" title="课堂讨论板"  >添加讨论</asp:LinkButton>
              &nbsp; 
          <asp:LinkButton ID="LinkBtnAddSurvey" runat="server"  
-          OnClick="LinkBtnAddSurvey_Click" CssClass="button24" >添加调查</asp:LinkButton>
+          OnClick="LinkBtnAddSurvey_Click" CssClass="button24" title="课堂调查"  >添加调查</asp:LinkButton>
              &nbsp; 
          <asp:LinkButton ID="LinkBtnAddTxtForm" runat="server"  
-          OnClick="LinkBtnAddTxtForm_Click" CssClass="button24" >添加填表</asp:LinkButton>
+          OnClick="LinkBtnAddTxtForm_Click" CssClass="button24" title="表格填写"  >添加填表</asp:LinkButton>
              &nbsp;
           <asp:LinkButton ID="LinkBtnProgram" runat="server"  
-          OnClick="LinkBtnProgram_Click" CssClass="button24" >积木编程</asp:LinkButton>
+          OnClick="LinkBtnProgram_Click" CssClass="button24" title="Scratch积木编程"  >积木编程</asp:LinkButton>
              &nbsp;
           <asp:LinkButton ID="LinkBtnPython" runat="server"  
-          OnClick="LinkBtnPython_Click" CssClass="button24" >Python编程</asp:LinkButton>
+          OnClick="LinkBtnPython_Click" CssClass="button24"  title="在线Python编程" >Python编程</asp:LinkButton>
              &nbsp;
           <asp:LinkButton ID="LinkBtnConsole" runat="server"  
-          OnClick="LinkBtnConsole_Click" CssClass="button24" >Python测评</asp:LinkButton>
+          OnClick="LinkBtnConsole_Click" CssClass="button24" title="在线Python测评"  >Python测评</asp:LinkButton>
              &nbsp;
           <asp:LinkButton ID="LinkButtonGraph" runat="server"  
-          OnClick="LinkBtnGraph_Click" CssClass="button24" >流程图</asp:LinkButton>
+          OnClick="LinkBtnGraph_Click" CssClass="button24"  title="在线流程图" >流程图</asp:LinkButton>
              &nbsp;
           <asp:LinkButton ID="LinkButtonPixel" runat="server"  
-          CssClass="button24" onclick="LinkButtonPixel_Click" >主题创作</asp:LinkButton>
+          CssClass="button24" onclick="LinkButtonPixel_Click" title="在线应用"  >主题应用</asp:LinkButton>
              &nbsp;
           <asp:LinkButton ID="LinkButtonHtml" runat="server"  
-          CssClass="button24" onclick="LinkButtonHtml_Click" >Html网页</asp:LinkButton>
+          CssClass="button24" onclick="LinkButtonHtml_Click"  title="单网页设计" >Html网页</asp:LinkButton>
              &nbsp;
           <asp:LinkButton ID="LinkButtonKm" runat="server"  
-          CssClass="button24" onclick="LinkButtonKm_Click" >思维导图</asp:LinkButton>
+          CssClass="button24" onclick="LinkButtonKm_Click"  title="在线思维导图" >思维导图</asp:LinkButton>
              &nbsp;
           <asp:LinkButton ID="LinkButtonExcel" runat="server"  
-          CssClass="button24" onclick="LinkButtonExcel_Click" >在线表格</asp:LinkButton>
+          CssClass="button24" onclick="LinkButtonExcel_Click"  title="在线表格" >在线表格</asp:LinkButton>
              &nbsp;
-         <asp:LinkButton ID="LinkBtnReturn" runat="server" 
-             OnClick="LinkBtnReturn_Click" CssClass="button24" >返回</asp:LinkButton>
+          <asp:LinkButton ID="LinkButtonware" runat="server"  
+          CssClass="button24" onclick="LinkButtonware_Click" title="嵌入网页小课件"  >网页课件</asp:LinkButton>
          </div>
 
              <br />

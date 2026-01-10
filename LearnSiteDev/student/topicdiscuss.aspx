@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/student/Scm.master" StylesheetTheme="Student" Validaterequest="false" AutoEventWireup="true" CodeFile="topicdiscuss.aspx.cs" Inherits="Student_topicdiscuss" %>
+﻿<%@ page title="" language="C#" masterpagefile="~/student/Scm.master" stylesheettheme="Student" validaterequest="false" autoeventwireup="true" inherits="Student_topicdiscuss, LearnSite" %>
 
 <%@ Register Assembly="Anthem" Namespace="Anthem" TagPrefix="anthem" %>
 
@@ -56,7 +56,10 @@
         <strong>帖子列表</strong>：<anthem:Label ID="Labelreplycount" runat="server"></anthem:Label>
         &nbsp;<anthem:imagebutton ID="ImageBtngoodall" runat="server" 
             ImageUrl="~/images/right.gif" onclick="ImageBtngoodall_Click" 
-            ToolTip="给所有未评分的帖子加2分" Visible="False" />
+            ToolTip="给所有未评分的帖子加2分" Visible="False" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<anthem:imagebutton 
+            ID="ImageBtngood2" runat="server" 
+            ImageUrl="~/images/right.gif" onclick="ImageBtngood2_Click" 
+            ToolTip="给所有未评分的帖子加6分" Visible="False" style="width: 12px" />
         </div>
         <div  class="topicright">
       <anthem:ImageButton ID="ImageBtnFresh" runat="server" 

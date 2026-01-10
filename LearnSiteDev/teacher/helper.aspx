@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/teacher/Teach.master" AutoEventWireup="true" CodeFile="helper.aspx.cs" Inherits="Teacher_helper" %>
+﻿<%@ page title="" language="C#" masterpagefile="~/teacher/Teach.master" autoeventwireup="true" inherits="Teacher_helper, LearnSite" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="Content" Runat="Server">
     <div  class ="placehold">
@@ -36,10 +36,10 @@
             <a href="../pixelartmaker/index.html" target="_blank">像素画</a>&nbsp;&nbsp;&nbsp;
             <img src="../images/python.png" style="width: 18px; height: 18px" /> 
             <a href="../python/index.aspx" target="_blank">Python绘图编程</a>&nbsp;&nbsp;&nbsp;
-            <img src="../code/sort/img/cupsmall.png" style="width: 18px; height: 18px" /> 
-            <a href="../code/sort/index.html" target="_blank">算法和数据结构</a>
+            <img src="../images/excalidraw.png" style="width: 18px; height: 18px" /> 
+            <a href="../plugins/excalidraw/index.html" target="_blank">手绘画布</a>&nbsp;&nbsp;&nbsp;
             <img src="../images/excel.png" style="width: 18px; height: 18px" /> 
-            <a href="../luckysheetbottle/index.html" target="_blank">在线协作表格</a>
+            <a href="../luckysheetbottle/index.html" target="_blank">在线协作表格</a>&nbsp;&nbsp;&nbsp;
             <img src="../images/kitymind.png" style="width: 18px; height: 18px" /> 
             <a href="../plugins/km/test.html" target="_blank">在线思维导图</a>
             <br />

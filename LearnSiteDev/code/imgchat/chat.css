@@ -178,7 +178,7 @@ label.offline { background: url('../../code/imgchat/status.gif') no-repeat 0 -11
 	background-color: rgba(3, 3, 3, 0.9);
 	background-size: 100%;
 }
-.message_box img:hover {
+.chatpic:hover {
 	cursor: zoom-in;
 }
 .enlargeImg_wrapper:hover {

@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#"  StylesheetTheme="Teacher" AutoEventWireup="true" CodeFile="workcheck.aspx.cs" Inherits="Teacher_workcheck" %>
+﻿<%@ page language="C#" stylesheettheme="Teacher" autoeventwireup="true" inherits="Teacher_workcheck, LearnSite" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -43,7 +43,7 @@
           作品总数：<asp:Label ID="Labelcounts" runat="server"></asp:Label>
           &nbsp;&nbsp;
           <asp:ImageButton ID="BtnCheck" runat="server" onclick="BtnCheck_Click" 
-              ImageUrl="~/images/python.png" ToolTip="将本班自动得分Python作品全部设置为已评" />
+              ImageUrl="~/images/check.png" ToolTip="将本班自动得分作品全部设置为已评" />
           &nbsp;<asp:Button ID="BtnA" runat="server"  Text="一键评A"  SkinID="BtnSmall" 
               onclick="BtnA_Click" ToolTip="将本班该活动未评的作品，全部评为A"  />
           &nbsp;
@@ -105,19 +105,19 @@
                             </div>
                             <div >
                                 <asp:LinkButton ID="LG" runat="server"
-                                CommandArgument="Wid" CommandName="G" ToolTip="推荐到作品收藏" CssClass="wscored" >G</asp:LinkButton>
+                                CommandArgument="Wid" CommandName="G" ToolTip="收藏12分" CssClass="wscored" >G</asp:LinkButton>
                               &nbsp;<asp:LinkButton ID="LA" runat="server" 
-                                CommandArgument="Wid" CommandName="A" ToolTip="优秀"  CssClass="wscored" >A</asp:LinkButton>
+                                CommandArgument="Wid" CommandName="A" ToolTip="优秀10分"  CssClass="wscored" >A</asp:LinkButton>
                                  &nbsp;<asp:LinkButton ID="LB" runat="server" 
-                                CommandArgument="Wid" CommandName="B" ToolTip="良好"  CssClass="wscored" >B</asp:LinkButton>
+                                CommandArgument="Wid" CommandName="B" ToolTip="良好8分"  CssClass="wscored" >B</asp:LinkButton>
                                 </div>
                             <div>
                             <asp:LinkButton ID="LC" runat="server" 
-                                CommandArgument="Wid" CommandName="C" ToolTip="一般"  CssClass="wscored" >C</asp:LinkButton>                            
+                                CommandArgument="Wid" CommandName="C" ToolTip="一般6分"  CssClass="wscored" >C</asp:LinkButton>                            
                             &nbsp;<asp:LinkButton ID="LD" runat="server" 
-                             CommandArgument="Wid" CommandName="D" ToolTip="落后"  CssClass="wscored" >D</asp:LinkButton>
+                             CommandArgument="Wid" CommandName="D" ToolTip="落后4分"  CssClass="wscored" >D</asp:LinkButton>
                             &nbsp;<asp:LinkButton ID="LE" runat="server" 
-                             CommandArgument="Wid" CommandName="E" ToolTip="不及格"  CssClass="wscored" >E</asp:LinkButton>
+                             CommandArgument="Wid" CommandName="E" ToolTip="不及格2分"  CssClass="wscored" >E</asp:LinkButton>
                             </div>
                             <asp:Label ID="Labelscore" runat="server" Text='<%# Eval("Wscore") %>' Visible="False"></asp:Label>
                             <asp:Label ID="Labelurl" runat="server" Text='<%# Eval("Wurl") %>' Visible="False"></asp:Label>

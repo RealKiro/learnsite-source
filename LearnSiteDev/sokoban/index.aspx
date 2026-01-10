@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="index.aspx.cs" Inherits="sokoban_index" %>
+﻿<%@ page language="C#" autoeventwireup="true" inherits="sokoban_index, LearnSite" %>
 
 <!doctype html>
 <html>
@@ -206,7 +206,7 @@
 		function init(){  
             var gpass=parseInt(timepass);  
 			$("#rank").html("英雄榜：<br><br>"+grank);	        
-            if (gpass>0){
+            if (gpass>=0){
 			    initLevel();//初始化对应等级的游戏
 			    if(levelsave!="0"){
 				    console.log(parseInt(levelsave));

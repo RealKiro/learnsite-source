@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" StylesheetTheme="Student" AutoEventWireup="true" CodeFile="index.aspx.cs" Inherits="index" %>
+﻿<%@ page title="" language="C#" stylesheettheme="Student" autoeventwireup="true" inherits="index, LearnSite" %>
 <html xmlns="http://www.w3.org/1999/xhtml" >
 <head id="Head1" runat="server">
     <title>信息科技学习网站</title>   

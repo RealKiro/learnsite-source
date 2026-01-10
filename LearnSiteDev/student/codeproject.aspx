@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="codeproject.aspx.cs" Inherits="Student_codeproject" %>
+﻿<%@ page language="C#" autoeventwireup="true" inherits="Student_codeproject, LearnSite" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 

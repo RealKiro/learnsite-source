@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="groupshare.aspx.cs" Inherits="Student_groupshare" %>
+﻿<%@ page language="C#" autoeventwireup="true" inherits="Student_groupshare, LearnSite" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
@@ -36,7 +36,7 @@
                             <asp:Image ID="Imageext" runat="server" ImageUrl='<%# Eval("Kftpe") %>' />
                             <asp:HyperLink ID="HLfname" runat="server" NavigateUrl='<%# Eval("Kfurl") %>' Target="_blank" Text='<%# Eval("KfnameShort") %>' Font-Underline="False"></asp:HyperLink>&nbsp;                            
                            </div>
-                           <div style=" font-size:8pt;";>
+                           <div style=" font-size:8pt; text-align:right;">
                             <asp:Label ID="Labelfsize" runat="server" Text='<%# Eval("Kfsize") %>' ToolTip='<%# Eval("Kfdate") %>'   ></asp:Label>							
                             <asp:Label ID="Labelfdate" runat="server" Text='<%# Eval("Kfdate") %>'  ></asp:Label> 
                             <asp:ImageButton ID="ImgBtnDelete" runat="server" CommandArgument='<%# Eval("Kfurl") %>' 

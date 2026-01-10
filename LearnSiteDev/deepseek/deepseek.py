@@ -20,31 +20,18 @@ app = Flask(__name__)
 CORS(app)  # 启用 CORS 支持
 
 
-# Qwen API 配置
-arkdeepseek_API_URL = "https://ark.cn-beijing.volces.com/api/v3/chat/completions"
-arkdeepseek_API_KEY = "aef2a5e4-1545-4b87-aa5f-8f9521b01374"  # 替换为你的 DeepSeek API Key
-arkdeepseek_MODEL = "deepseek-v3-250324"
-# Qwen API 配置
-Aldeepseek_API_URL = "https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions"
-Aldeepseek_API_KEY = "sk-e2f0cdd2fd04446c83e698a4bea0e40f"  # 替换为你的 DeepSeek API Key
-Aldeepseek_MODEL = "deepseek-v3"
 
 # Qwen API 配置
 Qwen_API_URL = "https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions"
 Qwen_API_KEY = "sk-e2f0cdd2fd04446c83e698a4bea0e40f"  # 替换为你的 DeepSeek API Key
 Qwen_MODEL = "qwen-max"
 
-# DeepSeek API 配置
-DEEPSEEK_API_URL = "https://api.deepseek.com/v1/chat/completions"
-DEEPSEEK_API_KEY = "sk-aef12d1c40ae45cfab262547ad3b01dc"  # 替换为你的 DeepSeek API Key
-DEEPSEEK_MODEL = "deepseek-chat"
-
 # 图片生成 API 配置（假设）
 PHOTO_API_URL = "https://open.bigmodel.cn/api/paas/v4/images/generations"
 PHOTO_API_KEY = "67121ff795f24159a4f2eaaabb89cc78.DDAMTxnDEFuiYR7f"  # 替换为你的图片生成 API Key
 
 # HostIp设置为服务器IP，并在服务器防火墙开放2000端口允许访问
-HostIp = "127.0.0.1"
+HostIp = "192.168.1.5"
 API_URL = Qwen_API_URL
 API_KEY = Qwen_API_KEY
 API_MODEL = Qwen_MODEL

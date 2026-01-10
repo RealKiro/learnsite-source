@@ -1,13 +1,6 @@
-﻿html{
-height:100%;
-width:100%;
-}
-body
+﻿body
 {
-    padding: 0px;
     margin: 0 auto; 
-    font-size: 12pt;
-    font-family: 宋体, Arial, Helvetica, sans-serif;
 }
 .ground
 {
@@ -20,11 +13,11 @@ body
 .chatimg
 {
      position:absolute;
-     top:10px;
-     right:20px;
-     opacity:0.6;
-	 width:60px;
-	 height:60px;
+     bottom:30px;
+     right:120px;
+     opacity:0.2;
+	 width:50px;
+	 height:50px;
 	 background-image: url('../../images/chatsleep.png');
 	 z-index:999;
 	 cursor:pointer;
@@ -35,19 +28,19 @@ body
 	 background-image: url('../../images/chat.png');
 }
 
-.robotchatimg
+.robotimg
 {
      position:absolute;
-     top:10px;
-     right:120px;
-     opacity:0.6;
-	 width:98px;
-	 height:80px;
+     bottom:30px;
+     right:60px;
+     opacity:0.2;
+	 width:50px;
+	 height:50px;
 	 background-image: url('../../images/robotsleep.png');
 	 z-index:999;
 	 cursor:pointer;
 }
-.robotchatimg:hover
+.robotimg:hover
 {
      opacity:1;
 	 background-image: url('../../images/robotchat.png');
@@ -146,6 +139,16 @@ table {border-collapse:collapse;}
     background-image: url('road.jpg');
     background-repeat: no-repeat;
 }
+.canner
+{
+    padding: 0px;
+    margin: 0px;
+    border-width: 0px;
+    height: 10px;
+    overflow: hidden;
+    background-image: url('banner.jpg');
+    background-repeat: no-repeat;
+}
 .logo1
 {
     float: left;
@@ -164,6 +167,8 @@ table {border-collapse:collapse;}
     font-family: Arial;
 	display:flex;
 	min-width:1200px;
+	height:40px;    
+	box-shadow: 1px 1px 1px #999;
 }
 .sp{ padding-right:80px;}
 
@@ -863,4 +868,15 @@ div.placeauto img:hover
 }
 .vcontent{
 	margin: auto; padding: 2px; text-align: left; width: 980px; 
+}
+
+#Btnform
+{
+  border-width: 0px; background-color: #3399FF; width: 80px; height: 24px;  
+}
+#Btnform:hover
+{
+  color:#fff;
+  background-color: #0068D1; 
+  cursor:pointer;
 }

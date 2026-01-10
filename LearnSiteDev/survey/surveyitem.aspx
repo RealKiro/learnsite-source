@@ -1,6 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/teacher/Teach.master" StylesheetTheme="Teacher"
-    AutoEventWireup="true" ValidateRequest="false" CodeFile="surveyitem.aspx.cs"
-    Inherits="Survey_surveyitem" %>
+﻿<%@ page title="" language="C#" masterpagefile="~/teacher/Teach.master" stylesheettheme="Teacher" autoeventwireup="true" validaterequest="false" inherits="Survey_surveyitem, LearnSite" %>
 
 <%@ Register assembly="Anthem" namespace="Anthem" tagprefix="anthem" %>
 

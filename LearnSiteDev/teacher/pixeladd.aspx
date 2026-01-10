@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/teacher/Teach.master" StylesheetTheme="Teacher" Validaterequest="false"  AutoEventWireup="true" CodeFile="pixeladd.aspx.cs" Inherits="Teacher_pixeladd" %>
+﻿<%@ page title="" language="C#" masterpagefile="~/teacher/Teach.master" stylesheettheme="Teacher" validaterequest="false" autoeventwireup="true" inherits="Teacher_pixeladd, LearnSite" %>
 
 
 <asp:Content ID="Content1" ContentPlaceHolderID="Content" Runat="Server">
@@ -8,6 +8,8 @@
             Font-Size="Medium" onselectedindexchanged="DDLTitle_SelectedIndexChanged" 
             AutoPostBack="True">
             <asp:ListItem Value="11">像素画</asp:ListItem>
+            <asp:ListItem Value="36">素材库</asp:ListItem>
+            <asp:ListItem Value="37">网站设计</asp:ListItem>
             <asp:ListItem Value="17">二维码</asp:ListItem>
             <asp:ListItem Value="18">在线文档</asp:ListItem>
             <asp:ListItem Value="19">演示文稿</asp:ListItem>

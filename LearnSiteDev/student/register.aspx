@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true"  StylesheetTheme="Student" CodeFile="register.aspx.cs" Inherits="Student_register" %>
+﻿<%@ page language="C#" autoeventwireup="true" stylesheettheme="Student" inherits="Student_register, LearnSite" %>
 
 <html xmlns="http://www.w3.org/1999/xhtml" >
 <head id="Head1" runat="server">

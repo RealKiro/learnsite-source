@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="aidraw.aspx.cs" Inherits="deepseek_aidraw" %>
+﻿<%@ page language="C#" autoeventwireup="true" inherits="deepseek_aidraw, LearnSite" %>
 
 <html lang="zh-CN">
 <head id="Head1"  runat="server">

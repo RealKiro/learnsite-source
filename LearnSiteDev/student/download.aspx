@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="download.aspx.cs" Inherits="Plugins_download" %>
+﻿<%@ page language="C#" autoeventwireup="true" inherits="Plugins_download, LearnSite" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 

@@ -1,4 +1,4 @@
-﻿<%@ Master Language="C#" AutoEventWireup="true" CodeFile="Scm.master.cs" Inherits="Student_Scm" %>
+﻿<%@ master language="C#" autoeventwireup="true" inherits="Student_Scm, LearnSite" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
@@ -21,6 +21,10 @@
                 var urlat = "../student/chat.aspx";
                 TINY.box.show({ iframe: urlat, boxid: 'frameless', width: 616, height: 515, fixed: false, maskopacity: 100, close: true });
             }
+            function showRobot() {
+                var urlat = "../deepseek/robot.html";
+                TINY.box.show({ iframe: urlat, boxid: 'frameless', width: 616, height: 515, fixed: false, maskopacity: 100, close: true });
+            }
     </script>
    <script src="../js/ruffle.js" type="text/javascript"></script>
 	<script type="text/javascript">
@@ -34,8 +38,8 @@
     <center>
             <form id="form1" runat="server">
       <div  class="studmasterhead">
-            <div  class="banner" >
-                </div>
+		<div  class="canner" > 
+            </div>
             <div  class="menu">
             <asp:Menu ID="Menuact" runat="server"   Orientation="Horizontal"  CssClass="nav">
                 <StaticSelectedStyle BackColor="#79A0FD" />
@@ -55,16 +59,16 @@
         <br />        
         </div>
         </div>
-            </form>
-            
-		<div class="chatimg"  onclick="showChat()"  title="小组课内讨论" ></div>
+        </form>   
+		<div class="chatimg"  onclick="showChat()"  title="小组在线聊天" ></div>
+		<div class="robotimg"  title="人工智能对话"   onclick="showRobot()" ></div>
 
 	<script type="text/javascript" >
 	    var cbanner = "<%=Cbanner %>";
 	    if (cbanner != "") {
 	        var bannerurl = "url("+cbanner+")";
 	        $(".banner").css("background-image", bannerurl);
-        }
+	    }
     </script>
    </center>
 </body>

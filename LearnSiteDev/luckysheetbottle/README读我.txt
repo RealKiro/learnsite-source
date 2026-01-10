@@ -4,11 +4,11 @@
 
 `安装python-3.10.7-amd64.exe`
 
-`pip install bottle`
+`pip install bottle -i https://pypi.tuna.tsinghua.edu.cn/simple/`
 
-`pip install bottle-websocket`
+`pip install bottle-websocket -i https://pypi.tuna.tsinghua.edu.cn/simple/`
 
-`pip install pymongo`
+`pip install pymongo -i https://pypi.tuna.tsinghua.edu.cn/simple/`
 
 `安装mongodb-windows-x86_64-7.0.1-signed.msi`
 

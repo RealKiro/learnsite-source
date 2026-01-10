@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" ValidateRequest="false" EnableViewStateMac="false" CodeFile="mxgraph.aspx.cs" Inherits="Student_mxgraph" %>
+﻿<%@ page language="C#" autoeventwireup="true" validaterequest="false" enableviewstatemac="false" inherits="Student_mxgraph, LearnSite" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 

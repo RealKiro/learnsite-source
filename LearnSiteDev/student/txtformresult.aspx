@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#"  StylesheetTheme="Student" AutoEventWireup="true" CodeFile="txtformresult.aspx.cs" Inherits="Student_txtformresult" %>
+﻿<%@ page language="C#" stylesheettheme="Student" autoeventwireup="true" inherits="Student_txtformresult, LearnSite" %>
 <%@ Register Assembly="Anthem" Namespace="Anthem" TagPrefix="anthem" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -28,7 +28,9 @@
         <strong>当前列表</strong>：<anthem:Label ID="Labelreplycount" runat="server"></anthem:Label>
         &nbsp;<anthem:ImageButton ID="ImageBtngoodall" runat="server" 
             ImageUrl="~/images/right.gif" onclick="ImageBtngoodall_Click" 
-            ToolTip="给所有未评分的填表加6分" Visible="False" />
+            ToolTip="给所有未评分的填表加6分" Visible="False" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<anthem:ImageButton ID="ImageBtngood2" runat="server" 
+            ImageUrl="~/images/right.gif" onclick="ImageBtngood2_Click" 
+            ToolTip="给所有未评分的填表加2分" Visible="False" />
         </div>
         <div  class="topicright">
       <anthem:ImageButton ID="ImageBtnFresh" runat="server" 

@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="mqtt.aspx.cs" Inherits="student_mqtt" %>
+﻿<%@ page language="C#" autoeventwireup="true" inherits="student_mqtt, LearnSite" %>
 <!DOCTYPE html>
 <html >
 <head runat="server">

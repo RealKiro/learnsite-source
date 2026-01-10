@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/student/Scm.master"  StylesheetTheme="Student"  AutoEventWireup="true" CodeFile="mysurvey.aspx.cs" Inherits="Student_mysurvey" %>
+﻿<%@ page title="" language="C#" masterpagefile="~/student/Scm.master" stylesheettheme="Student" autoeventwireup="true" inherits="Student_mysurvey, LearnSite" %>
 
 <%@ Register Assembly="Anthem" Namespace="Anthem" TagPrefix="anthem" %>
 

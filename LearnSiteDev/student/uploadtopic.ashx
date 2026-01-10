@@ -19,7 +19,7 @@ public class uploadpixel : IHttpHandler {
                     context.Response.Write("保存成功！");
                 }
                 else
-                    context.Response.Write("保存失败！");
+                    context.Response.Write("请重新登录，保存失败！");
             }
             catch
             {

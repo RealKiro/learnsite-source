@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="pythonblockly.aspx.cs" Inherits="student_pythonblockly" %>
+﻿<%@ page language="C#" autoeventwireup="true" inherits="student_pythonblockly, LearnSite" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
@@ -560,9 +560,9 @@
 	    }
 
 	    function voiceplay() {
-	        var audio = document.getElementById("audio");
-	        audio.src = '../code/adsorb.ogg';
-	        audio.play();
+	        //var audio = document.getElementById("audio");
+	        //audio.src = '../code/adsorb.ogg';
+	        //audio.play();
 	    }
 		
 

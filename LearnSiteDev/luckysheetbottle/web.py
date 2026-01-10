@@ -24,8 +24,8 @@ class WebSocketManager:
         print(name)
         self.index += 1
         ip = request.environ.get('REMOTE_ADDR').split('.')[-1]            
-        #uid=f"{name}-{self.index}" 
-		uid=f"{name}" 
+        uid=f"{name}-{self.index}" 
+		# uid=f"{name}" 
         self.pool[uid] = ctx
         print(f"{name} 已连接")
         #print(ip)
@@ -259,4 +259,4 @@ def start_update_worker():
 
 
 start_update_worker()
-run(host='192.168.1.3', port=8180, server=GeventWebSocketServer)
+run(host='3.37.38.158', port=8180, server=GeventWebSocketServer)

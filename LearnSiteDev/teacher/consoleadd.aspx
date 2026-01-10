@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/teacher/Teach.master" Validaterequest="false"   AutoEventWireup="true" CodeFile="consoleadd.aspx.cs" Inherits="Teacher_consoleadd" %>
+﻿<%@ page title="" language="C#" masterpagefile="~/teacher/Teach.master" validaterequest="false" autoeventwireup="true" inherits="Teacher_consoleadd, LearnSite" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="Content" Runat="Server">
  <div  class="cplace">

@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="idle.aspx.cs" Inherits="Python_idle" %>
+﻿<%@ page language="C#" autoeventwireup="true" inherits="Python_idle, LearnSite" %>
 
 <html xmlns="http://www.w3.org/1999/xhtml"> 
 <head>

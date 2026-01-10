@@ -109,7 +109,7 @@
 		<audio id="audio" controls="controls"  hidden="true" ></audio>
 	</div>	
 	</body>
-	<script src="js/mapdata100.js"></script>
+	<script src="js/mapdata.js"></script>
 	<script>
 		var tip=document.getElementById("move");
 		var can = document.getElementById("canvas");
@@ -226,7 +226,7 @@
 		//初始化游戏等级
 		function initLevel(){		
 			// 加载游戏进度
-			var process= localStorage.getItem("sokoban");
+			var process;//= localStorage.getItem("sokoban");
 			if(process!= null && iCurlevel==0){
 				console.log("加载游戏进度："+process);
 				NextLevel(parseInt(process));

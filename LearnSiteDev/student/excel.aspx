@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" ValidateRequest="false" EnableViewStateMac="false"  CodeFile="excel.aspx.cs" Inherits="student_excel" %>
+﻿<%@ page language="C#" autoeventwireup="true" validaterequest="false" enableviewstatemac="false" inherits="student_excel, LearnSite" %>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head id="Head1" runat="server">
@@ -41,17 +41,17 @@
 
 	var port=":8180";//端口
 	var str=location.host+port;//location.host;192.168.1.3
-	//console.log(location.host);
+	console.log(str);
 	var lor=location.origin+port;// location.origin;http://192.168.1.3
-	//console.log(location.origin);
+	console.log(lor);
 
     var title="";//"<%=Titles%>";
 	var reurl="<%=Fpage %>";
 	var user="<%=Owner%>";
     var serverip = "<%=serverIp %>";
     if (serverip != "") {
-        str = serverip;
-        lor = "http://"+serverip;
+        str = serverip+port;
+        lor = "http://"+serverip+port;
     }
 
     options = {
@@ -62,9 +62,9 @@
 	    plugins:['chart'],
 	    showsheetbar:false,
 	    myFolderUrl:"#",
-		//allowUpdate: true,
-		//loadUrl: lor+"/load",
-		//updateUrl: "ws://" + str + "/update?name="+user
+		allowUpdate: true,
+		loadUrl: lor+"/load",
+		updateUrl: "ws://" + str + "/update?name="+user
     }
     //window.luckysheet.create(options);
 

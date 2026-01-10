@@ -26,7 +26,7 @@ function Progress(n) {
 let upone = new fcup({
   id: "upphoto", // 绑定id
   url: "upchat.ashx", // url地址	  
-  type: "jpg,png,jpeg,gif,txt,pdf,mp3,ogg,mp4,wav,docx,xlsx,pptx,py,sb3,psd,rar,zip", // 限制上传类型，为空不限制  
+  type: "jpg,png,jpeg,gif,txt,pdf,mp3,ogg,mp4,wav,docx,xlsx,pptx,py,sb3,psd,rar,zip,md", // 限制上传类型，为空不限制  
   // 上传成功回调，回调会根据切片循环，要终止上传循环，必须要return false，成功的情况下要始终返回true;
   //max_size: "1000", // 上传文件最大M数，单位为M，默认200M
   error_msg: {
@@ -50,13 +50,14 @@ let upone = new fcup({
 			var fileName = url.match(/[^\/]*$/)[0];
 			var fileExt = fileName.substring(fileName.lastIndexOf('.') + 1);	
 			var urlext="../images/FileType/" + fileExt + ".gif";//文件类型图标
+            var urlico="<img src='"+urlext+"' />";
 			var uploadhtml="";
 			switch(fileExt){
 				case "jpg":	
 				case "jpeg":	
 				case "png":	
 				case "gif":					
-					uploadhtml="<img src='"+url+"' title='"+fileName+"' />";
+					uploadhtml="<img class='chatpic' src='"+url+"' title='"+fileName+"' />";
 					break;
 				case "mp3":
 					uploadhtml="<audio src='"+url+"' title='"+fileName+"' controls>"+fileName+"</audio>";
@@ -66,10 +67,9 @@ let upone = new fcup({
 					uploadhtml="<video src='"+url+"'  width='320' height='240' title='"+fileName+"' controls>"+fileName+"</video>";
 					break;
 				default:
-					uploadhtml="<a href='"+url+"' target='_blank' title='点击下载' >"+fileName+"</a>";
+					uploadhtml="<a href='"+url+"' target='_blank' title='点击下载' >"+urlico+fileName+"</a>";
 					break;
-			}
-			
+			}			
 			//$(".textarea").focus();
 			$(".textarea").append(uploadhtml);
 			$('#progress').html("");
@@ -78,6 +78,7 @@ let upone = new fcup({
 	 return true;
   }
 });	
+
 
 //动态生成的html里事件编写
 $(document).on("click",".mes img",function (){

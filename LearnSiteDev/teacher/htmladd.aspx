@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/teacher/Teach.master"  Validaterequest="false" AutoEventWireup="true" CodeFile="htmladd.aspx.cs" Inherits="teacher_htmladd" %>
+﻿<%@ page title="" language="C#" masterpagefile="~/teacher/Teach.master" validaterequest="false" autoeventwireup="true" inherits="teacher_htmladd, LearnSite" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="Content" Runat="Server">
 <div  class="cplace">
@@ -8,11 +8,11 @@
         <asp:CheckBox ID="CheckPublish" runat="server" Text="是否发布"  Checked="True" />
 &nbsp; 网页文件名<asp:DropDownList ID="DDLfilename" runat="server">
             <asp:ListItem>index.html</asp:ListItem>
-            <asp:ListItem>w01.html</asp:ListItem>
-            <asp:ListItem>w02.html</asp:ListItem>
-            <asp:ListItem>w03.html</asp:ListItem>
-            <asp:ListItem>w04.html</asp:ListItem>
-            <asp:ListItem>w05.html</asp:ListItem>
+            <asp:ListItem>w1.html</asp:ListItem>
+            <asp:ListItem>w2.html</asp:ListItem>
+            <asp:ListItem>w3.html</asp:ListItem>
+            <asp:ListItem>w4.html</asp:ListItem>
+            <asp:ListItem>w5.html</asp:ListItem>
         </asp:DropDownList>
 </div>
     <div  >
