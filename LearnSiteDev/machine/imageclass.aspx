@@ -1,4 +1,4 @@
-﻿<%@ page language="C#" autoeventwireup="true" inherits="machine_imageclass, LearnSite" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="imageclass.aspx.cs" Inherits="machine_imageclass" %>
 
 <!DOCTYPE html>
 <html lang="en">

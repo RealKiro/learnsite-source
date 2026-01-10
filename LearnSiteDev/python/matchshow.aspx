@@ -1,4 +1,4 @@
-﻿<%@ page language="C#" autoeventwireup="true" inherits="python_matchshow, LearnSite" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="matchshow.aspx.cs" Inherits="python_matchshow" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 

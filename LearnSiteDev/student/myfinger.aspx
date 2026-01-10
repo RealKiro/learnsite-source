@@ -1,4 +1,4 @@
-﻿<%@ page title="" language="C#" masterpagefile="~/student/Stud.master" stylesheettheme="Student" autoeventwireup="true" inherits="Student_myfinger, LearnSite" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/student/Stud.master" StylesheetTheme="Student"  AutoEventWireup="true" CodeFile="myfinger.aspx.cs" Inherits="Student_myfinger" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="Cphs" Runat="Server">
     <link href="../images/fingering/finger.css" rel="stylesheet" type="text/css" />

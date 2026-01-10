@@ -1,4 +1,4 @@
-﻿<%@ page language="C#" autoeventwireup="true" inherits="deepseek_deepseek, LearnSite" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="deepseek.aspx.cs" Inherits="deepseek_deepseek" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 

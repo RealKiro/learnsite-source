@@ -1,4 +1,4 @@
-﻿<%@ page language="C#" masterpagefile="~/student/Scm.master" stylesheettheme="Student" validaterequest="false" autoeventwireup="true" inherits="Student_summaryedit, LearnSite" %>
+﻿<%@ Page Language="C#" MasterPageFile="~/student/Scm.master" StylesheetTheme="Student" Validaterequest="false" AutoEventWireup="true" CodeFile="summaryedit.aspx.cs" Inherits="Student_summaryedit" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="Cpcm" Runat="Server">
 <div  id="showcontent">

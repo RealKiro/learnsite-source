@@ -1,4 +1,4 @@
-﻿<%@ page title="" language="C#" masterpagefile="~/student/Scm.master" autoeventwireup="true" inherits="Student_console, LearnSite" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/student/Scm.master" AutoEventWireup="true" CodeFile="console.aspx.cs" Inherits="Student_console" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="Cpcm" Runat="Server">
 			<asp:Label ID="LabelCid" runat="server" Visible="False"></asp:Label>

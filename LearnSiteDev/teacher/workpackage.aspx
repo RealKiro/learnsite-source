@@ -1,4 +1,4 @@
-﻿<%@ page language="C#" stylesheettheme="Teacher" autoeventwireup="true" inherits="Teacher_workpackage, LearnSite" %>
+﻿<%@ Page Language="C#"  StylesheetTheme="Teacher"  AutoEventWireup="true" CodeFile="workpackage.aspx.cs" Inherits="Teacher_workpackage" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 

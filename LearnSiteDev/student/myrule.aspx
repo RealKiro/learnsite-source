@@ -1,4 +1,4 @@
-﻿<%@ page title="" language="C#" stylesheettheme="Student" autoeventwireup="true" inherits="Student_myrule, LearnSite" %>
+﻿<%@ Page Title="" Language="C#" StylesheetTheme="Student" AutoEventWireup="true" CodeFile="myrule.aspx.cs" Inherits="Student_myrule" %>
     
 <html xmlns="http://www.w3.org/1999/xhtml" >
 <head id="Head1" runat="server">

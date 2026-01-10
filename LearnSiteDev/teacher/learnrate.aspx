@@ -1,4 +1,4 @@
-﻿<%@ page language="C#" autoeventwireup="true" inherits="teacher_learnrate, LearnSite" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="learnrate.aspx.cs" Inherits="teacher_learnrate" %>
 
 <%@ Register assembly="Anthem" namespace="Anthem" tagprefix="anthem" %>
 

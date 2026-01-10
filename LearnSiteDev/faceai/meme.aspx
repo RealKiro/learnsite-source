@@ -1,4 +1,4 @@
-﻿<%@ page language="C#" autoeventwireup="true" inherits="faceai_meme, LearnSite" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="meme.aspx.cs" Inherits="faceai_meme" %>
 
 <!DOCTYPE html>
 <html lang="en">

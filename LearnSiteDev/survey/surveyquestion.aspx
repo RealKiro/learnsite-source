@@ -1,4 +1,4 @@
-﻿<%@ page title="" language="C#" masterpagefile="~/teacher/Teach.master" stylesheettheme="Teacher" validaterequest="false" autoeventwireup="true" inherits="Survey_surveyquestion, LearnSite" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/teacher/Teach.master"  StylesheetTheme="Teacher" Validaterequest="false"   AutoEventWireup="true" CodeFile="surveyquestion.aspx.cs" Inherits="Survey_surveyquestion" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="Content" Runat="Server">
  <div  class="cplace">

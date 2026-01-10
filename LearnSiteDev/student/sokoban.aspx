@@ -1,4 +1,4 @@
-﻿<%@ page language="C#" autoeventwireup="true" inherits="student_sokoban, LearnSite" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="sokoban.aspx.cs" Inherits="student_sokoban" %>
 
 <!doctype html>
 <html>

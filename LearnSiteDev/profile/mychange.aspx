@@ -1,4 +1,4 @@
-﻿<%@ page title="" language="C#" masterpagefile="~/profile/Pf.master" stylesheettheme="Student" autoeventwireup="true" inherits="Profile_mychange, LearnSite" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/profile/Pf.master"  StylesheetTheme="Student" AutoEventWireup="true" CodeFile="mychange.aspx.cs" Inherits="Profile_mychange" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="Cstu" Runat="Server">
 

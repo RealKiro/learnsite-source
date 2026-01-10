@@ -1,4 +1,4 @@
-﻿<%@ page language="C#" autoeventwireup="true" validaterequest="false" enableviewstatemac="false" inherits="Student_pixel, LearnSite" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true"  ValidateRequest="false" EnableViewStateMac="false"  CodeFile="pixel.aspx.cs" Inherits="Student_pixel" %>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head id="Head1" runat="server">

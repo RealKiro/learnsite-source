@@ -19,7 +19,10 @@ from translate import Translator
 app = Flask(__name__)
 CORS(app)  # 启用 CORS 支持
 
-
+# DeepSeek API 配置
+DEEPSEEK_API_URL = "https://api.deepseek.com/v1/chat/completions"
+DEEPSEEK_API_KEY = "sk-"  # 替换为你的 DeepSeek API Key
+DEEPSEEK_MODEL = "deepseek-chat"
 
 # Qwen API 配置
 Qwen_API_URL = "https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions"
@@ -31,10 +34,10 @@ PHOTO_API_URL = "https://open.bigmodel.cn/api/paas/v4/images/generations"
 PHOTO_API_KEY = "67121ff795f24159a4f2eaaabb89cc78.DDAMTxnDEFuiYR7f"  # 替换为你的图片生成 API Key
 
 # HostIp设置为服务器IP，并在服务器防火墙开放2000端口允许访问
-HostIp = "192.168.1.5"
-API_URL = Qwen_API_URL
-API_KEY = Qwen_API_KEY
-API_MODEL = Qwen_MODEL
+HostIp = "3.37.38.158"
+API_URL = DEEPSEEK_API_URL
+API_KEY = DEEPSEEK_API_KEY
+API_MODEL = DEEPSEEK_MODEL
 
 # markdown格式转换json
 def markdown_to_special_json(md_text):

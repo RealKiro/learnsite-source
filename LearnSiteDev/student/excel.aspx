@@ -1,4 +1,4 @@
-﻿<%@ page language="C#" autoeventwireup="true" validaterequest="false" enableviewstatemac="false" inherits="student_excel, LearnSite" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" ValidateRequest="false" EnableViewStateMac="false"  CodeFile="excel.aspx.cs" Inherits="student_excel" %>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head id="Head1" runat="server">

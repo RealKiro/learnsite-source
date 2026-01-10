@@ -1,4 +1,4 @@
-﻿<%@ page title="" language="C#" masterpagefile="~/teacher/Teach.master" autoeventwireup="true" inherits="Teacher_reorder, LearnSite" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/teacher/Teach.master" AutoEventWireup="true" CodeFile="reorder.aspx.cs" Inherits="Teacher_reorder" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="Content" Runat="Server">
     <p>

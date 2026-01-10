@@ -1,1 +1,1 @@
-﻿<%@ page language="C#" autoeventwireup="true" inherits="kindeditor_aspnet_upload_json, LearnSite" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="upload_json.aspx.cs" Inherits="kindeditor_aspnet_upload_json" %>

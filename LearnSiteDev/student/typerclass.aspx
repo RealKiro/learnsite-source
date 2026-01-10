@@ -1,4 +1,4 @@
-﻿<%@ page title="" language="C#" masterpagefile="~/student/Stud.master" stylesheettheme="Student" autoeventwireup="true" inherits="Student_typerclass, LearnSite" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/student/Stud.master"   StylesheetTheme="Student"  AutoEventWireup="true" CodeFile="typerclass.aspx.cs" Inherits="Student_typerclass" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="Cphs" Runat="Server">
 <div style="width: 860px; font-family: 宋体, Arial, Helvetica, sans-serif; font-size: 11pt;">

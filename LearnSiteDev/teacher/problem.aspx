@@ -1,4 +1,4 @@
-﻿<%@ page title="" language="C#" validaterequest="false" autoeventwireup="true" inherits="Teacher_problem, LearnSite" %>
+﻿<%@ Page Title="" Language="C#"  Validaterequest="false"  AutoEventWireup="true" CodeFile="problem.aspx.cs" Inherits="Teacher_problem" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 

@@ -1,1 +1,1 @@
-﻿<%@ page language="C#" autoeventwireup="true" inherits="weboffice_getoffice, LearnSite" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="getoffice.aspx.cs" Inherits="weboffice_getoffice" %>

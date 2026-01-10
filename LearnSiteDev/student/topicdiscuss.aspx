@@ -1,4 +1,4 @@
-﻿<%@ page title="" language="C#" masterpagefile="~/student/Scm.master" stylesheettheme="Student" validaterequest="false" autoeventwireup="true" inherits="Student_topicdiscuss, LearnSite" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/student/Scm.master" StylesheetTheme="Student" Validaterequest="false" AutoEventWireup="true" CodeFile="topicdiscuss.aspx.cs" Inherits="Student_topicdiscuss" %>
 
 <%@ Register Assembly="Anthem" Namespace="Anthem" TagPrefix="anthem" %>
 
