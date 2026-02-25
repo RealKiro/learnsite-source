@@ -13,7 +13,7 @@
     - 系统后台：系统设置、班级设置、教师管理、新生导入、空间生成、学年升班、系统退出。
     
 
-# 其它
+# 二。其它
 - LearnSite信息技术学习平台  ![Gitee 最新发行版](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fgitee.com%2Fapi%2Fv5%2Frepos%2Fjnschool%2Flearnsite-wz%2Ftags%3F%26per_page%3D1%26direction%3Ddesc%26sort%3Dupdated&query=%24%5B0%5D.name&logo=gitee&label=%E6%9C%80%E6%96%B0%E7%89%88%E6%9C%AC&color=c71d23)
 - [作者：温州水乡 Github](https://github.com/WaterCountry/Learnsite)
 
@@ -30,7 +30,7 @@
   * 提示：主仓库源码需编译，故从官网下载编译版后重新上传作为临时仓库以供Docker克隆使用
 * [Gitee：LearnSite 编译版(同步Github镜像)](https://gitee.com/realiy/learnsite)
 
-# 项目结构
+# 三。项目结构
 ```
 learnsite
   -- ai 人工智能初步
