@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/profile/Pf.master"   StylesheetTheme="Student" AutoEventWireup="true" CodeFile="mysign.aspx.cs" Inherits="Profile_mysign" %>
+<%@ Page Title="" Language="C#" MasterPageFile="~/profile/Pf.master"   StylesheetTheme="Student" AutoEventWireup="true" CodeFile="mysign.aspx.cs" Inherits="Profile_mysign" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="Cstu" Runat="Server">
 <div>

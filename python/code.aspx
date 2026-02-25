@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="code.aspx.cs" Inherits="python_code" %>
+<%@ Page Language="C#" AutoEventWireup="true" CodeFile="code.aspx.cs" Inherits="python_code" %>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head id="Head1" runat="server">
