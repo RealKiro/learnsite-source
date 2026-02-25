@@ -2,10 +2,30 @@
 {
     margin: 0 auto; 
 }
+
+/* 页面整体背景容器 */
 .ground
 {
-    background-image: url('ground.jpg');
-	background-size:cover; 
+    position: relative;      /* 相对定位，为伪元素提供参照 */
+    background-color: #f0f0f0; /* 背景色，在图片未加载或留白时显示（cover下一般不留白） */
+    z-index: 1;              /* 确保内容在伪元素之上 */
+}
+
+/* 背景图片伪元素：用于显示半透明的背景图 */
+.ground::before
+{
+    content: "";             /* 必须设置，否则伪元素不显示 */
+    position: absolute;      /* 绝对定位，相对于 .ground */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('ground.jpg'); /* 将背景图片移至此伪元素 */
+    background-size: cover;              /* 覆盖整个容器（可能裁剪图片），不留空白 */
+    background-position: center;         /* 图片居中 */
+    background-repeat: no-repeat;        /* 不重复 */
+    opacity: 0.7;            /* 透明度：0.7 表示 30% 透明（70% 不透明） */
+    z-index: -1;             /* 置于内容下方，避免遮挡文字 */
 }
 
 ::-webkit-scrollbar { /* display: none;  Chrome Safari */  }
@@ -129,6 +149,7 @@ table {border-collapse:collapse;}
     text-overflow:ellipsis; 
 }
 
+/* 顶部横幅：图片居中且覆盖整个容器 */
 .banner
 {
     padding: 0px;
@@ -136,8 +157,10 @@ table {border-collapse:collapse;}
     border-width: 0px;
     height: 100px;
     overflow: hidden;
-    background-image: url('road.jpg');
+    background-image: url('road.jpg');  /* 根据实际图片名修改，例如 'raod.png' */
     background-repeat: no-repeat;
+    background-position: center;        /* 水平垂直居中 */
+    background-size: cover;             /* 等比例覆盖，可能裁剪；若需完整显示可改为 contain */
 }
 .canner
 {
@@ -879,4 +902,43 @@ div.placeauto img:hover
   color:#fff;
   background-color: #0068D1; 
   cursor:pointer;
+}
+
+/* ========== 移动端适配（屏幕宽度 ≤ 768px） ========== */
+@media screen and (max-width: 768px) {
+    /* 横幅图片完整显示，避免裁剪 */
+    .banner {
+        background-size: contain !important;  /* 完整显示图片，可能留白 */
+        background-position: center !important;
+        background-color: #f0f0f0;           /* 留白处填充背景色 */
+        height: auto;                         /* 高度自适应内容 */
+        min-height: 80px;                     /* 设置最小高度，避免太矮 */
+    }
+
+    /* 确保地面背景容器有高度，且背景重新出现 */
+    .ground {
+        position: relative;
+        min-height: 300px;                    /* 根据实际页面内容调整 */
+        background-color: #f0f0f0;            /* 备用背景色 */
+    }
+
+    .ground::before {
+        background-size: cover !important;     /* 覆盖容器 */
+        background-position: center !important;
+        opacity: 0.7;                           /* 保持透明度 */
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        content: "";
+        z-index: -1;
+    }
+
+    /* 清除浮动，防止地面容器高度塌陷 */
+    .ground:after {
+        content: "";
+        display: table;
+        clear: both;
+    }
 }
