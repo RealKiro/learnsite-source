@@ -1,4 +1,4 @@
-﻿<%@ WebHandler Language="C#" Class="wuziqi" %>
+<%@ WebHandler Language="C#" Class="wuziqi" %>
 
 using System;
 using System.Web;

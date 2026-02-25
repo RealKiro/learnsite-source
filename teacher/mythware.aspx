@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/teacher/Teach.master" StylesheetTheme="Teacher" AutoEventWireup="true" CodeFile="mythware.aspx.cs" Inherits="Teacher_mythware" %>
+<%@ Page Title="" Language="C#" MasterPageFile="~/teacher/Teach.master" StylesheetTheme="Teacher" AutoEventWireup="true" CodeFile="mythware.aspx.cs" Inherits="Teacher_mythware" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="Content" Runat="Server">
  <div   class="placehold">   

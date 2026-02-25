@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/student/Scm.master" StylesheetTheme="Student"
+<%@ Page Title="" Language="C#" MasterPageFile="~/student/Scm.master" StylesheetTheme="Student"
     AutoEventWireup="true" CodeFile="txtform.aspx.cs" Inherits="Student_txtform" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="Cpcm" runat="Server">

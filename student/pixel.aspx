@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true"  ValidateRequest="false" EnableViewStateMac="false"  CodeFile="pixel.aspx.cs" Inherits="Student_pixel" %>
+<%@ Page Language="C#" AutoEventWireup="true"  ValidateRequest="false" EnableViewStateMac="false"  CodeFile="pixel.aspx.cs" Inherits="Student_pixel" %>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head id="Head1" runat="server">

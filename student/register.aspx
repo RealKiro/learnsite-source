@@ -1,7 +1,8 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true"  StylesheetTheme="Student" CodeFile="register.aspx.cs" Inherits="Student_register" %>
+<%@ Page Language="C#" AutoEventWireup="true"  StylesheetTheme="Student" CodeFile="register.aspx.cs" Inherits="Student_register" %>
 
 <html xmlns="http://www.w3.org/1999/xhtml" >
 <head id="Head1" runat="server">
+    <meta charset="UTF-8">
     <title>新学员注册</title>   
     <link href="../App_Themes/student/StyleSheet.css" rel="stylesheet" type="text/css" />
     </head>

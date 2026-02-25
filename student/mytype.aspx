@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/student/Stud.master"  StylesheetTheme="Student" AutoEventWireup="true" CodeFile="mytype.aspx.cs" Inherits="Student_mytype" %>
+<%@ Page Title="" Language="C#" MasterPageFile="~/student/Stud.master"  StylesheetTheme="Student" AutoEventWireup="true" CodeFile="mytype.aspx.cs" Inherits="Student_mytype" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="Cphs" Runat="Server">
     <link href="../js/Typer.css" rel="stylesheet" type="text/css" />

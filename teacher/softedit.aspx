@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/teacher/Teach.master" StylesheetTheme="Teacher"  Validaterequest="false"  AutoEventWireup="true" CodeFile="softedit.aspx.cs" Inherits="Teacher_softedit" %>
+<%@ Page Title="" Language="C#" MasterPageFile="~/teacher/Teach.master" StylesheetTheme="Teacher"  Validaterequest="false"  AutoEventWireup="true" CodeFile="softedit.aspx.cs" Inherits="Teacher_softedit" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="Content" Runat="Server">
   <div   class="placehold">

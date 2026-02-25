@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="htmledit.aspx.cs" Inherits="student_htmledit" %>
+<%@ Page Language="C#" AutoEventWireup="true" CodeFile="htmledit.aspx.cs" Inherits="student_htmledit" %>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head >  

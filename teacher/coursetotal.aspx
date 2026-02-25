@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" EnableEventValidation = "false" StylesheetTheme="Teacher" AutoEventWireup="true"
+<%@ Page Title="" Language="C#" EnableEventValidation = "false" StylesheetTheme="Teacher" AutoEventWireup="true"
     CodeFile="coursetotal.aspx.cs" Inherits="Teacher_coursetotal" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">

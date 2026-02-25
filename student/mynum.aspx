@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" StylesheetTheme="Student" AutoEventWireup="true"
+<%@ Page Title="" Language="C#" StylesheetTheme="Student" AutoEventWireup="true"
     CodeFile="mynum.aspx.cs" Inherits="Student_mynum" %>
 
 <html xmlns="http://www.w3.org/1999/xhtml">

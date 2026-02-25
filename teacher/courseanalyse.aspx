@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/teacher/Teach.master" AutoEventWireup="true" CodeFile="courseanalyse.aspx.cs" Inherits="Teacher_courseanalyse" %>
+<%@ Page Title="" Language="C#" MasterPageFile="~/teacher/Teach.master" AutoEventWireup="true" CodeFile="courseanalyse.aspx.cs" Inherits="Teacher_courseanalyse" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="Content" Runat="Server">
 <div style=" font-size:11pt; text-align:center;">

@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" StylesheetTheme="Teacher" ValidateRequest="false" AutoEventWireup="true" CodeFile="attitude.aspx.cs" Inherits="Teacher_attitude" %>
+<%@ Page Title="" Language="C#" StylesheetTheme="Teacher" ValidateRequest="false" AutoEventWireup="true" CodeFile="attitude.aspx.cs" Inherits="Teacher_attitude" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 

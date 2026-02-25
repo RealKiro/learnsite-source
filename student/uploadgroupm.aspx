@@ -1,1 +1,1 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="uploadgroupm.aspx.cs" Inherits="Student_uploadgroupm" %>
+<%@ Page Language="C#" AutoEventWireup="true" CodeFile="uploadgroupm.aspx.cs" Inherits="Student_uploadgroupm" %>

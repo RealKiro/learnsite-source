@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="consolepreview.aspx.cs" Inherits="Teacher_consolepreview" %>
+<%@ Page Language="C#" AutoEventWireup="true" CodeFile="consolepreview.aspx.cs" Inherits="Teacher_consolepreview" %>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>

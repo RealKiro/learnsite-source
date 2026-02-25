@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/teacher/Teach.master"  StylesheetTheme="Teacher" Validaterequest="false" AutoEventWireup="true" CodeFile="topicedit.aspx.cs" Inherits="Teacher_topicedit" %>
+<%@ Page Title="" Language="C#" MasterPageFile="~/teacher/Teach.master"  StylesheetTheme="Teacher" Validaterequest="false" AutoEventWireup="true" CodeFile="topicedit.aspx.cs" Inherits="Teacher_topicedit" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="Content" Runat="Server">
 <div  class="cplace">

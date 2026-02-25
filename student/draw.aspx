@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="draw.aspx.cs" Inherits="student_draw" %>
+<%@ Page Language="C#" AutoEventWireup="true" CodeFile="draw.aspx.cs" Inherits="student_draw" %>
 
 <html lang="zh-cn">
 <head id="Head1" runat="server">
