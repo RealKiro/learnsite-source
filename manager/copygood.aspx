@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/manager/Manage.master" StylesheetTheme="Teacher"  AutoEventWireup="true" CodeFile="copygood.aspx.cs" Inherits="Manager_copygood" %>
+<%@ Page Title="" Language="C#" MasterPageFile="~/manager/Manage.master" StylesheetTheme="Teacher"  AutoEventWireup="true" CodeFile="copygood.aspx.cs" Inherits="Manager_copygood" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="Content" Runat="Server">
     <div>

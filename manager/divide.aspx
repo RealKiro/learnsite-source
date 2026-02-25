@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/manager/Manage.master"  StylesheetTheme="Teacher"  AutoEventWireup="true" CodeFile="divide.aspx.cs" Inherits="Manager_divide" %>
+<%@ Page Title="" Language="C#" MasterPageFile="~/manager/Manage.master"  StylesheetTheme="Teacher"  AutoEventWireup="true" CodeFile="divide.aspx.cs" Inherits="Manager_divide" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="Content" Runat="Server">
 <div class="manageplace" >
