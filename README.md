@@ -52,7 +52,7 @@ learnsite
         -- blockpy.html Python Blokly积木编程
         -- block.html Python拼图编程
 
-  -- deepseek 人工智能会话助手（需安装依赖）
+  -- deepseek 人工智能会话助手
         -- deepseek.html AI会话
         -- aidraw.html AI绘画
         -- ocr.html OCR文字识别
@@ -67,16 +67,16 @@ learnsite
         -- webcam.html 扫脸应用
   -- images 缓存图库
   -- js 前端运行框架？
-  -- kindeditor 前端样式编辑器？
+  -- kindeditor 学案设计编辑器
   -- LearnSiteServer 运行于Windows系统的主程序？
         -- LearnSiteServer.exe
   -- lessons 课堂活动相关设置
-  -- luckysheetbottle 在线协同编辑（需安装依赖）
+  -- luckysheetbottle 在线协作表格
   -- machine 机器学习
-  -- manager 平台管理相关设置
+  -- manager 管理员设置界面
   -- markdown MarkDown写作
         -- index.html 访问入口
-  -- mxgraph 图标绘制工具
+  -- mxgraph 流程图绘制工具
   -- Piano 自由钢琴
         -- index.html 访问入口
   -- pixelartmaker 像素画
