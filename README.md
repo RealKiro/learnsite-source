@@ -33,7 +33,7 @@
 ![Docker latest 更新](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fhub.docker.com%2Fv2%2Frepositories%2Forzg%2Flearnsite-web%2Ftags%2Flatest&query=%24.last_updated&logo=docker&label=latest%20更新&color=2496ED)
 
 - TODO：
-      - [ ] learnsite3.0 + postgresql 敬请期待
+  - [ ] learnsite3.0 + postgresql 敬请期待
 
 # 三。项目结构
 ```
