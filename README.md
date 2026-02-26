@@ -14,11 +14,9 @@
     
 
 # 二。其它
-- [原作者：温州水乡 Github](https://github.com/WaterCountry/Learnsite)
-- LearnSite信息技术学习平台最新版本：
-  ![Gitee 最新发行版](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fgitee.com%2Fapi%2Fv5%2Frepos%2Fjnschool%2Flearnsite-wz%2Ftags%3F%26per_page%3D1%26direction%3Ddesc%26sort%3Dupdated&query=%24%5B0%5D.name&logo=gitee&label=%E6%9C%80%E6%96%B0%E7%89%88%E6%9C%AC&color=c71d23)
 - LearnSite学习平台讨论QQ群： 5847120
-* [OpenLearnSite](https://www.openlearnsite.com/)
+- [OpenLearnSite](https://www.openlearnsite.com/)
+- [原作者：温州水乡 Github](https://github.com/WaterCountry/Learnsite)
 * [Gitee：LearnSite主仓库源码](https://gitee.com/jnschool/learnsite-wz)
 * [Gitee：LearnSite成都版分支源码](https://gitee.com/jnschool/game/tree/master/LearnSite_ChengDu)
 * [Github：learnsite-docker](https://github.com/RealKiro/learnsite-docker)
@@ -29,6 +27,10 @@
   * 提示：主仓库源码需编译，故从官网下载编译版后重新上传作为临时仓库以供Docker克隆使用
 * [Gitee：LearnSite 编译版(同步Github镜像)](https://gitee.com/realiy/learnsite)
 
+- [x] LearnSite信息技术学习平台当前最新版本：
+![Gitee 最新发行版](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fgitee.com%2Fapi%2Fv5%2Frepos%2Fjnschool%2Flearnsite-wz%2Ftags%3F%26per_page%3D1%26direction%3Ddesc%26sort%3Dupdated&query=%24%5B0%5D.name&logo=gitee&label=%E6%9C%80%E6%96%B0%E7%89%88%E6%9C%AC&color=c71d23)
+- [x] learnsite-web Docker仓库最新更新时间：
+![Docker latest 更新](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fhub.docker.com%2Fv2%2Frepositories%2Forzg%2Flearnsite-web%2Ftags%2Flatest&query=%24.last_updated&logo=docker&label=latest%20更新&color=2496ED)
 TODO：
 - [ ] learnsite3.0 + postgresql 敬请期待
 
