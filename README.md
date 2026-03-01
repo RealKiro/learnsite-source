@@ -346,7 +346,9 @@ learnsite/
 |   |-- translate/                 # 翻译
 |   |-- webcanvas/                 # Web画布
 |
-|-- deepseek/                       # DeepSeek AI助手（需单独部署）
+|-- deepseek/                       # DeepSeek AI助手（Docker 化部署）
+|   |-- deepseek.py                # Python后端（支持 Docker）
+|   |-- index.html                 # 入口页面（导航页）
 |   |-- deepseek.html              # AI会话助手
 |   |-- deepseek.aspx              # AI会话后端
 |   |-- deepseek.css               # 样式
@@ -356,19 +358,18 @@ learnsite/
 |   |-- ocr.aspx                   # OCR后端
 |   |-- speek.html                 # 语音合成(TTS)
 |   |-- speek.aspx                 # TTS后端
-|   |-- soundlab.html              # 语音识别(STT)
+|   |-- soundlab.html              # 语音识别(STT)实验
 |   |-- soundlab.aspx              # STT后端
+|   |-- robot.html                 # 翻译机器人
+|   |-- robot.css                  # 机器人样式
 |   |-- tic-tac-toe.html           # 井字棋AI游戏
 |   |-- tic-tac-toe.aspx           # 井字棋后端
 |   |-- tic-tac-toe.js             # 游戏逻辑
-|   |-- robot.html                 # AI机器人
-|   |-- robot.css                  # 机器人样式
-|   |-- deepseek.py                # Python示例
-|   |-- example.txt                # 示例文本
 |   |-- deepseek使用说明.txt       # 使用说明
 |   |-- webfonts/                  # 字体资源
-|   |-- marked.min.js              # Markdown解析
-|   |-- highlight.min.js           # 代码高亮
+|   |-- downloads/                  # AI生成图片目录
+|   |-- uploads/                    # 上传文件目录
+|   |-- downmp3/                    # 语音合成目录
 |
 |-- machine/                        # 机器学习/图像分类
 |   |-- index.html                 # 图像分类实验入口
